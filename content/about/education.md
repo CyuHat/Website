@@ -24,7 +24,7 @@ experience:
   title: BEng Electronic Engineering
 headless: true
 subtitle: null
-title: Education
+title: Formation
 weight: 30
 widget: experience
 ---

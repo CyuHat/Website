@@ -1,5 +1,5 @@
 ---
-bio: My research interests include distributed robotics, mobile computing and programmable
+biographie: Mes intérêts de recherche portent sur l'intégration structurelle et le rôle des réseaux sociaux.
   matter.
 role: ""
 social:
@@ -8,18 +8,12 @@ social:
   link: about/#contact
 - icon: twitter
   icon_pack: fab
-  link: https://twitter.com/wowchemy
-- icon: instagram
-  icon_pack: fab
-  link: https://instagram.com/geocushen
+  link: https://twitter.com/PEcodemo
 status:
-  icon: ☕️
 superuser: true
-title: Alice Wu (吳恩達)
+title: Vestin Cyuzuzo Hategekimana
 ---
 
-Alice Wu is a professor of artificial intelligence at the Stanford AI Lab. Her research interests include distributed robotics, mobile computing and programmable matter. She leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+Actuellement étudiant au Master en Socioéconomie et au Certificat en Méthodes Quantitatives pour Sciences Sociales, j'ai récemment réalisé un stage dans la faculté d'économie et management dans la réalisation d'une étude quantitative sur la représentation des travailleur.euse.s étranger.ère.s dans le secteur public suisse.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
-
-{{< icon name="download" pack="fas" >}} {{< staticref "uploads/resume.pdf" "newtab" >}}Download{{< /staticref >}} my resumé as a PDF.
+{{< icon name="download" pack="fas" >}} {{< staticref "uploads/HATEGEKIMANA_CV.pdf" "newtab" >}}Téléchargez{{< /staticref >}} mon CV au format PDF.

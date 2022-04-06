@@ -22,7 +22,7 @@ experience:
   title: Professor of Semiconductor Physics
 headless: true
 subtitle: null
-title: Experience
+title: Expérience
 weight: 20
 widget: experience
 ---

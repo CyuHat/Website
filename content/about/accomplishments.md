@@ -29,7 +29,7 @@ item:
   title: Object-Oriented Programming in R
   url: ""
 subtitle: null
-title: Accomplish&shy;ments
+title: Certificats
 weight: 40
 widget: accomplishments
 ---

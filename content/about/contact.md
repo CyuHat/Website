@@ -11,7 +11,7 @@ design:
   columns: "1"
 headless: true
 subtitle: null
-title: Get in touch
+title: Me contacter
 weight: 50
 widget: contact
 ---

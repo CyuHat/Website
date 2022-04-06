@@ -26,19 +26,35 @@ content:
   # To filter by a specific tag, set `tag` to an existing tag name.
   # To remove the toolbar, delete the entire `filter_button` block.
   filter_button:
-    - name: All
+    - name: Tout
       tag: '*'
-    - name: Machine Learning
-      tag: ML
-    - name: Computer Vision
-      tag: CV
-    - name: NLP
-      tag: NLP
+    - name: Migration
+      tag: migration
+    - name: Intégration
+      tag: intégration
+    - name: Marché du travail
+      tag: travail
+    - name: Socioéconomie
+      tag: socioéconomie
+    - name: Démographie
+      tag: Démographie
+    - name: Statistiques
+      tag: statistiques
+    - name: Text Minging
+      tag: text_mining
+    - name: Web Scraping
+      tag: web_scraping
+    - name: Analyse de Réseaux Sociaux
+      tag: réseaux
+    - name: R
+      tag: r
+    - name: Python
+      tag: python
 
 design:
   columns: '1'
-  view: masonry
-  flip_alt_rows: true
+  view: 5
+  flip_alt_rows: false
   background: {}
   spacing: {padding: [0, 0, 0, 0]}
 ---
