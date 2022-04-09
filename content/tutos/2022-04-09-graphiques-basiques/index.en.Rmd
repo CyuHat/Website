@@ -1,5 +1,5 @@
 ---
-title: "Graphiques basiques"
+title: "Base 6: Graphiques basiques"
 author: Vestin Cyuzuzo Hategekimana
 date: '2021-01-31'
 slug: graphiques-basiques

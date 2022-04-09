@@ -1,5 +1,5 @@
 ---
-title: "Matrices et systèmes d'équations"
+title: "Base 2: Matrices et systèmes d'équations"
 author: Vestin Cyuzuzo Hategekimana
 date: '2021-01-28'
 slug: matrices-et-syst-mes-d-quation

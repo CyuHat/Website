@@ -1,5 +1,5 @@
 ---
-title: "Objets, opérateurs et mathématiques"
+title: "Base 1: Objets, opérateurs et mathématiques"
 author: Vestin Cyuzuzo Hategekimana
 date: '2021-01-26'
 slug: objets-op-rateurs-et-math-matiques
@@ -81,7 +81,10 @@ d=c/a
 Remarque: pour utiliser plusieurs commandes sur la même ligne il suffit d'utiliser le signe (;):
 
 ```{r}
-a;b;c;d
+a
+b
+c
+d
 ```
 
 Naturellement, il n'est pas possible de faire des calcules avec les chaînes de caractères : 
@@ -477,7 +480,7 @@ v3
 v3==10
 ifelse(v3==10, "vrai", "faux")
 ifelse(v3==10, "égal à 10", "pas égal à 10")
-ifelse(v3==10, v3*10, v)
+ifelse(v3==10, v3*10, v3)
 ifelse(v3<10, v3*10, v3/2)
 ```
 

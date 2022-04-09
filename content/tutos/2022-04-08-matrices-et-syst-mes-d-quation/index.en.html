@@ -1,7 +1,7 @@
 ---
-title: "Matrices et systèmes d'équations"
+title: "Base 2: Matrices et systèmes d'équations"
 author: Vestin Cyuzuzo Hategekimana
-date: '2022-04-08'
+date: '2021-01-28'
 slug: matrices-et-syst-mes-d-quation
 categories:
   - R
@@ -40,16 +40,16 @@ output:
 <p>Si nous regardons sous “Arguments”, nous pouvons voir que “n” représente le nombre d’observations, “mean” représente la moyenne de la distribution normale et que “sd” signifie l’écart type de la distribution normale. Avec ça nous comprenons que si nous donnons un nombre d’observations désiré, une moyenne et un écart-type la fonction rnorm() va nous générer aléatoirement n nombres provenant d’une distribution normale de moyenne “mean” et d’écart-type “sd”.</p>
 <p>Imaginons que nous souhaitons 5 observations provenant d’une distribution normale de moyenne 10 et d’écart type 0.1. De manière générale, lorsque l’on souhaite utiliser une fonction, il faut spécifier chaque terme se trouvant sous l’onglet “Usage”:</p>
 <pre class="r"><code>rnorm(5,mean=10,sd=0.1) </code></pre>
-<pre><code>## [1] 10.180455 10.057691  9.998281 10.100825  9.735089</code></pre>
+<pre><code>## [1] 10.024462 10.095518  9.965077 10.056701 10.054736</code></pre>
 <p>Remarque: les espaces n’ont pas vraiment d’importance, vous pouvez ne pas en mettre comme vous pouvez en mettre 10’000 sans que ça ne perturbe R. Pour les sauts de paragraphe avec la touche “Enter” c’est pareil.</p>
 <p>Mais il n’est pas nécessaire d’inscrire tous les éléments en entier, tant qu’on respecte l’ordre. utiliser les paramètres interne de la fonction permet de les mettre dans l’ordre qu’on souhaite ou d’en éviter. Par exemple, tout ce qui suit abouti au même résultat:</p>
 <pre class="r"><code># Donnent tous le même résultat
 rnorm(5,mean=10,sd=0.1)</code></pre>
-<pre><code>## [1]  9.901006  9.915693 10.119198  9.932067 10.052405</code></pre>
+<pre><code>## [1]  9.955004  9.835835 10.036481  9.900972 10.133738</code></pre>
 <pre class="r"><code>rnorm(5,10,0.1)</code></pre>
-<pre><code>## [1] 10.19191 10.29431 10.00486  9.85270 10.24018</code></pre>
+<pre><code>## [1]  9.995200  9.920532 10.074241  9.980014  9.934832</code></pre>
 <pre class="r"><code>rnorm(5,sd=0.1,mean=10) </code></pre>
-<pre><code>## [1] 10.110185 10.132317 10.179496  9.803109 10.041224</code></pre>
+<pre><code>## [1]  9.937988 10.149387 10.000912 10.059636 10.177106</code></pre>
 <p>Remarque: Les résultats ne seront pas exactement les mémés puisque les nombres sont générés aléatoirement. Ce qui est important de constater pour confirmer que ces expressions donnent bien le même résultat, c’est d’avoir le même nombre de valeurs générées et que ces valeurs tournent autour de 10.</p>
 <p>Les valeurs d’une fonction sont aussi fixées à l’avance parfois. Si nous revenons sur la structure dans “Usage” nous pouvons voir qu’à l’exception de de n, tous les paramètres ont une valeur fixée:</p>
 <pre class="r"><code>rnorm(n, mean = 0, sd = 1)</code></pre>
@@ -57,13 +57,13 @@ rnorm(5,mean=10,sd=0.1)</code></pre>
 <pre class="r"><code>a &lt;- rnorm(1000)
 b &lt;- rnorm(1000,mean=0,sd=1)
 mean(a)</code></pre>
-<pre><code>## [1] -0.05305123</code></pre>
+<pre><code>## [1] 0.03111125</code></pre>
 <pre class="r"><code>mean(b)</code></pre>
-<pre><code>## [1] 0.003731145</code></pre>
+<pre><code>## [1] -0.03465778</code></pre>
 <pre class="r"><code>sd(a)</code></pre>
-<pre><code>## [1] 1.014409</code></pre>
+<pre><code>## [1] 0.9761283</code></pre>
 <pre class="r"><code>sd(b) </code></pre>
-<pre><code>## [1] 0.980373</code></pre>
+<pre><code>## [1] 1.002867</code></pre>
 <p>Si tout se passe bien, nous aurons une moyenne proche de 0 et un écart-type proche de 1 pour les 2 variables. Donc les valeurs fixées correspondent bien.</p>
 <p>Maintenant, vous êtes prêt à explorer les fonctions vous-même.</p>
 </div>

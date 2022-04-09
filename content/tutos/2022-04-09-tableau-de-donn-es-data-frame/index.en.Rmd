@@ -1,5 +1,5 @@
 ---
-title: "Tableau de données (data frame)"
+title: "Base 3: Tableau de données (data frame)"
 author: Vestin Cyuzuzo Hategekimana
 date: '2021-01-29'
 slug: tableau-de-donn-es-data-frame

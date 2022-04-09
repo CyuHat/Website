@@ -1,5 +1,5 @@
 ---
-title: "Tests statistiques"
+title: "Base 7: Tests statistiques"
 author: Vestin Cyuzuzo Hategekimana
 date: '2021-01-29'
 slug: tests-statistiques

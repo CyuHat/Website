@@ -1,5 +1,5 @@
 ---
-title: "Statistique descriptive (1)"
+title: "Base 4: Statistique descriptive (1)"
 author: Vestin Cyuzuzo Hategekimana
 date: '2021-01-29'
 slug: statistique-descriptive-1
