@@ -1,0 +1,242 @@
+---
+title: "[RStata][Statamarkdown] Utiliser Stata dans R"
+author: Vestin Cyuzuzo Hategekimana
+date: '2022-04-08'
+slug: rstata
+categories:
+  - R
+  - Stata
+tags:
+  - r
+  - statistiques
+  - regression
+subtitle: 'Terminé'
+summary: 'Le but de ce tutoriel est de montrer comment utiliser Stata dans un script R/Rmarkdown. Nous présenterons deux packages.'
+authors: []
+lastmod: '2022-04-08T15:01:18+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="utiliser-stata-dans-r" class="section level2">
+<h2>Utiliser Stata dans R</h2>
+<p>Ici nous allons présenter les librairies RStata et Statamarkdown qui permettent d’utiliser Stata dans R.</p>
+<p><strong>Note 1: Toutes les librairies stata dans R exigent d’avoir Stata installé sur le PC</strong></p>
+<p><strong>Note 2: Dans ce tutoriel, nous indiquons <em>library()</em> pour charger les librairies (ou en anglais packages ou library). Mais il est nécessaire de les avoir téléchargées au préalable avec la fonction <em>install.packages()</em>. Pour la librairie Statamarkdown, il est nécessaire d’utiliser une méthode d’importation particulière qui sera présente au moment venu</strong></p>
+</div>
+<div id="ressources" class="section level2">
+<h2>Ressources</h2>
+<p>Rstata
+<a href="https://www.rdocumentation.org/packages/RStata/versions/1.1.1" class="uri">https://www.rdocumentation.org/packages/RStata/versions/1.1.1</a></p>
+<p>Statamarkdown
+<a href="https://github.com/Hemken/Statamarkdown" class="uri">https://github.com/Hemken/Statamarkdown</a></p>
+<p>Rprofile
+<a href="https://www.roelpeters.be/what-is-the-rprofile-file/" class="uri">https://www.roelpeters.be/what-is-the-rprofile-file/</a></p>
+</div>
+<div id="rstata" class="section level2">
+<h2>RStata</h2>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>Rstata est une librairie qui permet d’utiliser le logiciel stata dans R en utilisant la fonction <em>stata()</em>.</p>
+</div>
+<div id="librairie" class="section level3">
+<h3>Librairie</h3>
+<pre class="r"><code>library(RStata)</code></pre>
+</div>
+<div id="choisir-lexécutable-stata" class="section level3">
+<h3>Choisir (l’exécutable) Stata</h3>
+<p>Il existe deux moyens de le faire. Le premier ne marche que sur le moment et le suivant est durable.</p>
+<div id="choosestatabin" class="section level4">
+<h4>chooseStataBin()</h4>
+<p>La fonction <em>chooseStataBin()</em> permet de sélectionner manuellement l’emplacement du fichier Stata.exe pour l’intégrer à R. Les fonctions de stata pourront ensuite être lancée depuis R. Par contre, il faudra réutiliser la fonction et choisir manuellement le fichier à chaque nouvelle session, ce qui peut être embêtant. De plus, il faudra à chaque fois indiquer dans la fonction <em>stata()</em> quelle version de Stata on utilise, ce qui peut aussi être embêtant à la longue.</p>
+<pre class="r"><code>chooseStataBin()</code></pre>
+</div>
+<div id="rprofile" class="section level4">
+<h4>.Rprofile</h4>
+<p>Une méthode plus durable est de mettre dans les options globale du .Rprofile l’emplacement du fichier Stata.exe à utiliser. Ainsi, il ne sera plus nécessaire d’utiliser la fonction <em>chooseStataBin()</em> à chaque nouvelle session. On peut aussi en profiter pour ajouter la version de Stata dans les options pour éviter d’avoir à le spécifier à chaque fois que nous utilisons la fonction <em>Stata()</em>.</p>
+<p>Le .Rprofile est un fichier Stata qui se lance au début de chaque session de R. Il permet de rentrer du code R et peut être assez pratique pour mettre en place des routines. Par exemple, charger automatiquement des packages ou des données à chaque nouvelle session de R. Le but ici sera de préciser à R de fixer dans les options globale le chemin du fichier Stata.exe et sa version.</p>
+<pre class="r"><code># Ouvrir le .Rprofile méthode 1
+file.edit(&quot;.Rprofile&quot;)
+
+# Ouvrir le .Rprofile méthode 2
+usethis::edit_r_profile()</code></pre>
+<p>Dans le .Rprofile, il faut coller le chemin pour le fichier Stata.exe et la version dans la nouvelle fenêtre “.Rprofile” de cette manière [avec mon chemin par exemple]:</p>
+<p><strong>Note: J’utilise Stata16 dans cet exemple</strong></p>
+<pre class="r"><code>stataexe = &quot;C:/Users/hateg/Desktop/CODE/Stata16/StataSE-64.exe&quot;
+options(RStata.StataPath = stataexe)
+options(RStata.StataVersion = 16)</code></pre>
+<p>Il faut enregistrer le fichier et nous pouvons fermer le R profile. Une fois que c’est fait il sera peut-être nécessaire de redémarrer R la première fois seulement, mais le reste du temps on n’aura plus à se soucier de la fonction <em>chooseStataBin()</em>, ni de la précision de la version en utilisant la fonction <em>stata()</em>.</p>
+</div>
+</div>
+<div id="lancer-des-codes-stata-depuis-r" class="section level3">
+<h3>Lancer des codes Stata depuis R</h3>
+<div id="lancer-une-ligne-de-code" class="section level4">
+<h4>Lancer une ligne de code</h4>
+<p>Pour lancer les codes dans Stata, il suffit simplement d’utiliser la fonction <em>stata()</em> avec le code dedans. Par exemple:</p>
+<p><strong>Si la version n’est pas fixée</strong></p>
+<pre class="r"><code>stata(stata.version=16,&quot;di 2+2&quot;)</code></pre>
+<pre><code>## . di 2+2
+## 4</code></pre>
+<p><strong>Si la version est fixée</strong></p>
+<pre class="r"><code>stata(&quot;di 2+2&quot;)</code></pre>
+<pre><code>## . di 2+2
+## 4</code></pre>
+<p>Comme nous pouvons le voir, fixer la version une fois est plus rapide. Pour les prochains exemples nous partons du principe que la version est fixée. Si ce n’est pas votre cas, il suffit simplement d’ajouter “stata.version=[votre version de stata en chiffre]” dans la fonction.</p>
+</div>
+<div id="lancer-plusieurs-lignes-de-code" class="section level4">
+<h4>Lancer plusieurs lignes de code</h4>
+<p>Pour lancer plusieurs lignes de code, il suffit de lancer de retourner à la ligne:</p>
+<p><strong>Note: Nous utilisons “sysuse auto” pour appeler un tableau de données “auto” qui se trouve de base dans Stata.</strong></p>
+<pre class="r"><code>stata(&quot;
+      sysuse auto
+      sum
+      &quot;)</code></pre>
+<pre><code>## . 
+## .       sysuse auto
+## (1978 Automobile Data)
+## .       sum
+## 
+##     Variable |        Obs        Mean    Std. Dev.       Min        Max
+## -------------+---------------------------------------------------------
+##         make |          0
+##        price |         74    6165.257    2949.496       3291      15906
+##          mpg |         74     21.2973    5.785503         12         41
+##        rep78 |         69    3.405797    .9899323          1          5
+##     headroom |         74    2.993243    .8459948        1.5          5
+## -------------+---------------------------------------------------------
+##        trunk |         74    13.75676    4.277404          5         23
+##       weight |         74    3019.459    777.1936       1760       4840
+##       length |         74    187.9324    22.26634        142        233
+##         turn |         74    39.64865    4.399354         31         51
+## displacement |         74    197.2973    91.83722         79        425
+## -------------+---------------------------------------------------------
+##   gear_ratio |         74    3.014865    .4562871       2.19       3.89
+##      foreign |         74    .2972973    .4601885          0          1
+## .</code></pre>
+</div>
+<div id="envoyer-un-tableau-de-données-de-r" class="section level4">
+<h4>Envoyer un tableau de données de R</h4>
+<p>Pour utiliser un tableau de données de R, il suffit d’ajouter le nom du tableau dans le paramètre “data.in=” de la fonction Stata:</p>
+<p><strong>Note: le tableau de données cars est de base dans R et peut être utilisé à n’importe quel moment sans avoir besoin de l’invoquer avant. Les deux seules variables du tableau de données cars sont “dist” et “speed”.</strong></p>
+<pre class="r"><code>stata(data.in=cars,
+      &quot;
+      sum
+      reg dist speed
+      &quot;)</code></pre>
+<pre><code>## . 
+## .       sum
+## 
+##     Variable |        Obs        Mean    Std. Dev.       Min        Max
+## -------------+---------------------------------------------------------
+##        speed |         50        15.4    5.287644          4         25
+##         dist |         50       42.98    25.76938          2        120
+## .       reg dist speed
+## 
+##       Source |       SS           df       MS      Number of obs   =        50
+## -------------+----------------------------------   F(1, 48)        =     89.57
+##        Model |  21185.4589         1  21185.4589   Prob &gt; F        =    0.0000
+##     Residual |  11353.5211        48  236.531689   R-squared       =    0.6511
+## -------------+----------------------------------   Adj R-squared   =    0.6438
+##        Total |    32538.98        49  664.060816   Root MSE        =     15.38
+## 
+## ------------------------------------------------------------------------------
+##         dist |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+## -------------+----------------------------------------------------------------
+##        speed |   3.932409   .4155128     9.46   0.000     3.096964    4.767853
+##        _cons |  -17.57909    6.75844    -2.60   0.012    -31.16785    -3.99034
+## ------------------------------------------------------------------------------
+## .</code></pre>
+</div>
+<div id="importer-un-tableau-de-donnée-de-stata" class="section level4">
+<h4>Importer un tableau de donnée de Stata</h4>
+<p>Nous pouvons importer un tableau de données de Stata:</p>
+<pre class="r"><code>auto &lt;- stata(&quot;sysuse auto&quot;,data.out=TRUE)</code></pre>
+<pre><code>## . sysuse auto
+## (1978 Automobile Data)</code></pre>
+<pre class="r"><code>head(auto)</code></pre>
+<pre><code>##            make price mpg rep78 headroom trunk weight length turn displacement
+## 1   AMC Concord  4099  22     3      2.5    11   2930    186   40          121
+## 2     AMC Pacer  4749  17     3      3.0    11   3350    173   40          258
+## 3    AMC Spirit  3799  22    NA      3.0    12   2640    168   35          121
+## 4 Buick Century  4816  20     3      4.5    16   3250    196   40          196
+## 5 Buick Electra  7827  15     4      4.0    20   4080    222   43          350
+## 6 Buick LeSabre  5788  18     3      4.0    21   3670    218   43          231
+##   gear_ratio  foreign
+## 1       3.58 Domestic
+## 2       2.53 Domestic
+## 3       3.08 Domestic
+## 4       2.93 Domestic
+## 5       2.41 Domestic
+## 6       2.73 Domestic</code></pre>
+<p>Ou envoyer un tableau et le récupérer modifié:</p>
+<pre class="r"><code>stata(data.in=cars,
+      &quot;gen speed2 = speed + rnorm(0,3)&quot;,
+      data.out=TRUE) -&gt; cars2</code></pre>
+<pre><code>## . gen speed2 = speed + rnorm(0,3)
+## unknown function rnorm()
+## r(133);</code></pre>
+<pre class="r"><code>head(cars2)</code></pre>
+<pre><code>##   speed dist
+## 1     4    2
+## 2     4   10
+## 3     7    4
+## 4     7   22
+## 5     8   16
+## 6     9   10</code></pre>
+</div>
+</div>
+</div>
+<div id="statamarkdown" class="section level2">
+<h2>Statamarkdown</h2>
+<p>Comme son nom l’indique, cette librairie permet d’utiliser stata directement dans un markdown, c’est-à-dire de pouvoir écrire le code dans un chunk.</p>
+<p><strong>Note: Au point ou j’en suis, je ne sais pas comment échanger les données de R et Stata avec cette librairie. Pour pouvoir faire ça, je recommande la librairie précédente, c’est-à-dire RStata.</strong></p>
+<div id="installation-de-statamarkdown" class="section level3">
+<h3>Installation de Statamarkdown</h3>
+<p>Ici, l’installation est particulière. Il faut avoir installé la librairie devtools:</p>
+<pre class="r"><code>install.packages(&quot;devtools&quot;)</code></pre>
+<p>Puis charger detools:</p>
+<pre class="r"><code>library(devetools)</code></pre>
+<p>Puis lancer l’installation se trouvant sur un git:</p>
+<pre class="r"><code>install_github(&quot;hemken/Statamarkdown&quot;)</code></pre>
+<p>Finalement, nous pouvons ouvrir la librairie Statamarkdown:</p>
+<p><strong>Note: Il n’est pas nécessaire de faire ça à chaque fois, les prochaines fois, il suffira juste de lancer la commande <em>library(Statamarkdown)</em>.</strong></p>
+</div>
+<div id="markdown" class="section level3">
+<h3>Markdown</h3>
+<p>Maintenant, il suffit d’ouvrir un fichier Rmarkdown puis d’ajouter la ligne de code suivante au premier chunk [dans stataexe j’indique l’emplacement du logiciel stata.exe]:</p>
+<pre class="r"><code>stataexe = &quot;&quot;
+knitr::opts_chunk$set(engine.path = stataexe, cleanlog = FALSE)</code></pre>
+<p>Le plus simple est d’ajouter ces lignes de code dans le .Rprofile pour que ces éléments restent longtemps (plus d’information dans la partie .Rprofile)</p>
+<p>Maintenant il est possible de lancer stata simplement dans un chunk (même si je ne sais pas pour l’instant comment transférer les données entre R et Stata directement dans le chunk):</p>
+<p><strong>Note: Il faut préciser quel langage on utilise dans l’intitulé du chunck à chaque fois qu’on souhaite utiliser Stata, donc ```{stata}.</strong></p>
+<pre class="stata"><code>sysuse auto
+sum</code></pre>
+<pre><code>. sysuse a(1978 Automobile Data)
+
+. sum
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        make |          0
+       price |         74    6165.257    2949.496       3291      15906
+         mpg |         74     21.2973    5.785503         12         41
+       rep78 |         69    3.405797    .9899323          1          5
+    headroom |         74    2.993243    .8459948        1.5          5
+-------------+---------------------------------------------------------
+       trunk |         74    13.75676    4.277404          5         23
+      weight |         74    3019.459    777.1936       1760       4840
+      length |         74    187.9324    22.26634        142        233
+        turn |         74    39.64865    4.399354         31         51
+displacement |         74    197.2973    91.83722         79        425
+-------------+---------------------------------------------------------
+  gear_ratio |         74    3.014865    .4562871       2.19       3.89
+     foreign |         74    .2972973    .4601885          0          1</code></pre>
+</div>
+</div>

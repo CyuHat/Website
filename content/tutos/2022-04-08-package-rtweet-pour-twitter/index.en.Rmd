@@ -1,0 +1,227 @@
+---
+title: '[rtweet] Collecter des données sur Twitter'
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-06-18'
+slug: package-rtweet-pour-twitter
+categories:
+  - R
+tags:
+  - r
+  - web_scraping
+subtitle: 'En cours...'
+summary: 'Dans ce tutoriel, nous utilisons le package rtweet pour collecter des données sur Twitter'
+authors: []
+lastmod: '2022-04-08T15:19:56+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Référence
+
+CRAN: <https://mran.microsoft.com/snapshot/2017-02-04/web/packages/rtweet/index.html>
+
+Git: <https://github.com/ropensci/rtweet>
+
+Tuto 1: <https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html>
+
+Tuto 2: <https://rtweet-workshop.mikewk.com/#1>
+
+Tuto 3: <https://mkearney.github.io/nicar_tworkshop/#1>
+
+## Introduction
+
+Le but de ce document est de présenter comment collecter des informations sur Twitter. Pour pouvoir faire cela, il est nécessaire d'avoir un compte et d'avoir activé un compte développeur pour utiliser l'API [Plus d'info dans le tuto 3 et le tuto 2.
+
+```{r include=FALSE}
+load("twitter_data.Rda")
+```
+
+## Librairie
+
+Nous allons utiliser la librairie Rtweet.
+
+```{r}
+library(rtweet)
+```
+
+```{r}
+ls("package:rtweet")
+```
+
+La librairie possède 82 fonctions pris de plusieurs autres librairies pour une partie, mais nous utiliserons principalement les 13 fonctions suivantes:
+
++------------------+------------------------------------------------------------------------------------------+
+| Fonction         | Utilité                                                                                  |
++==================+==========================================================================================+
+| %\>%             | Passer le résultat de gauche dans la fonction de droite.                                 |
++------------------+------------------------------------------------------------------------------------------+
+| twitter_token()  | Permet de générer un "token" qui permet de collecter des données et contrôler le compte. |
++------------------+------------------------------------------------------------------------------------------+
+| get_trends()     | Voire les tendances                                                                      |
++------------------+------------------------------------------------------------------------------------------+
+| search_tweets()  | Chercher des tweets                                                                      |
++------------------+------------------------------------------------------------------------------------------+
+| get_timeline()   | Voir les derniers tweets d'un compte                                                     |
++------------------+------------------------------------------------------------------------------------------+
+| get_favorites()  | Voir les derniers tweets aimés par un compte                                             |
++------------------+------------------------------------------------------------------------------------------+
+| get_friends()    | Voir les compte suivit pas un compte                                                     |
++------------------+------------------------------------------------------------------------------------------+
+| get_followers()  | Voir les comptes qui suivent un compte                                                   |
++------------------+------------------------------------------------------------------------------------------+
+| get_retweeters() | Voir les compte qui ont retweeté un tweet                                                |
++------------------+------------------------------------------------------------------------------------------+
+| ts_plot()        | Afficher une ligne temporelle d'un nombre d'éléments.                                    |
++------------------+------------------------------------------------------------------------------------------+
+| network_graph()  | Créer un graphe de réseau                                                                |
++------------------+------------------------------------------------------------------------------------------+
+| network_data()   | Créer un tableau de données au format igraph                                             |
++------------------+------------------------------------------------------------------------------------------+
+
+## Obtenir un token
+
+Nous devons créer un token pour notre session afin de pouvoir faire des requêtes. Toutes les informations sont trouvables dans votre application en ligne.
+
+```{r eval=FALSE}
+appname <- "XXXXX"
+api_key <- "XXXXX"
+api_secret <- "XXXXX"
+token_key <- "XXXXX"
+token_secret <- "XXXXX"
+```
+
+**Note: Ici les valeurs sont censurées**
+
+Puis nous pouvons lancer la fonction suivante:
+
+```{r eval=FALSE}
+twitter_token <- create_token(
+  app = appname,
+  consumer_key = api_key,
+  consumer_secret = api_secret,
+  access_token = token_key,
+  access_secret = token_secret)
+```
+
+## Fonction
+
+### get_trends()
+
+Permet de voir la tendance dans une localisation géographique particulière (latitude et longitude), dans notre exemple à Genève:
+
+```{r eval=FALSE}
+twitter_0 <- get_trends(lat = "46.204391", lng = "6.143158")
+```
+
+```{r}
+dplyr::glimpse(twitter_0)
+```
+
+### search_tweets()
+
+Permet de rechercher des tweets selon plusieurs modalités (nombre, position géographique, retweets, etc.), dans cet exemple nous recherchons le terme "statistic" en incluant les retweets.
+
+```{r eval=FALSE}
+twitter_1 <- search_tweets("statistic", n = 1000,
+                           include_rts = TRUE)
+```
+
+```{r}
+dplyr::glimpse(twitter_1)
+```
+
+### get_timeline()
+
+Cette fonction permet de collecter les dernier tweets d'un ou plusieurs compte, dans cet exemple nous collectons les 100 derniers tweets du compte @rstudiotips:
+
+```{r eval=FALSE}
+twitter_2 <- get_timeline("rstudiotips", n = 100)
+```
+
+```{r}
+dplyr::glimpse(twitter_2)
+```
+
+### get_favorites()
+
+Cette fonction permet de collecter les derniers tweets aimés par un compte. Dans cet exemple nous collectons les derniers tweets aimés par le compte @rstudio:
+
+```{r eval=FALSE}
+twitter_3 <- get_favorites("rstudio")
+```
+
+### get_friends()
+
+Cette fonction permet d'obtenir la liste des comptes suivis par le compte spécifié (base 5000). Dans cet exemple, nous cherchons les personnes qui sont suivies par le compte @hadleywickham :
+
+```{r eval=FALSE}
+twitter_4 <- get_friends("hadleywickham")
+```
+
+```{r}
+dplyr::glimpse(twitter_4)
+```
+
+### get_followers()
+
+Cette fonction permet d'obtenir la liste des comptes suivant un compte spécifié (base 5000). Dans cet exemple, nous cherchons les comptes qui suivent le compte @juliasilge :
+
+```{r eval=FALSE}
+twitter_5 <- get_followers("juliasilge")
+```
+
+```{r}
+dplyr::glimpse(twitter_5)
+```
+
+### get_retweeters()
+
+Cette fonction permet d'obtenir une liste des personnes ayant retweeté un tweet (normalement 100). Dans cet exemple, nous cherchons les retweeters d'un tweet spécifique.
+
+```{r eval=FALSE}
+twitter_6 <- get_retweeters("1400550230920024065")
+```
+
+```{r}
+dplyr::glimpse(twitter_6)
+```
+
+### stream_tweets()
+
+Cette fonction permet de collecter les tweets en direct sans limites de quantité ou de temps. Si rien n'est spécifié, cette fonction collecte alors 1% des tweets au monde aléatoirement pendant 30 secondes. Il est possible de spécifier des termes de recherche, la langue, une zone géographique ou le temps de collecte (en seconde). Dans notre exemple, nous collectons 1% des tweets au monde pendant 5 secondes:
+
+```{r eval=FALSE}
+twitter_7 <- stream_tweets(timeout = 5)
+?stream_tweets
+```
+
+```{r}
+dplyr::glimpse(twitter_7)
+```
+
+### ts_plot()
+
+Cette fonction permet de transformer un tableau de données en graph temporelle facilement utilisable. Ici nous affichons le nombre de tweets par heure du tableau de données twitter_1:
+
+```{r}
+ts_plot(twitter_1, by = "hours")
+```
+
+### network_graph()
+
+Cette fonction permet de générer un graphique en réseau d'un tableau de données twitter. Il est possible de spécifier si on s'intéresse aux mentions, au retweets, aux réponses, aux citations ou à plusieurs de ces éléments à la fois:
+
+```{r}
+network_graph(twitter_2) %>% 
+  plot()
+```
+
+**Note: Il est possible de transformer le tableau de données twitter en tableau de données utile pour l'analyse de réseaux en utilisant cette fois-ci la fonction _network_data()_.**

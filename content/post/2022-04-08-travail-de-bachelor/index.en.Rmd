@@ -1,0 +1,36 @@
+---
+title: "Travail de Bachelor"
+author: Vestin Cyuzuzo Hategekimana
+date: '2022-04-08'
+slug: travail-de-bachelor
+categories:
+  - Travaux
+tags:
+  - intégration
+  - migration
+  - travail
+  - réseau
+  - recherche
+subtitle: ''
+summary: "Le but de ce travail est de mettre en évidence le rôle du réseau social dans l'intégration structurelle et de voir comment cela pourrait bénéficier à la population de réfugier en Suisse."
+authors: []
+lastmod: '2022-04-09T19:56:56+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+## Parcours migratoire et intégration professionnelle des réfugiés : l’influence du réseau social
+
+**Résumé:** Le but de ce travail est de mettre en évidence le rôle du réseau social dans l'intégration structurelle et de voir comment cela pourrait bénéficier à la population de réfugier en Suisse. Une grille d'entretien prenant en compte le rôle du réseau social dans le parcours migratoire et l'intégration est proposé à la fin du travail.
+
+[Télécharger](/uploads/travaux/pdr/Hategekimana_PdR_2020.pdf) mon travail au format PDF
+
+*Faculté des Sciences de la société (SDS)*, 
+*Bachelor en Histoire-Économie-Société*, 
+*Projet de Recherche (PdR)*, 
+*Année académique 2019-2020*, 
+*Directeurs de PdR : Philippe Wanner, Sabine Pitteloud*

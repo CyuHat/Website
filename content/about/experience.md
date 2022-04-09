@@ -3,23 +3,33 @@ date_format: Jan 2006
 design:
   columns: "1"
 experience:
-- company: GenCoin
-  company_logo: org-gc
-  company_url: ""
-  date_end: ""
-  date_start: "2021-01-01"
-  description: "  Responsibilities include:\n  \n  * Analysing\n  * Modelling\n  *
-    Deploying"
-  location: California
-  title: CEO
-- company: University X
-  company_logo: org-x
-  company_url: ""
-  date_end: "2020-12-31"
-  date_start: "2016-01-01"
-  description: Taught electronic engineering and researched semiconductor physics.
-  location: California
-  title: Professor of Semiconductor Physics
+- company: Université de Genève - Faculté d'économie et management
+  company_logo: unige
+  company_url: "https://www.unige.ch/gsem/fr"
+  date_end: "2021-12-15"
+  date_start: "2021-06-15"
+  description: |2-
+    * Analyse de données
+    * Modélisation
+    * Écriture d'un rapport sur la représentation de la population étrangère dans le secteur public
+  location: Genève
+  title: Interne de recherche
+  
+- company: Archives d'État de Genève
+  company_logo: ge
+  company_url: "https://ge.ch/archives/"
+  date_end: "2021-01-10"
+  date_start: "2020-06-01"
+  description: |2-
+    * Reconditionnement de plusieurs fonds
+    * Saisie informatique de courriers dans la base de données interne
+    * Saisie d'une partie d'un inventaire archivistique (pièce historique)
+    * Accueil des lecteurs et conseils
+    * Recherche et distribution des documents
+    
+  location: Genève
+  title: Aide-archiviste
+  
 headless: true
 subtitle: null
 title: Expérience

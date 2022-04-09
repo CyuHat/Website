@@ -4,30 +4,22 @@ design:
   columns: "1"
 headless: true
 item:
-- certificate_url: https://www.coursera.org
-  date_end: ""
-  date_start: "2021-01-25"
+- certificate_url:
+  date_end: "2017-07-01"
+  date_start: "2016-10-01"
   description: ""
-  organization: Coursera
-  organization_url: https://www.coursera.org
-  title: Neural Networks and Deep Learning
+  organization: ASFC
+  organization_url:
+  title: Certificat Leadership
   url: ""
-- certificate_url: https://www.edx.org
-  date_end: ""
-  date_start: "2021-01-01"
-  description: Formulated informed blockchain models, hypotheses, and use cases.
-  organization: edX
-  organization_url: https://www.edx.org
-  title: Blockchain Fundamentals
-  url: https://www.edx.org/professional-certificate/uc-berkeleyx-blockchain-fundamentals
-- certificate_url: https://www.datacamp.com
-  date_end: "2020-12-21"
-  date_start: "2020-07-01"
-  description: ""
-  organization: DataCamp
-  organization_url: https://www.datacamp.com
-  title: Object-Oriented Programming in R
-  url: ""
+  description: |-2
+    * Conduite d’une équipe au niveau du groupe/de l’équipe
+    * Gestion de conflits au niveau du groupe/de l’équipe
+    * Gestion personnelle au niveau du groupe/de l’équipe
+    * Communication orale au niveau du groupe/de l’équipe
+    * Communication écrite au niveau du groupe/de l’équipe
+    * Présentation au niveau du groupe/de l’équipe
+
 subtitle: null
 title: Certificats
 weight: 40

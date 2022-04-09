@@ -1,0 +1,60 @@
+---
+title: 'Thème: Méthodes quantitatives'
+author: Vestin Cyuzuzo Hategekimana
+date: '2022-04-09'
+slug: theme-m-thodes-quantitatives
+categories:
+  - Travaux
+tags:
+  - r
+  - regression
+  - socioéconomie
+  - statistiques
+  - recherche
+subtitle: ''
+summary: "Les travaux quantitatifs que j'ai réalisé durant mon parcours universitaire"
+authors: []
+lastmod: '2022-04-09T20:48:54+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+### Quelle est l’impact de la nationalité sur la probabilité de se retrouver en situation de qualification négative, surqualifié ou en inadéquation de qualification ? Le rôle du réseau, des diplômes et de la connaissance du marché du travail Suisse.
+
+**Résumé:** Dans le cadre du cours _Analyse de données d'enquêtes_, nous avons réalisé, mon binôme et moi, un travail de recherche quantitatif sur le rôle de la nationalité dans l'adéquation de la qualification. Nous avons réalisé ce travail avec les données du panel suisse des ménages (2020 sans pondérations).
+
+[Télécharger](/uploads/travaux/stat/ADE_Dossier_Hategekimana_Massard.pdf) mon travail
+
+*Faculté des Sciences de la société (SDS)*, 
+*Master en Socioéconomie*, 
+*Année académique 2021-2022*, 
+*Cours: Analyse de données d’enquêtes*, 
+*Professeur : Prof. Matthias Studer*
+
+### Analyse de données longitudinales
+
+**Résumé:** Dans le cadre du cours _Analyse de données longitudinales_, j'ai réalisé un travail pour me familiarisé avec la méthode d'analyse de séquence. Le but du travail était de voir en quoi les migrants de première et deuxième génération différent des natifs dans leur trajectoire "Travail, école et emploi". 
+
+[Télécharger](/uploads/travaux/stat/adl_1_Hategekimana.pdf)
+
+*Faculté des Sciences de la société (SDS)*, 
+*Master en Socioéconomie*, 
+*Année académique 2021-2022*, 
+*Cours: Analyse de données longitudinales*, 
+*Professeur : Prof. Matthias Studer*
+
+### Modèles linéaires généralisés
+
+**Résumé::** Dans le cadre du cours _Méthodes quantitatives avancées_, j'ai réalisé un travail comparant la régression ordinale et linaire sur une variable dépendante catégorielle et ordonnée. Le but étant de montrer l'avantage de la régression ordinale dans ce type de cas.
+
+[Télécharger](/uploads/travaux/stat/mqa_1_Hategekimana.pdf) mon travail
+
+*Faculté des Sciences de la société (SDS)*, 
+*Master en Socioéconomie*, 
+*Année académique 2021-2022*, 
+*Cours: Méthodes quantitatives avancées*, 
+*Professeur : Prof. Simon Hug*

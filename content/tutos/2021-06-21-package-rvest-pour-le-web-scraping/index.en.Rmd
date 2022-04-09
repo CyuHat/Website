@@ -1,0 +1,219 @@
+---
+title: '[rvest] Le Web Scraping simplement'
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-06-21'
+slug: package-rvest-pour-le-web-scraping
+categories:
+  - R
+tags:
+  - r
+  - web_scraping
+subtitle: ''
+summary: 'Dans ce tutoriel, nous apprenons à utiliser rvest pour faire du web scraping.'
+authors: []
+lastmod: '2022-04-08T15:48:17+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Références
+
+Github: https://github.com/tidyverse/rvest
+
+Functions: https://rvest.tidyverse.org/reference/index.html
+
+Tuto 1: https://dcl-wrangle.stanford.edu/rvest.html
+
+Tuto 2: https://steviep42.github.io/webscraping/book/
+
+Tuto 3:https://awesomeopensource.com/project/yusuzech/r-web-scraping-cheat-sheet
+
+## Introduction
+
+La librairie rvest permet de collecter des données en ligne, donc faire ce qu'on appelle du web scraping. L'avantage de cette librairie est qu'elle est extrêmement facile à utiliser et assez intuitive.
+
+## Librairie
+
+```{r}
+library(rvest)
+```
+
+## Tableaux
+
+Nous allons télécharger les données du tableau wikipédia "List of countries by average wage" du lien https://en.wikipedia.org/wiki/List_of_countries_by_average_wage. Nous divisons ce travail en plusieurs étapes, même s'il peut être fait en une fonction grâce à la fonction "%>%".
+
+**Note: Tout le long des étapes, nous n'avons créé aucune nouvelle variable, c'est l'avantage de la fonction _%>%_. Elle nous permet de tester des transformations sans avoir à modifier l'objet de base ou à devoir en créer. Nous aurions pu donc tout faire en une fois. Mais nous allons présenter la procédure en étape pour ce tutoriel.**
+
+### Étape 1
+
+Nous chargeons l'url avec la fonction _read_html()_:
+
+```{r}
+url <- "https://en.wikipedia.org/wiki/List_of_countries_by_average_wage"
+page <- read_html(url)
+page
+```
+
+Nous voyons une partie du code html.
+
+### Étape 2
+
+Nous utilisons la fonction _%>%_ pour passer le résultat de gauche dans la fonction de droite (en première position). Avec ça nous allons retrouver à l'aide du code css de la page web la liste des tableaux [plus d'information dans les tutos]. Nous utilisons donc la fonction _html_nodes()_ pour cherche un "table" (généralement utiliser pour les tableaux en css:
+
+```{r}
+page %>% 
+  html_nodes("table")
+```
+
+### Étape 3
+
+Nous savons que les tableaux wikipédia sont des "wikitable sortable", nous pouvons donc prendre le tableau 2, 3, 4 ou 5. Dans notre exemple, nous prenons le 2ème tableau. Nous allons donc prendre le 2ème élément en utilisant _.[[2]]_. Ici le "." signifie que nous reprenons l'élément de gauche en tant qu'objet et les "[[]]" signifie que nous prenons un élément d'une liste:
+
+```{r}
+page %>% 
+  html_nodes("table") %>% 
+  .[[2]]
+```
+
+### Étape 4
+
+Maintenant que nous avons retrouvé un tableau, nous pouvons le transformer en un tableau lisible pour R en utilisant la fonction _html_table()_. Ce tableau est directement utilisable:
+
+```{r}
+page %>% 
+  html_nodes("table") %>% 
+  .[[2]] %>% 
+  html_table() -> tab1
+
+tab1
+```
+
+**Note: Le tableau n'est pas encore vraiment utilisable puisqu'il faut encore le nettoyer un peu, mais nous avons un tableau de donnée au bon format.**
+
+Comme nous pouvons le voir, télécharger un tableau se fait très rapidement et demande peu d'effort. Si nous avions tout fait d'un coup, ça nous aurait pris moins de 30 secondes.
+
+## Web page
+
+Dans cet exemple, nous allons présenter comment obtenir le contenu d'une page du site web du journal 20 minutes (Suisse francophone).
+
+Afin de pouvoir sélectionner des éléments dans une page web, on utilise des "sélecteurs css". L'écriture n'est pas si difficile à apprendre, mais il demande quand même un certains temps avant d'être utlisé efficacement. Vous pouvez trouver un petit tutoriel ici:
+
+https://www.devenir-webmaster.com/V2/TUTO/CHAPITRE/HTML-CSS/20-les-selecteurs-css/
+
+Pour ce tutoriel, il existe une méthode pour se simplifier la vie sur firefox ou chrome: des aides au scraping. Ces outils permettent de sélectionner les éléments css d'une page web et de nous retourner le sélecteur css.
+
+Pour Chrome (selector gadget): https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb
+
+Pour Firefox (ScrapeMate Beta): https://addons.mozilla.org/en-US/firefox/addon/scrapemate/
+
+**Note: Dans ce tutoriel, j'utilise firefox et donc ScrapeMate Beta. Mais ça ne change strictement rien au processus. De plus l'utilisation de ces sélecteurs ne garanti pas une précision dans la sélection ni le meilleurs moyen de sélectionner un éléments (il existe plusieurs méthodes). Même si utiliser ces deux addins marche la plupart du temps, il y a des cas où ils ne fonctionnent pas. Donc, si vous compter continuer dans le web scraping, apprend un peu de css est essentiel.**
+
+### Étape 1:
+
+Nous chargeons l'url avec la fonction _read_html()_:
+
+```{r}
+url <- "https://www.20min.ch/fr/story/il-decouvre-que-sa-maison-a-disparu-a-la-television-799776931140#Echobox=1609449835"
+page <- read_html(url)
+page
+```
+
+Nous voyons une partie du code html.
+
+### Étape 2:
+
+Avec l'un des outils présentés plus tôt, il faut choisir les éléments qui nous intéressent. Par exemple, nous prenons le sous-titre de la page:
+
+```{r}
+page %>% 
+  html_nodes("h2")
+```
+
+Nous obtenons un élément html. Mais il est possible de sélectionner une liste d'éléments dès le moment où tous ces éléments ont le même sélecteur css.
+
+**Note: dans notre exemple nous avons simplement h2 comme sélecteur css, mais la plus part du temps ils sont plus long. Ce qui fait que celui-ci soit cours vient d'une convention. Effectivement, les titres commencent toujours avec un "h" suivit d'un numéro. "h1" est le plus rand titre "h2" est deuxième plus grand titre, "h3" est le suivant, etc. Même si vous ne souhaitez pas apprendre les sélecteurs css, ceux-ci sont facile à comprendre.**
+
+### Étape 3:
+
+Nous utilisons la fonction _html_text2()_ pour transformer les éléments en un texte lisible:
+
+**Note: la fonction _html_text()_ fait le même travail, mais ne retire pas les espaces "en trop" et peut donc donner des formats de texte peu adaptés.**
+
+```{r}
+page %>% 
+  html_nodes("h2") %>% 
+  html_text2()
+```
+
+Nous avons donc réussi à sélectionner le contenu qui nous intéressait. Mais nous pouvons faire exactement la même chose avec des contenus partageant également le même sélecteur css. Par exemple les paragraphes des textes.
+
+#### Autre exemple paragraphes d'un texte
+
+Voici le code pour sélectionné les paragraphes d'un texte:
+
+```{r}
+page %>% 
+  html_nodes("p") %>% 
+  html_text2()
+```
+
+Cette fois-ci, nous obtenons un vecteur de caractère puisque tous les paragraphes ont le même sélecteur.
+
+**Note: Vous voyez ici que pour le paragraphe, il suffit d'écrire "p" qui est aussi une convention**
+
+#### Autre astuces
+
+Nous pouvons combiner tout ce que nous savons, pour sélectionner tout le contenu d'un article. Il suffit d'ajouter des virgules entre les éléments sélectionnés.
+
+```{r}
+page %>% 
+  html_nodes("h1, h2, p") %>% 
+  html_text2()
+```
+
+Voilà le travail, ce n'est pas si compliqué.
+
+### Étape 4:
+
+L'avantage d'utiliser le web scraping, c'est que lorsque le travail est fait pour une page, il est reproductible sur des pages similaires. Il suffit donc d'autres liens pour obtenir le même résultats sur d'autres pages du journal:
+
+```{r}
+page2 <- read_html("https://www.20min.ch/fr/story/la-nuit-la-plus-froide-de-lannee-au-sud-des-alpes-et-en-engadine-224123400441#Echobox=1609442466")
+
+page2 %>% 
+  html_nodes("h1, h2, p") %>% 
+  html_text2()
+```
+
+Utilisé avec des boucles (ou itération avec du mapping), il est possible de traiter automatiquement un grand nombre de page sans trop de problèmes.
+
+**Note: Dans ce cas très précis où nous avons utilisé des sélecteurs conventionnel (h1, h2 et p) qui sont universelle, cette fonction pourrait en principe s'appliquer sur n'importe quelle page web, même s'il y a des limites, mais nous en parlerons en conclusion.
+
+## Conclusion
+
+Cette méthodes n'est pas très difficile à appliquée et elle est très rapide pour récolté des données sur des pages web statiques. Mais ce n'est pas une solution miracle, car il existe de nombreux obstacles, en voici quelques-uns:
+
+- Javascript cachant une partie des données
+- Sites web bloquant les bots (parce que ce que nous faisons c'est littéralement un robot qui vient collecter des données)
+- Site web bloquant l'accès au code source html
+- Site web nécessitant une connexion (il est possible de passer à travers avec rvest, mais souvent ce genre de site est élaboré pour bloquer les bots avec des tests)
+
+Dans tous les cas, si votre but est la collecte de textes brut ou de données librement accessible en ligne (sans restrictions ouverte ou implicite), la méthode que nous avons présenté devrait fonctionner la plupart du temps.
+
+Noté aussi qu'il subsite un flou juridique en ce qui concerne la légalité du web scraping. De manière générale, si l'utilisation se fait à titre personnel sans but commerciale, ça devrait être bon la plupart du temps aussi.
+
+Autre chose également, ce tuto est une introduction et ne traite pas des thèmes avancé. Mais j'en ferai surement un autre soit sur la chaîne youtube WeData, soit ici pour montrer d'autres utilisations, notamment la collecte de masse. En ce qui concerne la collecte de masse, je vous recommande en avance d'utiliser dans vos itérations la fonction _Sys.time(3)_ qui va arrêter votre code pendant 3 secondes. Sinon R vas faire plusieurs requêtes en moins d'une seconde et c'est mauvais pour le serveur qui héberge le site. Stoper le code dans les boucles est nécessaire pour éviter deux cas malheureux: 
+
+1. Vous faire banir du site par votre adresse IP. Donc vous n'aurez plus accès au site pendant un moment (ou définitivement) et vous ne pourrez donc plus collecter des données.
+2. (plus dramatique) vous pouvez faire crasher le site, ce qui d'une part pose problème aux propriétaires du site et à tous les utilisateurs. Il est même possible qu'il y ait des processus légaux.
+
+Dans tous les cas, le web scraping est un super outil qui permet d'obtenir des données en ligne et il serait dommage de s'en priver.

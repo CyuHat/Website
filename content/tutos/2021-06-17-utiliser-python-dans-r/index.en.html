@@ -1,0 +1,79 @@
+---
+title: "[reticulate] Utiliser Python dans R"
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-06-17'
+slug: utiliser-python-dans-r
+categories:
+  - R
+  - Python
+tags:
+  - r
+  - statistiques
+subtitle: 'Terminé'
+summary: 'Ce tutoriel présente une partie des fonctionnalités du package reticulate pour utilise Python dans R, mais a surtout pour but de montrer comment intégrer du code Python dans son script R.'
+authors: []
+lastmod: '2022-04-08T14:52:20+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="références" class="section level2">
+<h2>Références</h2>
+<p>Cheat sheet: <a href="https://ugoproto.github.io/ugo_r_doc/pdf/reticulate.pdf" class="uri">https://ugoproto.github.io/ugo_r_doc/pdf/reticulate.pdf</a></p>
+<p>Tuto: <a href="https://rstudio.github.io/reticulate/" class="uri">https://rstudio.github.io/reticulate/</a></p>
+<p>## Introduction</p>
+<p><strong>Note 1: Pour pouvoir utiliser Python dans R, il faut avoir Python installé sur le pc.</strong></p>
+<p><strong>Note 2: Ici, nous avons besoin que d’une librairie (reticulate). Qu’il est important de chargé lorsqu’on travail dans l’environnement R, même si lorsqu’on lance un script Python Rstudio reconnaît directement le language.</strong></p>
+<p>Reticulate est la librairie pour gérer Python à l’intérieur de RStudio. Elle est installée de base avec Rstudio et travail très bien avec l’environnement de travail. Effectivement, il est possible d’éditer des fichier python (.py) directement depuis R studio. De plus, il existe un environnement qui affiche les variables créées dans python. Il est possible aussi ne naviguer entre les fichier de R et de Python facilement. Il est même possible d’utiliser R et python dans le même fichier R/Rmarkdown.</p>
+</div>
+<div id="ouvrir-un-fichier-.py" class="section level2">
+<h2>Ouvrir un fichier .py</h2>
+<p>Il est possible d’utiliser Python dans R de plusieurs façons. Ici, il est possible d’ouvrir un fichier .py soit en cherchant un fichier depuis R avec un ctrl + O, soit en ouvrant un nouveau fichier avec l’extension .py. En général, il n’est pas nécessaire de lancer la librairie reticulate. Pour savoir si nous sommes dans python, il suffit d’observer dans le terminal s’il y a 3 “&gt;”, donc “&gt;&gt;&gt;”. Si c’est le cas, nous sommes bien dans l’environnement python (pour c’est un simple “&gt;”). Pour quitter l’environnement python, il suffis d’utiliser la touch “Esc” en étant dans le terminal ou d’écrire “quit”.</p>
+<p>**Note: Pour certaine chose, il faut un petit peu plus d’étape. Par exemple, lorsqu’on réalise un graphique avec python, il faut en plus utiliser la fonction print() pour le faire apparaître.</p>
+</div>
+<div id="ouvrir-utiliser-reticulate-dans-un-script-r." class="section level2">
+<h2>Ouvrir utiliser reticulate dans un script R.</h2>
+<p>Il faut premièrement ouvrir un script R et lancer la librairie:</p>
+<pre class="r"><code>library(reticulate)</code></pre>
+<p>Puis il est possible d’utiliser des fonctions de python dans R avec <em>py_run_string()</em>:</p>
+<pre class="r"><code>py_run_string(&quot;print(2+2)&quot;)</code></pre>
+<p>Il est également possible de lancer des scripts pythons depuis R avec la fonction <em>py_run_file()</em>:</p>
+<p><strong>Note: Ici, python.py est un fichier fictif qui ne fait rien</strong></p>
+<pre class="r"><code>py_run_file(&quot;python.py&quot;)</code></pre>
+<p>Il est aussi possible d’utiliser les librairies de python de manière similaire avec la fonction <em>import()</em>:</p>
+<p><strong>Note: Ne semble pas fonctionner ici, mais fonctionne dans un script normal</strong></p>
+<pre class="r"><code>sns &lt;- import(&quot;seaborn&quot;)
+mpl &lt;- import(&quot;matplotlib&quot;)
+
+
+sns$histplot(data=iris,x=&quot;Sepal.Length&quot;)
+
+mpl$pyplot$show()</code></pre>
+</div>
+<div id="utiliser-python-dans-un-rmarkdown" class="section level2">
+<h2>Utiliser Python dans un Rmarkdown</h2>
+<p>Il suffit simplement d’ouvrir un chunk avec python dasns l’entête <em>```{python}</em>:</p>
+<p>**Note: pour importer des données de R dans python, il suffis d’indiquer “r.” avant le noms de l’objet pour que python le convertisse directement.</p>
+<pre class="python"><code>import seaborn as sns
+import matplotlib as mpl
+
+sns.lmplot(data=r.iris,x=&quot;Sepal.Length&quot;,y=&quot;Sepal.Width&quot;,hue=&quot;Species&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-5-1.png" width="312" /></p>
+<pre class="python"><code>mpl.pyplot.show()</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-5-2.png" width="592" /></p>
+<p>Nous pouvons aussi importer des données de python dans R. Dans un premier temps nous générons des données sur Python:</p>
+<pre class="python"><code>penguins = sns.load_dataset(&quot;penguins&quot;)</code></pre>
+<p>Puis nous les importons dans r en utilisant “py$” avant le nom de l’objet:</p>
+<p><strong>Note: Il n’y a pas que les tableaux de données qui peuvent être échangés, il y a également les listes, les vecteurs, les matrices, les tuples et les fonctions.</strong></p>
+<pre class="r"><code>ls(py$penguins)</code></pre>
+<pre><code>## [1] &quot;bill_depth_mm&quot;     &quot;bill_length_mm&quot;    &quot;body_mass_g&quot;      
+## [4] &quot;flipper_length_mm&quot; &quot;island&quot;            &quot;sex&quot;              
+## [7] &quot;species&quot;</code></pre>
+</div>

@@ -1,0 +1,110 @@
+---
+title: "[reticulate] Utiliser Python dans R"
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-06-17'
+slug: utiliser-python-dans-r
+categories:
+  - R
+  - Python
+tags:
+  - r
+  - statistiques
+subtitle: 'Terminé'
+summary: 'Ce tutoriel présente une partie des fonctionnalités du package reticulate pour utilise Python dans R, mais a surtout pour but de montrer comment intégrer du code Python dans son script R.'
+authors: []
+lastmod: '2022-04-08T14:52:20+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Références
+
+Cheat sheet: https://ugoproto.github.io/ugo_r_doc/pdf/reticulate.pdf
+
+Tuto: https://rstudio.github.io/reticulate/
+  
+  ## Introduction
+  
+  **Note 1: Pour pouvoir utiliser Python dans R, il faut avoir Python installé sur le pc.**
+  
+  **Note 2: Ici, nous avons besoin que d'une librairie (reticulate). Qu'il est important de chargé lorsqu'on travail dans l'environnement R, même si lorsqu'on lance un script Python Rstudio reconnaît directement le language.**
+
+Reticulate est la librairie pour gérer Python à l'intérieur de RStudio. Elle est installée de base avec Rstudio et travail très bien avec l'environnement de travail. Effectivement, il est possible d'éditer des fichier python (.py) directement depuis R studio. De plus, il existe un environnement qui affiche les variables créées dans python. Il est possible aussi ne naviguer entre les fichier de R et de Python facilement. Il est même possible d'utiliser R et python dans le même fichier R/Rmarkdown.
+
+## Ouvrir un fichier .py
+
+Il est possible d'utiliser Python dans R de plusieurs façons. Ici, il est possible d'ouvrir un fichier .py soit en cherchant un fichier depuis R avec un ctrl + O, soit en ouvrant un nouveau fichier avec l'extension .py. En général, il n'est pas nécessaire de lancer la librairie reticulate. Pour savoir si nous sommes dans python, il suffit d'observer dans le terminal s'il y a 3 ">", donc ">>>". Si c'est le cas, nous sommes bien dans l'environnement python (pour c'est un simple ">"). Pour quitter l'environnement python, il suffis d'utiliser la touch "Esc" en étant dans le terminal ou d'écrire "quit".
+
+**Note: Pour certaine chose, il faut un petit peu plus d'étape. Par exemple, lorsqu'on réalise un graphique avec python, il faut en plus utiliser la fonction print() pour le faire apparaître.
+
+## Ouvrir utiliser reticulate dans un script R.
+
+Il faut premièrement ouvrir un script R et lancer la librairie:
+
+```{r}
+library(reticulate)
+```
+
+Puis il est possible d'utiliser des fonctions de python dans R avec _py_run_string()_:
+  
+  ```{r}
+py_run_string("print(2+2)")
+```
+
+Il est également possible de lancer des scripts pythons depuis R avec la fonction _py_run_file()_:
+  
+  **Note: Ici, python.py est un fichier fictif qui ne fait rien**
+  
+  ```{r eval=FALSE}
+py_run_file("python.py")
+```
+
+Il est aussi possible d'utiliser les librairies de python de manière similaire avec la fonction _import()_:
+
+**Note: Ne semble pas fonctionner ici, mais fonctionne dans un script normal**
+
+```{r eval=FALSE}
+sns <- import("seaborn")
+mpl <- import("matplotlib")
+
+
+sns$histplot(data=iris,x="Sepal.Length")
+
+mpl$pyplot$show()
+```
+
+## Utiliser Python dans un Rmarkdown
+
+Il suffit simplement d'ouvrir un chunk avec python dasns l'entête _```{python}_:
+
+**Note: pour importer des données de R dans python, il suffis d'indiquer "r." avant le noms de l'objet pour que python le convertisse directement.
+
+```{python}
+import seaborn as sns
+import matplotlib as mpl
+
+sns.lmplot(data=r.iris,x="Sepal.Length",y="Sepal.Width",hue="Species")
+mpl.pyplot.show()
+```
+
+Nous pouvons aussi importer des données de python dans R. Dans un premier temps nous générons des données sur Python:
+
+```{python}
+penguins = sns.load_dataset("penguins")
+```
+
+Puis nous les importons dans r en utilisant "py$" avant le nom de l'objet:
+  
+  **Note: Il n'y a pas que les tableaux de données qui peuvent être échangés, il y a également les listes, les vecteurs, les matrices, les tuples et les fonctions.**
+
+```{r}
+ls(py$penguins)
+```

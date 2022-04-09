@@ -10,7 +10,7 @@ main:
   - name: Présentation
     url: about/
     weight: 20
-  - name: Publications
+  - name: Mes travaux
     url: post/
     weight: 30
   - name: Tutoriels

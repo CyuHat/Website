@@ -1,0 +1,196 @@
+---
+title: '[tubeR] Collecter des données sur Youtube'
+author: Vestin Cyuzuzo Hategekimana
+date: '2022-04-09'
+slug: package-tuber-pour-collecter-des-donn-es-sur-youtube
+categories:
+  - R
+tags:
+  - r
+  - web_scraping
+subtitle: ''
+summary: 'Dans ce tutoriel, nous utilisons le package tubeR pour collecter des données sur Youtube.'
+authors: []
+lastmod: '2022-04-08T16:49:37+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+---
+title: "TubeR"
+author: "Vestin Hategekimana"
+date: "18/06/2021"
+output: 
+  html_document: 
+    toc: yes
+    df_print: kable
+    highlight: espresso
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Références
+
+CRAN: <https://cran.r-project.org/web/packages/tuber/index.html>
+
+Tuto API tuber: <https://www.storybench.org/how-to-download-youtube-data-in-r-using-tuber-and-purrr/>
+
+Tuto tuber: <https://cran.r-project.org/web/packages/tuber/vignettes/tuber-ex.html>
+
+Limits: https://www.freakyjolly.com/youtube-data-api-v3-1m-units-limits-explained/  
+
+## Introduction
+
+La librairie TubeR permet de collecter les données de Youtube, mais demande au préalable d'avoir un compte sur google et d'activer l'API. Pour plus d'information, regardez le lien sur l'API.
+
+## Librairie
+
+```{r}
+library(tuber)
+```
+
+La librairie possède 39 fonctions, mais nous allons nous concentrer sur les 6 suivantes:
+
++-----------------------+--------------------------------------------------------------+
+| Fonction              | Utilité                                                      |
++=======================+==============================================================+
+| yt_oauth()            | Connecter R au compte youtube                                |
++-----------------------+--------------------------------------------------------------+
+| yt_search()           | Outil principal de recherche de vidéos, chaînes et playlists |
++-----------------------+--------------------------------------------------------------+
+| list_channel_videos() | Liste les vidéos d'une chaîne                                |
++-----------------------+--------------------------------------------------------------+
+| get_channel_stats()   | Liste des statistiques d'une chaîne                          |
++-----------------------+--------------------------------------------------------------+
+| get_stats()           | Stats d'une vidéo                                            |
++-----------------------+--------------------------------------------------------------+
+| get_all_comments()    | Obtenir les commentaires d'une vidéo                         |
++-----------------------+--------------------------------------------------------------+
+
+```{r}
+ls("package:tuber")
+```
+
+## Se connecter
+
+Pour se connecter depuis R sur votre application youtube, vous devez utiliser l'id client de votre API et le code secret créés préalablement avec l'application faites sur l'API. [Pour plus d'informations, regarder le tuto sur l'API]:
+
+**Note: Ces informations doivent rester confidentielles, voilà pourquoi l'exemple est censuré.**
+
+```{r eval=FALSE}
+client_id <- "XXXXXXXXX"
+client_secret <- "XXXXXXXXX"
+```
+
+Ensuite, nous pouvons lancer la connexion:
+
+```{r eval=FALSE}
+yt_oauth(app_id = client_id,
+         app_secret = client_secret,
+         token = '')
+```
+
+```{r include=FALSE}
+load("youtube_data.Rda")
+```
+
+Il faut suivre manuellement les étapes qui s'affichent à l'écran et aller jusqu'au bout. Il est possible que des messages demandant si vous êtes sûre de poursuivre la connexion apparaissent et c'est complètement normal. C'est parce que l'application vous permet de gérer votre compte aussi (donc faire des actions avec), donc youtube souhaites être sûre que vous savez que votre compte sera contrôlé depuis l'extérieur (par vous uniquement). [Pour plus d'informations, regarder le tuto sur l'API]
+
+## Note sur les comptes et les vidéos
+
+Les principales informations que nous allons utiliser pour rechercher des données se trouvent dans les urls. Voici l'exemple du lien d'un compte:
+
+<https://www.youtube.com/channel/UCINb0wqPz-A0dV9nARjJlOQ>
+
+L'id d'une chaîne se trouve après le dernier "/", dans notre cas l'id de la chaîne est "UCINb0wqPz-A0dV9nARjJlOQ".
+
+Le lien d'une playlist:
+
+<https://www.youtube.com/playlist?list=PLLoPYaJqlcK5xkoTBELtXQzNX94JuWAmJ>
+
+L'id de la playlist se trouve après se trouve après le signe "=", donc l'id de notre playlist est "PLLoPYaJqlcK5xkoTBELtXQzNX94JuWAmJ"
+
+Et le lien d'une vidéo:
+
+<https://www.youtube.com/watch?v=DggHeuhpFvg>
+
+Ici, l'id des vidéos se trouve après le signe "=", donc l'id de cette vidéo est "DggHeuhpFvg".
+
+## Les fonctions
+
+### yt_search()
+
+Permet de chercher des informations sur youtube de manière efficace. Elle permet de chercher cherche des vidéos, des chaînes ou des playlistes et de préciser les termes recherchés, le nombre de résultat, une chaîne particulière, de préciser si on cherche un show, l'évènement (complet, en live ou à venir), la localisation (en longitude et latitude ainsi que le périmètre), la date de publication, la qualité de la vidéo, si la vidéo possède des sous-titres, etc. Pour plus d'information, il faut utiliser la fonction *help()* ou le "?" avec le nom de la fonction. Nous allons par exemple chercher toutes les vidéos avec le mots "beaver" depuis le mois de juin 2021:
+
+**Note 1: Dans notre cas, il n'est pas nécessaire de préciser "vidéo" dans le type, parce que la fonction recherche automatiquement les vidéos si aucune information n'est donnée dans type. Le type peut être remplacé par "channel" ou "playlist".**
+
+**Note 2: Le nombre d'éléments collectés est limité à 50 de base. Mais nous pouvons changer ce nombre en changeant le paramètre "max-results". Par exemple "max-results = 50".**
+
+```{r eval=FALSE}
+youtube_1 <- yt_search(term = "beaver",
+                       type = "video",
+                       published_after = "2021-06-01T00:00:00Z")
+```
+
+```{r}
+dplyr::glimpse(youtube_1)
+```
+
+Lorsqu'on précise un terme, il est recherché à la fois dans le titre de la chaîne, le titre de la vidéo et le titre de la description. Il est préférable de chercher des vidéos (pas forcément besoin de préciser le type) pour avoir plus d'informations.
+
+Cette fonction est utile pour commencer une recherche, même s'il est possible de rechercher manuellement des liens.
+
+Une recherche similaire peut être menée en utilisant la fonction *yt_topic_search()* qui permet en plus d'ajouter une thématique avec le paramètre "topic".
+
+### get_channel_stats()
+
+Pour obtenir les statistiques d'une chaîne (titre de la chaîne, nombre de vue, nombre d'abonnés et nombre de vidéos) sous forme d'une liste il suffit d'utiliser la fonction *get_channel_stats()*:
+
+```{r eval=FALSE}
+youtube_2 <- get_channel_stats(channel_id = "UCINb0wqPz-A0dV9nARjJlOQ")
+```
+
+```{r}
+dplyr::glimpse(youtube_2)
+```
+
+### list_channel_videos()
+
+Permet d'afficher la liste des vidéos d'une chaîne:
+
+```{r eval=FALSE}
+youtube_3 <- list_channel_videos(channel_id = "UCc8Virf32yXPVNO68bU6AuA")
+```
+
+```{r}
+dplyr::glimpse(youtube_3)
+```
+
+### get_stats()
+
+Permet d'obtenir les statistiques d'une vidéo (titre, nombre de like, nombre de dislike, nombre de vue, nombre de commentaires):
+
+```{r eval=FALSE}
+youtube_4 <- get_stats(video_id = "Q5yVoTqD06M")
+```
+
+```{r}
+dplyr::glimpse(youtube_4)
+```
+
+### get_all_comments()
+
+Permet d'obtenir tous les commentaires d'une vidéo:
+
+```{r eval=FALSE}
+youtube_5 <- get_all_comments(video_id = "Q5yVoTqD06M")
+```
+
+```{r}
+dplyr::glimpse(youtube_5)
+```

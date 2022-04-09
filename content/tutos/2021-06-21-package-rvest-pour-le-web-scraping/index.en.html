@@ -1,0 +1,216 @@
+---
+title: '[rvest] Le Web Scraping simplement'
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-06-21'
+slug: package-rvest-pour-le-web-scraping
+categories:
+  - R
+tags:
+  - r
+  - web_scraping
+subtitle: ''
+summary: 'Dans ce tutoriel, nous apprenons à utiliser rvest pour faire du web scraping.'
+authors: []
+lastmod: '2022-04-08T15:48:17+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="références" class="section level2">
+<h2>Références</h2>
+<p>Github: <a href="https://github.com/tidyverse/rvest" class="uri">https://github.com/tidyverse/rvest</a></p>
+<p>Functions: <a href="https://rvest.tidyverse.org/reference/index.html" class="uri">https://rvest.tidyverse.org/reference/index.html</a></p>
+<p>Tuto 1: <a href="https://dcl-wrangle.stanford.edu/rvest.html" class="uri">https://dcl-wrangle.stanford.edu/rvest.html</a></p>
+<p>Tuto 2: <a href="https://steviep42.github.io/webscraping/book/" class="uri">https://steviep42.github.io/webscraping/book/</a></p>
+<p>Tuto 3:<a href="https://awesomeopensource.com/project/yusuzech/r-web-scraping-cheat-sheet" class="uri">https://awesomeopensource.com/project/yusuzech/r-web-scraping-cheat-sheet</a></p>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>La librairie rvest permet de collecter des données en ligne, donc faire ce qu’on appelle du web scraping. L’avantage de cette librairie est qu’elle est extrêmement facile à utiliser et assez intuitive.</p>
+</div>
+<div id="librairie" class="section level2">
+<h2>Librairie</h2>
+<pre class="r"><code>library(rvest)</code></pre>
+</div>
+<div id="tableaux" class="section level2">
+<h2>Tableaux</h2>
+<p>Nous allons télécharger les données du tableau wikipédia “List of countries by average wage” du lien <a href="https://en.wikipedia.org/wiki/List_of_countries_by_average_wage" class="uri">https://en.wikipedia.org/wiki/List_of_countries_by_average_wage</a>. Nous divisons ce travail en plusieurs étapes, même s’il peut être fait en une fonction grâce à la fonction “%&gt;%”.</p>
+<p><strong>Note: Tout le long des étapes, nous n’avons créé aucune nouvelle variable, c’est l’avantage de la fonction <em>%&gt;%</em>. Elle nous permet de tester des transformations sans avoir à modifier l’objet de base ou à devoir en créer. Nous aurions pu donc tout faire en une fois. Mais nous allons présenter la procédure en étape pour ce tutoriel.</strong></p>
+<div id="étape-1" class="section level3">
+<h3>Étape 1</h3>
+<p>Nous chargeons l’url avec la fonction <em>read_html()</em>:</p>
+<pre class="r"><code>url &lt;- &quot;https://en.wikipedia.org/wiki/List_of_countries_by_average_wage&quot;
+page &lt;- read_html(url)
+page</code></pre>
+<pre><code>## {html_document}
+## &lt;html class=&quot;client-nojs&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;
+## [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8 ...
+## [2] &lt;body class=&quot;mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject  ...</code></pre>
+<p>Nous voyons une partie du code html.</p>
+</div>
+<div id="étape-2" class="section level3">
+<h3>Étape 2</h3>
+<p>Nous utilisons la fonction <em>%&gt;%</em> pour passer le résultat de gauche dans la fonction de droite (en première position). Avec ça nous allons retrouver à l’aide du code css de la page web la liste des tableaux [plus d’information dans les tutos]. Nous utilisons donc la fonction <em>html_nodes()</em> pour cherche un “table” (généralement utiliser pour les tableaux en css:</p>
+<pre class="r"><code>page %&gt;% 
+  html_nodes(&quot;table&quot;)</code></pre>
+<pre><code>## {xml_nodeset (5)}
+## [1] &lt;table class=&quot;wikitable sortable static-row-numbers plainrowheaders srn-w ...
+## [2] &lt;table class=&quot;wikitable sortable static-row-numbers plainrowheaders srn-w ...
+## [3] &lt;table class=&quot;nowraplinks hlist mw-collapsible autocollapse navbox-inner&quot; ...
+## [4] &lt;table class=&quot;nowraplinks navbox-subgroup&quot; style=&quot;border-spacing:0&quot;&gt;&lt;tbod ...
+## [5] &lt;table class=&quot;nowraplinks mw-collapsible autocollapse navbox-inner&quot; style ...</code></pre>
+</div>
+<div id="étape-3" class="section level3">
+<h3>Étape 3</h3>
+<p>Nous savons que les tableaux wikipédia sont des “wikitable sortable”, nous pouvons donc prendre le tableau 2, 3, 4 ou 5. Dans notre exemple, nous prenons le 2ème tableau. Nous allons donc prendre le 2ème élément en utilisant <em>.[[2]]</em>. Ici le “.” signifie que nous reprenons l’élément de gauche en tant qu’objet et les “[[]]” signifie que nous prenons un élément d’une liste:</p>
+<pre class="r"><code>page %&gt;% 
+  html_nodes(&quot;table&quot;) %&gt;% 
+  .[[2]]</code></pre>
+<pre><code>## {html_node}
+## &lt;table class=&quot;wikitable sortable static-row-numbers plainrowheaders srn-white-background&quot; border=&quot;1&quot; style=&quot;text-align:right;&quot;&gt;
+## [1] &lt;tbody&gt;\n&lt;tr class=&quot;static-row-header&quot; style=&quot;text-align:center;vertical- ...</code></pre>
+</div>
+<div id="étape-4" class="section level3">
+<h3>Étape 4</h3>
+<p>Maintenant que nous avons retrouvé un tableau, nous pouvons le transformer en un tableau lisible pour R en utilisant la fonction <em>html_table()</em>. Ce tableau est directement utilisable:</p>
+<pre class="r"><code>page %&gt;% 
+  html_nodes(&quot;table&quot;) %&gt;% 
+  .[[2]] %&gt;% 
+  html_table() -&gt; tab1
+
+tab1</code></pre>
+<pre><code>## # A tibble: 13 x 2
+##    Country          `Average monthly wage (PPP)`
+##    &lt;chr&gt;            &lt;chr&gt;                       
+##  1 Luxembourg *     $5,265                      
+##  2 Switzerland *    $5,117                      
+##  3 United States *  $5,046                      
+##  4 Norway *         $4,317                      
+##  5 Denmark *        $4,288                      
+##  6 Austria *        $4,185                      
+##  7 Canada *         $3,992                      
+##  8 Ireland *        $3,944                      
+##  9 France *         $3,682                      
+## 10 United Kingdom * $3,653                      
+## 11 Sweden *         $3,551                      
+## 12 Finland *        $3,549                      
+## 13 Italy *          $3,010</code></pre>
+<p><strong>Note: Le tableau n’est pas encore vraiment utilisable puisqu’il faut encore le nettoyer un peu, mais nous avons un tableau de donnée au bon format.</strong></p>
+<p>Comme nous pouvons le voir, télécharger un tableau se fait très rapidement et demande peu d’effort. Si nous avions tout fait d’un coup, ça nous aurait pris moins de 30 secondes.</p>
+</div>
+</div>
+<div id="web-page" class="section level2">
+<h2>Web page</h2>
+<p>Dans cet exemple, nous allons présenter comment obtenir le contenu d’une page du site web du journal 20 minutes (Suisse francophone).</p>
+<p>Afin de pouvoir sélectionner des éléments dans une page web, on utilise des “sélecteurs css”. L’écriture n’est pas si difficile à apprendre, mais il demande quand même un certains temps avant d’être utlisé efficacement. Vous pouvez trouver un petit tutoriel ici:</p>
+<p><a href="https://www.devenir-webmaster.com/V2/TUTO/CHAPITRE/HTML-CSS/20-les-selecteurs-css/" class="uri">https://www.devenir-webmaster.com/V2/TUTO/CHAPITRE/HTML-CSS/20-les-selecteurs-css/</a></p>
+<p>Pour ce tutoriel, il existe une méthode pour se simplifier la vie sur firefox ou chrome: des aides au scraping. Ces outils permettent de sélectionner les éléments css d’une page web et de nous retourner le sélecteur css.</p>
+<p>Pour Chrome (selector gadget): <a href="https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb" class="uri">https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb</a></p>
+<p>Pour Firefox (ScrapeMate Beta): <a href="https://addons.mozilla.org/en-US/firefox/addon/scrapemate/" class="uri">https://addons.mozilla.org/en-US/firefox/addon/scrapemate/</a></p>
+<p><strong>Note: Dans ce tutoriel, j’utilise firefox et donc ScrapeMate Beta. Mais ça ne change strictement rien au processus. De plus l’utilisation de ces sélecteurs ne garanti pas une précision dans la sélection ni le meilleurs moyen de sélectionner un éléments (il existe plusieurs méthodes). Même si utiliser ces deux addins marche la plupart du temps, il y a des cas où ils ne fonctionnent pas. Donc, si vous compter continuer dans le web scraping, apprend un peu de css est essentiel.</strong></p>
+<div id="étape-1-1" class="section level3">
+<h3>Étape 1:</h3>
+<p>Nous chargeons l’url avec la fonction <em>read_html()</em>:</p>
+<pre class="r"><code>url &lt;- &quot;https://www.20min.ch/fr/story/il-decouvre-que-sa-maison-a-disparu-a-la-television-799776931140#Echobox=1609449835&quot;
+page &lt;- read_html(url)
+page</code></pre>
+<pre><code>## {html_document}
+## &lt;html lang=&quot;fr&quot;&gt;
+## [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8 ...
+## [2] &lt;body&gt;\n&lt;noscript&gt;&lt;iframe src=&quot;https://www.googletagmanager.com/ns.html?i ...</code></pre>
+<p>Nous voyons une partie du code html.</p>
+</div>
+<div id="étape-2-1" class="section level3">
+<h3>Étape 2:</h3>
+<p>Avec l’un des outils présentés plus tôt, il faut choisir les éléments qui nous intéressent. Par exemple, nous prenons le sous-titre de la page:</p>
+<pre class="r"><code>page %&gt;% 
+  html_nodes(&quot;h2&quot;)</code></pre>
+<pre><code>## {xml_nodeset (1)}
+## [1] &lt;h2&gt;Les habitants de Gjerdrum étaient abasourdis, jeudi matin, au lendema ...</code></pre>
+<p>Nous obtenons un élément html. Mais il est possible de sélectionner une liste d’éléments dès le moment où tous ces éléments ont le même sélecteur css.</p>
+<p><strong>Note: dans notre exemple nous avons simplement h2 comme sélecteur css, mais la plus part du temps ils sont plus long. Ce qui fait que celui-ci soit cours vient d’une convention. Effectivement, les titres commencent toujours avec un “h” suivit d’un numéro. “h1” est le plus rand titre “h2” est deuxième plus grand titre, “h3” est le suivant, etc. Même si vous ne souhaitez pas apprendre les sélecteurs css, ceux-ci sont facile à comprendre.</strong></p>
+</div>
+<div id="étape-3-1" class="section level3">
+<h3>Étape 3:</h3>
+<p>Nous utilisons la fonction <em>html_text2()</em> pour transformer les éléments en un texte lisible:</p>
+<p><strong>Note: la fonction <em>html_text()</em> fait le même travail, mais ne retire pas les espaces “en trop” et peut donc donner des formats de texte peu adaptés.</strong></p>
+<pre class="r"><code>page %&gt;% 
+  html_nodes(&quot;h2&quot;) %&gt;% 
+  html_text2()</code></pre>
+<pre><code>## [1] &quot;Les habitants de Gjerdrum étaient abasourdis, jeudi matin, au lendemain de la coulée qui a avalé une partie de cette petite ville au nord-est d’Oslo. Dix personnes manquent toujours à l’appel.&quot;</code></pre>
+<p>Nous avons donc réussi à sélectionner le contenu qui nous intéressait. Mais nous pouvons faire exactement la même chose avec des contenus partageant également le même sélecteur css. Par exemple les paragraphes des textes.</p>
+<div id="autre-exemple-paragraphes-dun-texte" class="section level4">
+<h4>Autre exemple paragraphes d’un texte</h4>
+<p>Voici le code pour sélectionné les paragraphes d’un texte:</p>
+<pre class="r"><code>page %&gt;% 
+  html_nodes(&quot;p&quot;) %&gt;% 
+  html_text2()</code></pre>
+<pre><code>## [1] &quot;Les secours étaient toujours à la recherche d’éventuels survivants, jeudi, au lendemain de l’énorme glissement de terrain qui a englouti de nombreuses maisons à Ask, dans la municipalité de Gjerdrum, une ville de 5000 habitants au nord-est de la capitale Oslo.&quot;                                                                                                                                                                                                                                                                                                                                                                       
+## [2] &quot;Les forces de l’ordre ont passé la journée de mercredi à tenter de prendre contact avec les personnes logeant dans la quinzaine de propriétés touchées par la catastrophe, pour savoir si elles étaient saines et sauves. Une partie d’entre elles étaient en effet partie en vacances en cette période de fêtes. C’était le cas de Finn Nilsen, qui a apporté son témoignage poignant au «Aftenposten». Il se trouvait dans sa maison de campagne dans le district de Valdres, un peu plus au nord, lorsqu’il a reçu un coup de téléphone de la police, vers 4h30 du matin. Au bout du fil, un officier lui a appris la terrible nouvelle.&quot;
+## [3] &quot;«Finalement, je me suis assis devant la télévision avec une tasse de café. Soudain, j&#39;ai vu que ma maison avait disparu. C&#39;était un choc», raconte le septuagénaire au quotidien norvégien. «J’étais content que nous ne soyons pas chez nous», se souvient-il, avant de s’inquiéter du sort réservé à leurs voisins. «J&#39;ai essayé de les appeler et leur ai envoyé un SMS. Mais je n&#39;ai pas encore reçu de réponse. J&#39;espère qu&#39;ils vont bien».&quot;                                                                                                                                                                                           
+## [4] &quot;En fin de journée, jeudi, dix personnes manquaient toujours à l’appel, dont des enfants. «Il est important de préciser que nous recherchons des survivants», a dit lors d’une conférence de presse le responsable de l’opération de sauvetage Roger Pettersen, sans préciser leur identité. Dix personnes ont également été blessées lors du glissement de terrain, dont une grièvement atteinte qui a été transférée dans un hôpital de la capitale.&quot;</code></pre>
+<p>Cette fois-ci, nous obtenons un vecteur de caractère puisque tous les paragraphes ont le même sélecteur.</p>
+<p><strong>Note: Vous voyez ici que pour le paragraphe, il suffit d’écrire “p” qui est aussi une convention</strong></p>
+</div>
+<div id="autre-astuces" class="section level4">
+<h4>Autre astuces</h4>
+<p>Nous pouvons combiner tout ce que nous savons, pour sélectionner tout le contenu d’un article. Il suffit d’ajouter des virgules entre les éléments sélectionnés.</p>
+<pre class="r"><code>page %&gt;% 
+  html_nodes(&quot;h1, h2, p&quot;) %&gt;% 
+  html_text2()</code></pre>
+<pre><code>## [1] &quot;Glissement de terrain en Norvège: Il découvre que sa maison a disparu en regardant la télévision&quot;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+## [2] &quot;Les habitants de Gjerdrum étaient abasourdis, jeudi matin, au lendemain de la coulée qui a avalé une partie de cette petite ville au nord-est d’Oslo. Dix personnes manquent toujours à l’appel.&quot;                                                                                                                                                                                                                                                                                                                                                                                                                                           
+## [3] &quot;Les secours étaient toujours à la recherche d’éventuels survivants, jeudi, au lendemain de l’énorme glissement de terrain qui a englouti de nombreuses maisons à Ask, dans la municipalité de Gjerdrum, une ville de 5000 habitants au nord-est de la capitale Oslo.&quot;                                                                                                                                                                                                                                                                                                                                                                       
+## [4] &quot;Les forces de l’ordre ont passé la journée de mercredi à tenter de prendre contact avec les personnes logeant dans la quinzaine de propriétés touchées par la catastrophe, pour savoir si elles étaient saines et sauves. Une partie d’entre elles étaient en effet partie en vacances en cette période de fêtes. C’était le cas de Finn Nilsen, qui a apporté son témoignage poignant au «Aftenposten». Il se trouvait dans sa maison de campagne dans le district de Valdres, un peu plus au nord, lorsqu’il a reçu un coup de téléphone de la police, vers 4h30 du matin. Au bout du fil, un officier lui a appris la terrible nouvelle.&quot;
+## [5] &quot;«Finalement, je me suis assis devant la télévision avec une tasse de café. Soudain, j&#39;ai vu que ma maison avait disparu. C&#39;était un choc», raconte le septuagénaire au quotidien norvégien. «J’étais content que nous ne soyons pas chez nous», se souvient-il, avant de s’inquiéter du sort réservé à leurs voisins. «J&#39;ai essayé de les appeler et leur ai envoyé un SMS. Mais je n&#39;ai pas encore reçu de réponse. J&#39;espère qu&#39;ils vont bien».&quot;                                                                                                                                                                                           
+## [6] &quot;En fin de journée, jeudi, dix personnes manquaient toujours à l’appel, dont des enfants. «Il est important de préciser que nous recherchons des survivants», a dit lors d’une conférence de presse le responsable de l’opération de sauvetage Roger Pettersen, sans préciser leur identité. Dix personnes ont également été blessées lors du glissement de terrain, dont une grièvement atteinte qui a été transférée dans un hôpital de la capitale.&quot;</code></pre>
+<p>Voilà le travail, ce n’est pas si compliqué.</p>
+</div>
+</div>
+<div id="étape-4-1" class="section level3">
+<h3>Étape 4:</h3>
+<p>L’avantage d’utiliser le web scraping, c’est que lorsque le travail est fait pour une page, il est reproductible sur des pages similaires. Il suffit donc d’autres liens pour obtenir le même résultats sur d’autres pages du journal:</p>
+<pre class="r"><code>page2 &lt;- read_html(&quot;https://www.20min.ch/fr/story/la-nuit-la-plus-froide-de-lannee-au-sud-des-alpes-et-en-engadine-224123400441#Echobox=1609442466&quot;)
+
+page2 %&gt;% 
+  html_nodes(&quot;h1, h2, p&quot;) %&gt;% 
+  html_text2()</code></pre>
+<pre><code>##  [1] &quot;Météo: La nuit la plus froide de l’année au sud des Alpes et en Engadine&quot;                                                                                                                                                                                                                                                                     
+##  [2] &quot;Il a fait un froid de canard durant la nuit du 30 au 31 décembre dans plusieurs régions de Suisse avec notamment une chute du mercure jusqu’à -24 degrés à Samedan, dans les Grisons.&quot;                                                                                                                                                        
+##  [3] &quot;Cela fait huit ans qu’il n’avait plus fait aussi froid dans la plaine de Magadino au Tessin, où le thermomètre affichait un sympathique -11 degrés dans la nuit du 30 au 31 décembre.&quot;                                                                                                                                                        
+##  [4] &quot;La nuit la plus froide de l’année a été enregistrée durant la nuit du 30 au 31 décembre au sud des Alpes et en Engadine. La température a plongé à -24 degrés à Samedan (GR) et à -11 dans la plaine de Magadino (TI).&quot;                                                                                                                       
+##  [5] &quot;Le mercure n’était plus descendu aussi bas depuis huit ans dans la plaine de Magadino, a indiqué jeudi MeteoSuisse sur Twitter. Les -24 degrés mesurés à Samedan constituent eux un record pour 2020 au niveau suisse. La température la plus élevée, 36,5 degrés, avait été mesurée à Bâle.&quot;                                                 
+##  [6] &quot;Les précipitations ont, elles, été très inégalement réparties cette année selon les régions, note MeteoSuisse. Elles ont été les plus faibles en Valais central (545 millimètres) et les plus abondantes dans le Val Maggia, au Tessin (1500 à 2000 millimètres).&quot;                                                                            
+##  [7] &quot;S’agissant des durées d’ensoleillement, les différences entre le nord et le sud ont été moins marquées que d’habitude. Les valeurs les plus hautes – plus de 2300 heures – ont été atteintes dans le Tessin central et méridional et sur le versant sud des Alpes valaisannes, les plus basses dans le Sernftal glaronais (1280 heures).&quot;     
+##  [8] &quot;Les vents les plus violents – 200 km/h – ont soufflé sur le Gütsch, au-dessus d’Andermatt (UR). En plaine, ils ont atteint leur plus grande vitesse à Thoune avec 122 km/h.&quot;                                                                                                                                                                  
+##  [9] &quot;Globalement, l’année 2020 a été presque aussi chaude que 2018, année record, avait déjà indiqué MeteoSuise le 21 décembre. Un hiver d’une douceur record a été suivi du troisième printemps le plus chaud et d’un été qui a connu deux vagues de canicule modérées. Le début de l’année a en outre été marqué par une sécheresse persistante.&quot;
+## [10] &quot;Dix mois ont été plus chauds que la norme des années 1981 à 2010. Dans la plupart des régions, les températures ont été de 1,4 à 1,6 degré au-dessus de cette norme.&quot;</code></pre>
+<p>Utilisé avec des boucles (ou itération avec du mapping), il est possible de traiter automatiquement un grand nombre de page sans trop de problèmes.</p>
+<p>**Note: Dans ce cas très précis où nous avons utilisé des sélecteurs conventionnel (h1, h2 et p) qui sont universelle, cette fonction pourrait en principe s’appliquer sur n’importe quelle page web, même s’il y a des limites, mais nous en parlerons en conclusion.</p>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>Cette méthodes n’est pas très difficile à appliquée et elle est très rapide pour récolté des données sur des pages web statiques. Mais ce n’est pas une solution miracle, car il existe de nombreux obstacles, en voici quelques-uns:</p>
+<ul>
+<li>Javascript cachant une partie des données</li>
+<li>Sites web bloquant les bots (parce que ce que nous faisons c’est littéralement un robot qui vient collecter des données)</li>
+<li>Site web bloquant l’accès au code source html</li>
+<li>Site web nécessitant une connexion (il est possible de passer à travers avec rvest, mais souvent ce genre de site est élaboré pour bloquer les bots avec des tests)</li>
+</ul>
+<p>Dans tous les cas, si votre but est la collecte de textes brut ou de données librement accessible en ligne (sans restrictions ouverte ou implicite), la méthode que nous avons présenté devrait fonctionner la plupart du temps.</p>
+<p>Noté aussi qu’il subsite un flou juridique en ce qui concerne la légalité du web scraping. De manière générale, si l’utilisation se fait à titre personnel sans but commerciale, ça devrait être bon la plupart du temps aussi.</p>
+<p>Autre chose également, ce tuto est une introduction et ne traite pas des thèmes avancé. Mais j’en ferai surement un autre soit sur la chaîne youtube WeData, soit ici pour montrer d’autres utilisations, notamment la collecte de masse. En ce qui concerne la collecte de masse, je vous recommande en avance d’utiliser dans vos itérations la fonction <em>Sys.time(3)</em> qui va arrêter votre code pendant 3 secondes. Sinon R vas faire plusieurs requêtes en moins d’une seconde et c’est mauvais pour le serveur qui héberge le site. Stoper le code dans les boucles est nécessaire pour éviter deux cas malheureux:</p>
+<ol style="list-style-type: decimal">
+<li>Vous faire banir du site par votre adresse IP. Donc vous n’aurez plus accès au site pendant un moment (ou définitivement) et vous ne pourrez donc plus collecter des données.</li>
+<li>(plus dramatique) vous pouvez faire crasher le site, ce qui d’une part pose problème aux propriétaires du site et à tous les utilisateurs. Il est même possible qu’il y ait des processus légaux.</li>
+</ol>
+<p>Dans tous les cas, le web scraping est un super outil qui permet d’obtenir des données en ligne et il serait dommage de s’en priver.</p>
+</div>

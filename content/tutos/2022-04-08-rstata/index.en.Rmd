@@ -1,0 +1,221 @@
+---
+title: "[RStata][Statamarkdown] Utiliser Stata dans R"
+author: Vestin Cyuzuzo Hategekimana
+date: '2022-04-08'
+slug: rstata
+categories:
+  - R
+  - Stata
+tags:
+  - r
+  - statistiques
+  - regression
+subtitle: 'Terminé'
+summary: 'Le but de ce tutoriel est de montrer comment utiliser Stata dans un script R/Rmarkdown. Nous présenterons deux packages.'
+authors: []
+lastmod: '2022-04-08T15:01:18+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+stataexe = "C:/Users/Vestin/Desktop/CODE/Stata16/StataSE-64.exe"
+knitr::opts_chunk$set(echo = TRUE, engine.path=stataexe, warning=FALSE, message = FALSE)
+```
+
+## Utiliser Stata dans R
+
+Ici nous allons présenter les librairies RStata et Statamarkdown qui permettent d'utiliser Stata dans R.
+
+**Note 1: Toutes les librairies stata dans R exigent d'avoir Stata installé sur le PC**
+
+**Note 2: Dans ce tutoriel, nous indiquons _library()_ pour charger les librairies (ou en anglais packages ou library). Mais il est nécessaire de les avoir téléchargées au préalable avec la fonction _install.packages()_. Pour la librairie Statamarkdown, il est nécessaire d'utiliser une méthode d'importation particulière  qui sera présente au moment venu**
+
+## Ressources
+
+Rstata
+https://www.rdocumentation.org/packages/RStata/versions/1.1.1
+
+Statamarkdown
+https://github.com/Hemken/Statamarkdown
+
+Rprofile
+https://www.roelpeters.be/what-is-the-rprofile-file/
+
+## RStata
+
+### Introduction
+
+Rstata est une librairie qui permet d'utiliser le logiciel stata dans R en utilisant la fonction _stata()_.
+
+### Librairie
+
+```{r}
+library(RStata)
+```
+
+### Choisir (l'exécutable) Stata
+
+Il existe deux moyens de le faire. Le premier ne marche que sur le moment et le suivant est durable.
+
+#### chooseStataBin()
+
+La fonction _chooseStataBin()_ permet de sélectionner manuellement l'emplacement du fichier Stata.exe pour l'intégrer à R. Les fonctions de stata pourront ensuite être lancée depuis R. Par contre, il faudra réutiliser la fonction et choisir manuellement le fichier à chaque nouvelle session, ce qui peut être embêtant. De plus, il faudra à chaque fois indiquer dans la fonction _stata()_ quelle version de Stata on utilise, ce qui peut aussi être embêtant à la longue.
+
+```{r eval=FALSE}
+chooseStataBin()
+```
+
+#### .Rprofile
+
+Une méthode plus durable est de mettre dans les options globale du .Rprofile l'emplacement du fichier Stata.exe à utiliser. Ainsi, il ne sera plus nécessaire d'utiliser la fonction _chooseStataBin()_ à chaque nouvelle session. On peut aussi en profiter pour ajouter la version de Stata dans les options pour éviter d'avoir à le spécifier à chaque fois que nous utilisons la fonction _Stata()_.
+
+Le .Rprofile est un fichier Stata qui se lance au début de chaque session de R. Il permet de rentrer du code R et peut être assez pratique pour mettre en place des routines. Par exemple, charger automatiquement des packages ou des données à chaque nouvelle session de R. Le but ici sera de préciser à R de fixer dans les options globale le chemin du fichier Stata.exe et sa version.
+
+```{r eval=FALSE}
+# Ouvrir le .Rprofile méthode 1
+file.edit(".Rprofile")
+
+# Ouvrir le .Rprofile méthode 2
+usethis::edit_r_profile()
+```
+
+Dans le .Rprofile, il faut coller le chemin pour le fichier Stata.exe et la version dans la nouvelle fenêtre ".Rprofile" de cette manière [avec mon chemin par exemple]:
+
+**Note: J'utilise Stata16 dans cet exemple**
+
+```{r eval=FALSE}
+stataexe = "C:/Users/hateg/Desktop/CODE/Stata16/StataSE-64.exe"
+options(RStata.StataPath = stataexe)
+options(RStata.StataVersion = 16)
+```
+
+Il faut enregistrer le fichier et nous pouvons fermer le R profile. Une fois que c'est fait il sera peut-être nécessaire de redémarrer R la première fois seulement, mais le reste du temps on n'aura plus à se soucier de la fonction _chooseStataBin()_, ni de la précision de la version en utilisant la fonction _stata()_.
+
+### Lancer des codes Stata depuis R
+
+#### Lancer une ligne de code
+
+Pour lancer les codes dans Stata, il suffit simplement d'utiliser la fonction _stata()_ avec le code dedans. Par exemple:
+
+**Si la version n'est pas fixée**
+
+```{r}
+stata(stata.version=16,"di 2+2")
+```
+
+**Si la version est fixée**
+
+```{r}
+stata("di 2+2")
+```
+
+Comme nous pouvons le voir, fixer la version une fois est plus rapide. Pour les prochains exemples nous partons du principe que la version est fixée. Si ce n'est pas votre cas, il suffit simplement d'ajouter "stata.version=[votre version de stata en chiffre]" dans la fonction.
+
+#### Lancer plusieurs lignes de code
+
+Pour lancer plusieurs lignes de code, il suffit de lancer de retourner à la ligne:
+
+**Note: Nous utilisons "sysuse auto" pour appeler un tableau de données "auto" qui se trouve de base dans Stata.**
+
+```{r}
+stata("
+      sysuse auto
+      sum
+      ")
+```
+
+#### Envoyer un tableau de données de R
+
+Pour utiliser un tableau de données de R, il suffit d'ajouter le nom du tableau dans le paramètre "data.in=" de la fonction Stata:
+
+**Note: le tableau de données cars est de base dans R et peut être utilisé à n'importe quel moment sans avoir besoin de l'invoquer avant. Les deux seules variables du tableau de données cars sont "dist" et "speed".**
+
+```{r}
+stata(data.in=cars,
+      "
+      sum
+      reg dist speed
+      ")
+```
+
+#### Importer un tableau de donnée de Stata
+
+Nous pouvons importer un tableau de données de Stata:
+
+```{r}
+auto <- stata("sysuse auto",data.out=TRUE)
+head(auto)
+```
+
+Ou envoyer un tableau et le récupérer modifié:
+
+```{r}
+stata(data.in=cars,
+      "gen speed2 = speed + rnorm(0,3)",
+      data.out=TRUE) -> cars2
+
+head(cars2)
+```
+
+## Statamarkdown
+
+Comme son nom l'indique, cette librairie permet d'utiliser stata directement dans un markdown, c'est-à-dire de pouvoir écrire le code dans un chunk.
+
+**Note: Au point ou j'en suis, je ne sais pas comment échanger les données de R et Stata avec cette librairie. Pour pouvoir faire ça, je recommande la librairie précédente, c'est-à-dire RStata.**
+
+### Installation de Statamarkdown
+
+Ici, l'installation est particulière. Il faut avoir installé la librairie devtools:
+
+```{r eval=FALSE}
+install.packages("devtools")
+```
+
+Puis charger detools:
+
+```{r eval=FALSE}
+library(devetools)
+```
+
+Puis lancer l'installation se trouvant sur un git:
+
+```{r eval=FALSE}
+install_github("hemken/Statamarkdown")
+```
+
+Finalement, nous pouvons ouvrir la librairie Statamarkdown:
+
+```{r echo=FALSE}
+library(Statamarkdown)
+```
+
+**Note: Il n'est pas nécessaire de faire ça à chaque fois, les prochaines fois, il suffira juste de lancer la commande _library(Statamarkdown)_.**
+
+### Markdown
+
+Maintenant, il suffit d'ouvrir un fichier Rmarkdown puis d'ajouter la ligne de code suivante au premier chunk [dans stataexe j'indique l'emplacement du logiciel stata.exe]:
+
+```{r eval=FALSE}
+stataexe = ""
+knitr::opts_chunk$set(engine.path = stataexe, cleanlog = FALSE)
+```
+
+Le plus simple est d'ajouter ces lignes de code dans le .Rprofile pour que ces éléments restent longtemps (plus d'information dans la partie .Rprofile)
+
+```{r include=FALSE}
+knitr::opts_chunk$set(engine.path = stataexe, cleanlog = FALSE)
+```
+
+Maintenant il est possible de lancer stata simplement dans un chunk (même si je ne sais pas pour l'instant comment transférer les données entre R et Stata directement dans le chunk):
+
+**Note: Il faut préciser quel langage on utilise dans l'intitulé du chunck à chaque fois qu'on souhaite utiliser Stata, donc ```{stata}.**
+
+```{stata}
+sysuse auto
+sum
+```

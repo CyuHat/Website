@@ -1,0 +1,616 @@
+---
+title: '[rtweet] Collecter des données sur Twitter'
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-06-18'
+slug: package-rtweet-pour-twitter
+categories:
+  - R
+tags:
+  - r
+  - web_scraping
+subtitle: 'En cours...'
+summary: 'Dans ce tutoriel, nous utilisons le package rtweet pour collecter des données sur Twitter'
+authors: []
+lastmod: '2022-04-08T15:19:56+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="référence" class="section level2">
+<h2>Référence</h2>
+<p>CRAN: <a href="https://mran.microsoft.com/snapshot/2017-02-04/web/packages/rtweet/index.html" class="uri">https://mran.microsoft.com/snapshot/2017-02-04/web/packages/rtweet/index.html</a></p>
+<p>Git: <a href="https://github.com/ropensci/rtweet" class="uri">https://github.com/ropensci/rtweet</a></p>
+<p>Tuto 1: <a href="https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html" class="uri">https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html</a></p>
+<p>Tuto 2: <a href="https://rtweet-workshop.mikewk.com/#1" class="uri">https://rtweet-workshop.mikewk.com/#1</a></p>
+<p>Tuto 3: <a href="https://mkearney.github.io/nicar_tworkshop/#1" class="uri">https://mkearney.github.io/nicar_tworkshop/#1</a></p>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Le but de ce document est de présenter comment collecter des informations sur Twitter. Pour pouvoir faire cela, il est nécessaire d’avoir un compte et d’avoir activé un compte développeur pour utiliser l’API [Plus d’info dans le tuto 3 et le tuto 2.</p>
+</div>
+<div id="librairie" class="section level2">
+<h2>Librairie</h2>
+<p>Nous allons utiliser la librairie Rtweet.</p>
+<pre class="r"><code>library(rtweet)</code></pre>
+<pre class="r"><code>ls(&quot;package:rtweet&quot;)</code></pre>
+<pre><code>##  [1] &quot;%&gt;%&quot;                      &quot;as_screenname&quot;           
+##  [3] &quot;as_userid&quot;                &quot;bearer_token&quot;            
+##  [5] &quot;create_token&quot;             &quot;direct_messages&quot;         
+##  [7] &quot;direct_messages_received&quot; &quot;direct_messages_sent&quot;    
+##  [9] &quot;do_call_rbind&quot;            &quot;emojis&quot;                  
+## [11] &quot;flatten&quot;                  &quot;get_collections&quot;         
+## [13] &quot;get_favorites&quot;            &quot;get_followers&quot;           
+## [15] &quot;get_friends&quot;              &quot;get_mentions&quot;            
+## [17] &quot;get_my_timeline&quot;          &quot;get_retweeters&quot;          
+## [19] &quot;get_retweets&quot;             &quot;get_timeline&quot;            
+## [21] &quot;get_timelines&quot;            &quot;get_token&quot;               
+## [23] &quot;get_tokens&quot;               &quot;get_trends&quot;              
+## [25] &quot;invalidate_bearer&quot;        &quot;langs&quot;                   
+## [27] &quot;lat_lng&quot;                  &quot;lists_members&quot;           
+## [29] &quot;lists_memberships&quot;        &quot;lists_statuses&quot;          
+## [31] &quot;lists_subscribers&quot;        &quot;lists_subscriptions&quot;     
+## [33] &quot;lists_users&quot;              &quot;lookup_collections&quot;      
+## [35] &quot;lookup_coords&quot;            &quot;lookup_friendships&quot;      
+## [37] &quot;lookup_statuses&quot;          &quot;lookup_tweets&quot;           
+## [39] &quot;lookup_users&quot;             &quot;max_id&quot;                  
+## [41] &quot;my_friendships&quot;           &quot;network_data&quot;            
+## [43] &quot;network_graph&quot;            &quot;next_cursor&quot;             
+## [45] &quot;parse_stream&quot;             &quot;plain_tweets&quot;            
+## [47] &quot;post_favorite&quot;            &quot;post_follow&quot;             
+## [49] &quot;post_friendship&quot;          &quot;post_list&quot;               
+## [51] &quot;post_message&quot;             &quot;post_mute&quot;               
+## [53] &quot;post_tweet&quot;               &quot;post_unfollow_user&quot;      
+## [55] &quot;previous_cursor&quot;          &quot;rate_limit&quot;              
+## [57] &quot;rate_limits&quot;              &quot;read_twitter_csv&quot;        
+## [59] &quot;round_time&quot;               &quot;save_as_csv&quot;             
+## [61] &quot;search_30day&quot;             &quot;search_fullarchive&quot;      
+## [63] &quot;search_tweets&quot;            &quot;search_tweets2&quot;          
+## [65] &quot;search_users&quot;             &quot;since_id&quot;                
+## [67] &quot;stopwordslangs&quot;           &quot;stream_tweets&quot;           
+## [69] &quot;stream_tweets2&quot;           &quot;suggested_slugs&quot;         
+## [71] &quot;suggested_users&quot;          &quot;suggested_users_all&quot;     
+## [73] &quot;trends_available&quot;         &quot;ts_data&quot;                 
+## [75] &quot;ts_plot&quot;                  &quot;tweet_shot&quot;              
+## [77] &quot;tweets_data&quot;              &quot;tweets_with_users&quot;       
+## [79] &quot;unflatten&quot;                &quot;users_data&quot;              
+## [81] &quot;users_with_tweets&quot;        &quot;write_as_csv&quot;</code></pre>
+<p>La librairie possède 82 fonctions pris de plusieurs autres librairies pour une partie, mais nous utiliserons principalement les 13 fonctions suivantes:</p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="82%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction</th>
+<th>Utilité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>%&gt;%</td>
+<td>Passer le résultat de gauche dans la fonction de droite.</td>
+</tr>
+<tr class="even">
+<td>twitter_token()</td>
+<td>Permet de générer un “token” qui permet de collecter des données et contrôler le compte.</td>
+</tr>
+<tr class="odd">
+<td>get_trends()</td>
+<td>Voire les tendances</td>
+</tr>
+<tr class="even">
+<td>search_tweets()</td>
+<td>Chercher des tweets</td>
+</tr>
+<tr class="odd">
+<td>get_timeline()</td>
+<td>Voir les derniers tweets d’un compte</td>
+</tr>
+<tr class="even">
+<td>get_favorites()</td>
+<td>Voir les derniers tweets aimés par un compte</td>
+</tr>
+<tr class="odd">
+<td>get_friends()</td>
+<td>Voir les compte suivit pas un compte</td>
+</tr>
+<tr class="even">
+<td>get_followers()</td>
+<td>Voir les comptes qui suivent un compte</td>
+</tr>
+<tr class="odd">
+<td>get_retweeters()</td>
+<td>Voir les compte qui ont retweeté un tweet</td>
+</tr>
+<tr class="even">
+<td>ts_plot()</td>
+<td>Afficher une ligne temporelle d’un nombre d’éléments.</td>
+</tr>
+<tr class="odd">
+<td>network_graph()</td>
+<td>Créer un graphe de réseau</td>
+</tr>
+<tr class="even">
+<td>network_data()</td>
+<td>Créer un tableau de données au format igraph</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="obtenir-un-token" class="section level2">
+<h2>Obtenir un token</h2>
+<p>Nous devons créer un token pour notre session afin de pouvoir faire des requêtes. Toutes les informations sont trouvables dans votre application en ligne.</p>
+<pre class="r"><code>appname &lt;- &quot;XXXXX&quot;
+api_key &lt;- &quot;XXXXX&quot;
+api_secret &lt;- &quot;XXXXX&quot;
+token_key &lt;- &quot;XXXXX&quot;
+token_secret &lt;- &quot;XXXXX&quot;</code></pre>
+<p><strong>Note: Ici les valeurs sont censurées</strong></p>
+<p>Puis nous pouvons lancer la fonction suivante:</p>
+<pre class="r"><code>twitter_token &lt;- create_token(
+  app = appname,
+  consumer_key = api_key,
+  consumer_secret = api_secret,
+  access_token = token_key,
+  access_secret = token_secret)</code></pre>
+</div>
+<div id="fonction" class="section level2">
+<h2>Fonction</h2>
+<div id="get_trends" class="section level3">
+<h3>get_trends()</h3>
+<p>Permet de voir la tendance dans une localisation géographique particulière (latitude et longitude), dans notre exemple à Genève:</p>
+<pre class="r"><code>twitter_0 &lt;- get_trends(lat = &quot;46.204391&quot;, lng = &quot;6.143158&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(twitter_0)</code></pre>
+<pre><code>## Rows: 48
+## Columns: 9
+## $ trend            &lt;chr&gt; &quot;#SUITUR&quot;, &quot;Shaqiri&quot;, &quot;Zuber&quot;, &quot;#EURO2020&quot;, &quot;#ITAWAL&quot;~
+## $ url              &lt;chr&gt; &quot;http://twitter.com/search?q=%23SUITUR&quot;, &quot;http://twit~
+## $ promoted_content &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ query            &lt;chr&gt; &quot;%23SUITUR&quot;, &quot;Shaqiri&quot;, &quot;Zuber&quot;, &quot;%23EURO2020&quot;, &quot;%23I~
+## $ tweet_volume     &lt;int&gt; 16580, 24122, NA, 322595, 48969, NA, NA, 22196, 20695~
+## $ place            &lt;chr&gt; &quot;Geneva&quot;, &quot;Geneva&quot;, &quot;Geneva&quot;, &quot;Geneva&quot;, &quot;Geneva&quot;, &quot;Ge~
+## $ woeid            &lt;int&gt; 782538, 782538, 782538, 782538, 782538, 782538, 78253~
+## $ as_of            &lt;dttm&gt; 2021-06-20 18:45:00, 2021-06-20 18:45:00, 2021-06-20~
+## $ created_at       &lt;dttm&gt; 2021-05-22 15:28:55, 2021-05-22 15:28:55, 2021-05-22~</code></pre>
+</div>
+<div id="search_tweets" class="section level3">
+<h3>search_tweets()</h3>
+<p>Permet de rechercher des tweets selon plusieurs modalités (nombre, position géographique, retweets, etc.), dans cet exemple nous recherchons le terme “statistic” en incluant les retweets.</p>
+<pre class="r"><code>twitter_1 &lt;- search_tweets(&quot;statistic&quot;, n = 1000,
+                           include_rts = TRUE)</code></pre>
+<pre class="r"><code>dplyr::glimpse(twitter_1)</code></pre>
+<pre><code>## Rows: 1,000
+## Columns: 90
+## $ user_id                 &lt;chr&gt; &quot;42390674&quot;, &quot;1230523115140272134&quot;, &quot;1335006418~
+## $ status_id               &lt;chr&gt; &quot;1406680311438757898&quot;, &quot;1406680264743567360&quot;, ~
+## $ created_at              &lt;dttm&gt; 2021-06-20 18:28:15, 2021-06-20 18:28:04, 202~
+## $ screen_name             &lt;chr&gt; &quot;jridz&quot;, &quot;ProficientW3&quot;, &quot;CovidXmas2021&quot;, &quot;Phr~
+## $ text                    &lt;chr&gt; &quot;If you fell in love with a monster, always re~
+## $ source                  &lt;chr&gt; &quot;Twitter for iPhone&quot;, &quot;Twitter for Android&quot;, &quot;~
+## $ display_text_width      &lt;dbl&gt; 140, 234, 140, 100, 140, 219, 233, 140, 100, 1~
+## $ reply_to_status_id      &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;1406622410871169026&quot;,~
+## $ reply_to_user_id        &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;86626845&quot;, NA, NA, NA~
+## $ reply_to_screen_name    &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;EricTopol&quot;, NA, NA, N~
+## $ is_quote                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE~
+## $ is_retweet              &lt;lgl&gt; TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, T~
+## $ favorite_count          &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0~
+## $ retweet_count           &lt;int&gt; 4, 0, 15, 89, 135, 0, 0, 1, 89, 89, 127, 0, 16~
+## $ quote_count             &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ reply_count             &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ hashtags                &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ symbols                 &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ urls_url                &lt;list&gt; NA, NA, NA, NA, NA, &quot;twitter.com/MensHealthUK~
+## $ urls_t.co               &lt;list&gt; NA, NA, NA, NA, NA, &quot;https://t.co/CD5CaaNVds&quot;~
+## $ urls_expanded_url       &lt;list&gt; NA, NA, NA, NA, NA, &quot;https://twitter.com/Mens~
+## $ media_url               &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ media_t.co              &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ media_expanded_url      &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ media_type              &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ ext_media_url           &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ ext_media_t.co          &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ ext_media_expanded_url  &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ ext_media_type          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ mentions_user_id        &lt;list&gt; &quot;28109485&quot;, NA, &quot;1145702015374438401&quot;, &quot;85074~
+## $ mentions_screen_name    &lt;list&gt; &quot;ShiryuGL&quot;, NA, &quot;VDAREJamesK&quot;, &quot;ltarsenal&quot;, &quot;~
+## $ lang                    &lt;chr&gt; &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;~
+## $ quoted_status_id        &lt;chr&gt; NA, NA, NA, NA, NA, &quot;1405817119581876225&quot;, NA,~
+## $ quoted_text             &lt;chr&gt; NA, NA, NA, NA, NA, &quot;That 25 per cent of pregn~
+## $ quoted_created_at       &lt;dttm&gt; NA, NA, NA, NA, NA, 2021-06-18 09:18:14, NA, ~
+## $ quoted_source           &lt;chr&gt; NA, NA, NA, NA, NA, &quot;Twitter Web App&quot;, NA, NA,~
+## $ quoted_favorite_count   &lt;int&gt; NA, NA, NA, NA, NA, 377, NA, NA, NA, NA, NA, N~
+## $ quoted_retweet_count    &lt;int&gt; NA, NA, NA, NA, NA, 127, NA, NA, NA, NA, NA, N~
+## $ quoted_user_id          &lt;chr&gt; NA, NA, NA, NA, NA, &quot;21093744&quot;, NA, NA, NA, NA~
+## $ quoted_screen_name      &lt;chr&gt; NA, NA, NA, NA, NA, &quot;MensHealthUK&quot;, NA, NA, NA~
+## $ quoted_name             &lt;chr&gt; NA, NA, NA, NA, NA, &quot;Men&#39;s Health UK&quot;, NA, NA,~
+## $ quoted_followers_count  &lt;int&gt; NA, NA, NA, NA, NA, 307904, NA, NA, NA, NA, NA~
+## $ quoted_friends_count    &lt;int&gt; NA, NA, NA, NA, NA, 740, NA, NA, NA, NA, NA, N~
+## $ quoted_statuses_count   &lt;int&gt; NA, NA, NA, NA, NA, 103514, NA, NA, NA, NA, NA~
+## $ quoted_location         &lt;chr&gt; NA, NA, NA, NA, NA, &quot;London, UK&quot;, NA, NA, NA, ~
+## $ quoted_description      &lt;chr&gt; NA, NA, NA, NA, NA, &quot;The only magazine that im~
+## $ quoted_verified         &lt;lgl&gt; NA, NA, NA, NA, NA, TRUE, NA, NA, NA, NA, NA, ~
+## $ retweet_status_id       &lt;chr&gt; &quot;1403712057514541058&quot;, NA, &quot;140664500013025280~
+## $ retweet_text            &lt;chr&gt; &quot;If you fell in love with a monster, always re~
+## $ retweet_created_at      &lt;dttm&gt; 2021-06-12 13:53:28, NA, 2021-06-20 16:07:56,~
+## $ retweet_source          &lt;chr&gt; &quot;Twitter Web App&quot;, NA, &quot;Twitter Web App&quot;, &quot;Twi~
+## $ retweet_favorite_count  &lt;int&gt; 16, NA, 144, 1697, 455, NA, NA, 1, 1697, 1697,~
+## $ retweet_retweet_count   &lt;int&gt; 4, NA, 15, 89, 135, NA, NA, 1, 89, 89, 127, NA~
+## $ retweet_user_id         &lt;chr&gt; &quot;28109485&quot;, NA, &quot;1145702015374438401&quot;, &quot;850747~
+## $ retweet_screen_name     &lt;chr&gt; &quot;ShiryuGL&quot;, NA, &quot;VDAREJamesK&quot;, &quot;ltarsenal&quot;, &quot;a~
+## $ retweet_name            &lt;chr&gt; &quot;Shiryu&quot;, NA, &quot;James Kirkpatrick&quot;, &quot;LTArsenal™~
+## $ retweet_followers_count &lt;int&gt; 1165, NA, 8528, 186182, 164208, NA, NA, 436, 1~
+## $ retweet_friends_count   &lt;int&gt; 2280, NA, 1428, 1489, 7776, NA, NA, 377, 1489,~
+## $ retweet_statuses_count  &lt;int&gt; 74921, NA, 19116, 41872, 296359, NA, NA, 14341~
+## $ retweet_location        &lt;chr&gt; &quot;Lisbon, Portugal, Europe&quot;, NA, &quot;Occupied Virg~
+## $ retweet_description     &lt;chr&gt; &quot;\&quot;No Surrender, No Retreat.\&quot;\n\nMusic Produc~
+## $ retweet_verified        &lt;lgl&gt; FALSE, NA, FALSE, FALSE, TRUE, NA, NA, FALSE, ~
+## $ place_url               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ place_name              &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ place_full_name         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ place_type              &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ country                 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ country_code            &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ geo_coords              &lt;list&gt; &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, ~
+## $ coords_coords           &lt;list&gt; &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, ~
+## $ bbox_coords             &lt;list&gt; &lt;NA, NA, NA, NA, NA, NA, NA, NA&gt;, &lt;NA, NA, NA~
+## $ status_url              &lt;chr&gt; &quot;https://twitter.com/jridz/status/140668031143~
+## $ name                    &lt;chr&gt; &quot;Jarid 6&lt;U+00013153&gt;&quot;, &quot;Proficient Writers&quot;, &quot;Covid Chris~
+## $ location                &lt;chr&gt; &quot;&quot;, &quot;Los Angeles, CA&quot;, &quot;&quot;, &quot;Accra, Ghana&quot;, &quot;La~
+## $ description             &lt;chr&gt; &quot;&quot;, &quot;Highly qualified,reliable &amp; proficient  w~
+## $ url                     &lt;chr&gt; NA, NA, NA, NA, &quot;https://t.co/KGxVmnpGOO&quot;, &quot;ht~
+## $ protected               &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ followers_count         &lt;int&gt; 482, 492, 14, 1694, 7646, 1817, 744, 436, 153,~
+## $ friends_count           &lt;int&gt; 480, 872, 22, 2329, 94, 1406, 1013, 377, 675, ~
+## $ listed_count            &lt;int&gt; 1, 0, 0, 3, 32, 32, 36, 1, 0, 0, 1, 1, 3, 37, ~
+## $ statuses_count          &lt;int&gt; 34785, 23374, 3100, 3665, 2825, 3906, 17831, 1~
+## $ favourites_count        &lt;int&gt; 4996, 468, 14028, 4505, 171, 6912, 313401, 591~
+## $ account_created_at      &lt;dttm&gt; 2009-05-25 11:36:14, 2020-02-20 16:03:10, 202~
+## $ verified                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ profile_url             &lt;chr&gt; NA, NA, NA, NA, &quot;https://t.co/KGxVmnpGOO&quot;, &quot;ht~
+## $ profile_expanded_url    &lt;chr&gt; NA, NA, NA, NA, &quot;http://www.wildfusions.com&quot;, ~
+## $ account_lang            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ profile_banner_url      &lt;chr&gt; &quot;https://pbs.twimg.com/profile_banners/4239067~
+## $ profile_background_url  &lt;chr&gt; &quot;http://abs.twimg.com/images/themes/theme14/bg~
+## $ profile_image_url       &lt;chr&gt; &quot;http://pbs.twimg.com/profile_images/140601532~</code></pre>
+</div>
+<div id="get_timeline" class="section level3">
+<h3>get_timeline()</h3>
+<p>Cette fonction permet de collecter les dernier tweets d’un ou plusieurs compte, dans cet exemple nous collectons les 100 derniers tweets du compte <span class="citation">@rstudiotips</span>:</p>
+<pre class="r"><code>twitter_2 &lt;- get_timeline(&quot;rstudiotips&quot;, n = 100)</code></pre>
+<pre class="r"><code>dplyr::glimpse(twitter_2)</code></pre>
+<pre><code>## Rows: 100
+## Columns: 90
+## $ user_id                 &lt;chr&gt; &quot;2613859267&quot;, &quot;2613859267&quot;, &quot;2613859267&quot;, &quot;261~
+## $ status_id               &lt;chr&gt; &quot;1405562538029293572&quot;, &quot;1402660786162388997&quot;, ~
+## $ created_at              &lt;dttm&gt; 2021-06-17 16:26:37, 2021-06-09 16:16:06, 202~
+## $ screen_name             &lt;chr&gt; &quot;rstudiotips&quot;, &quot;rstudiotips&quot;, &quot;rstudiotips&quot;, &quot;~
+## $ text                    &lt;chr&gt; &quot;OMG updating @rstudio and now have a memory t~
+## $ source                  &lt;chr&gt; &quot;Twitter Web App&quot;, &quot;Twitter Web App&quot;, &quot;Twitter~
+## $ display_text_width      &lt;dbl&gt; 133, 209, 140, 2, 140, 140, 58, 3, 224, 140, 1~
+## $ reply_to_status_id      &lt;chr&gt; NA, NA, NA, &quot;1400815785300344833&quot;, NA, NA, &quot;13~
+## $ reply_to_user_id        &lt;chr&gt; NA, NA, NA, &quot;56458354&quot;, NA, NA, &quot;392770190&quot;, &quot;~
+## $ reply_to_screen_name    &lt;chr&gt; NA, NA, NA, &quot;d_olivaw&quot;, NA, NA, &quot;drserdarbalci~
+## $ is_quote                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ is_retweet              &lt;lgl&gt; TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, FALSE, F~
+## $ favorite_count          &lt;int&gt; 0, 137, 0, 68, 0, 0, 2, 24, 171, 0, 0, 0, 0, 8~
+## $ retweet_count           &lt;int&gt; 49, 42, 3, 3, 16, 62, 2, 0, 70, 34, 170, 231, ~
+## $ quote_count             &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ reply_count             &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ hashtags                &lt;list&gt; NA, &quot;rstats&quot;, NA, NA, NA, NA, NA, NA, &quot;rstats~
+## $ symbols                 &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ urls_url                &lt;list&gt; NA, &quot;blog.rstudio.com/2021/06/09/rst…&quot;, NA, N~
+## $ urls_t.co               &lt;list&gt; NA, &quot;https://t.co/9hsOvMwsoZ&quot;, NA, NA, NA, NA~
+## $ urls_expanded_url       &lt;list&gt; NA, &quot;https://blog.rstudio.com/2021/06/09/rstu~
+## $ media_url               &lt;list&gt; &quot;http://pbs.twimg.com/media/E3svvVOVUAEKNIg.p~
+## $ media_t.co              &lt;list&gt; &quot;https://t.co/ehmmS7i61D&quot;, NA, NA, NA, NA, NA~
+## $ media_expanded_url      &lt;list&gt; &quot;https://twitter.com/skyetetra/status/1403768~
+## $ media_type              &lt;list&gt; &quot;photo&quot;, NA, NA, NA, NA, NA, NA, NA, NA, NA, ~
+## $ ext_media_url           &lt;list&gt; &quot;http://pbs.twimg.com/media/E3svvVOVUAEKNIg.p~
+## $ ext_media_t.co          &lt;list&gt; &quot;https://t.co/ehmmS7i61D&quot;, NA, NA, NA, NA, NA~
+## $ ext_media_expanded_url  &lt;list&gt; &quot;https://twitter.com/skyetetra/status/1403768~
+## $ ext_media_type          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ mentions_user_id        &lt;list&gt; &lt;&quot;14225080&quot;, &quot;235261861&quot;&gt;, &quot;235261861&quot;, &lt;&quot;100~
+## $ mentions_screen_name    &lt;list&gt; &lt;&quot;skyetetra&quot;, &quot;rstudio&quot;&gt;, &quot;rstudio&quot;, &lt;&quot;mdvige~
+## $ lang                    &lt;chr&gt; &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;und&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;un~
+## $ quoted_status_id        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_text             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_created_at       &lt;dttm&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ quoted_source           &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_favorite_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_retweet_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_user_id          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_screen_name      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_name             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_followers_count  &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_friends_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_statuses_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_location         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_description      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_verified         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ retweet_status_id       &lt;chr&gt; &quot;1403768328087236608&quot;, NA, &quot;140216725248564428~
+## $ retweet_text            &lt;chr&gt; &quot;OMG updating @rstudio and now have a memory t~
+## $ retweet_created_at      &lt;dttm&gt; 2021-06-12 17:37:04, NA, 2021-06-08 07:34:58,~
+## $ retweet_source          &lt;chr&gt; &quot;Twitter Web App&quot;, NA, &quot;Twitter Web App&quot;, NA, ~
+## $ retweet_favorite_count  &lt;int&gt; 866, NA, 17, NA, 169, 378, NA, NA, NA, 226, 10~
+## $ retweet_retweet_count   &lt;int&gt; 49, NA, 3, NA, 16, 62, NA, NA, NA, 34, 170, 23~
+## $ retweet_user_id         &lt;chr&gt; &quot;14225080&quot;, NA, &quot;1000270608545050625&quot;, NA, &quot;41~
+## $ retweet_screen_name     &lt;chr&gt; &quot;skyetetra&quot;, NA, &quot;mdvigeland&quot;, NA, &quot;sharlagelf~
+## $ retweet_name            &lt;chr&gt; &quot;Dr. Jacqueline Nolis&quot;, NA, &quot;Magnus Dehli Vige~
+## $ retweet_followers_count &lt;int&gt; 11792, NA, 15, NA, 8482, 4124, NA, NA, NA, 201~
+## $ retweet_friends_count   &lt;int&gt; 535, NA, 105, NA, 323, 399, NA, NA, NA, 915, 8~
+## $ retweet_statuses_count  &lt;int&gt; 12096, NA, 9, NA, 10478, 4579, NA, NA, NA, 170~
+## $ retweet_location        &lt;chr&gt; &quot;Seattle, WA&quot;, NA, &quot;Oslo, Norway&quot;, NA, &quot;Toront~
+## $ retweet_description     &lt;chr&gt; &quot;Head of data science @saturn_cloud. (co-)wrot~
+## $ retweet_verified        &lt;lgl&gt; FALSE, NA, FALSE, NA, FALSE, FALSE, NA, NA, NA~
+## $ place_url               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ place_name              &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ place_full_name         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ place_type              &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ country                 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ country_code            &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ geo_coords              &lt;list&gt; &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, ~
+## $ coords_coords           &lt;list&gt; &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, ~
+## $ bbox_coords             &lt;list&gt; &lt;NA, NA, NA, NA, NA, NA, NA, NA&gt;, &lt;NA, NA, NA~
+## $ status_url              &lt;chr&gt; &quot;https://twitter.com/rstudiotips/status/140556~
+## $ name                    &lt;chr&gt; &quot;RStudio Tips&quot;, &quot;RStudio Tips&quot;, &quot;RStudio Tips&quot;~
+## $ location                &lt;chr&gt; &quot;Seattle, WA&quot;, &quot;Seattle, WA&quot;, &quot;Seattle, WA&quot;, &quot;~
+## $ description             &lt;chr&gt; &quot;Useful features, shortcuts, and ideas for wor~
+## $ url                     &lt;chr&gt; &quot;http://t.co/OkBGsvjQ0u&quot;, &quot;http://t.co/OkBGsvj~
+## $ protected               &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ followers_count         &lt;int&gt; 78722, 78722, 78722, 78722, 78722, 78722, 7872~
+## $ friends_count           &lt;int&gt; 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50~
+## $ listed_count            &lt;int&gt; 1270, 1270, 1270, 1270, 1270, 1270, 1270, 1270~
+## $ statuses_count          &lt;int&gt; 476, 476, 476, 476, 476, 476, 476, 476, 476, 4~
+## $ favourites_count        &lt;int&gt; 182, 182, 182, 182, 182, 182, 182, 182, 182, 1~
+## $ account_created_at      &lt;dttm&gt; 2014-07-09 16:33:00, 2014-07-09 16:33:00, 201~
+## $ verified                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ profile_url             &lt;chr&gt; &quot;http://t.co/OkBGsvjQ0u&quot;, &quot;http://t.co/OkBGsvj~
+## $ profile_expanded_url    &lt;chr&gt; &quot;http://www.rstudio.com/&quot;, &quot;http://www.rstudio~
+## $ account_lang            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ profile_banner_url      &lt;chr&gt; &quot;https://pbs.twimg.com/profile_banners/2613859~
+## $ profile_background_url  &lt;chr&gt; &quot;http://abs.twimg.com/images/themes/theme1/bg.~
+## $ profile_image_url       &lt;chr&gt; &quot;http://pbs.twimg.com/profile_images/111148646~</code></pre>
+</div>
+<div id="get_favorites" class="section level3">
+<h3>get_favorites()</h3>
+<p>Cette fonction permet de collecter les derniers tweets aimés par un compte. Dans cet exemple nous collectons les derniers tweets aimés par le compte <span class="citation">@rstudio</span>:</p>
+<pre class="r"><code>twitter_3 &lt;- get_favorites(&quot;rstudio&quot;)</code></pre>
+</div>
+<div id="get_friends" class="section level3">
+<h3>get_friends()</h3>
+<p>Cette fonction permet d’obtenir la liste des comptes suivis par le compte spécifié (base 5000). Dans cet exemple, nous cherchons les personnes qui sont suivies par le compte <span class="citation">@hadleywickham</span> :</p>
+<pre class="r"><code>twitter_4 &lt;- get_friends(&quot;hadleywickham&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(twitter_4)</code></pre>
+<pre><code>## Rows: 273
+## Columns: 2
+## $ user    &lt;chr&gt; &quot;hadleywickham&quot;, &quot;hadleywickham&quot;, &quot;hadleywickham&quot;, &quot;hadleywick~
+## $ user_id &lt;chr&gt; &quot;3959153969&quot;, &quot;43875304&quot;, &quot;2423861950&quot;, &quot;793171723772395521&quot;, ~</code></pre>
+</div>
+<div id="get_followers" class="section level3">
+<h3>get_followers()</h3>
+<p>Cette fonction permet d’obtenir la liste des comptes suivant un compte spécifié (base 5000). Dans cet exemple, nous cherchons les comptes qui suivent le compte <span class="citation">@juliasilge</span> :</p>
+<pre class="r"><code>twitter_5 &lt;- get_followers(&quot;juliasilge&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(twitter_5)</code></pre>
+<pre><code>## Rows: 5,000
+## Columns: 1
+## $ user_id &lt;chr&gt; &quot;149145639&quot;, &quot;96912396&quot;, &quot;1011901140&quot;, &quot;14270698&quot;, &quot;1345573175~</code></pre>
+</div>
+<div id="get_retweeters" class="section level3">
+<h3>get_retweeters()</h3>
+<p>Cette fonction permet d’obtenir une liste des personnes ayant retweeté un tweet (normalement 100). Dans cet exemple, nous cherchons les retweeters d’un tweet spécifique.</p>
+<pre class="r"><code>twitter_6 &lt;- get_retweeters(&quot;1400550230920024065&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(twitter_6)</code></pre>
+<pre><code>## Rows: 8
+## Columns: 90
+## $ user_id                 &lt;chr&gt; &quot;1179447535087190017&quot;, &quot;1891739941&quot;, &quot;98347019~
+## $ status_id               &lt;chr&gt; &quot;1402191414168014849&quot;, &quot;1401704358983737345&quot;, ~
+## $ created_at              &lt;dttm&gt; 2021-06-08 09:10:59, 2021-06-07 00:55:36, 202~
+## $ screen_name             &lt;chr&gt; &quot;rashamadj&quot;, &quot;nutseba&quot;, &quot;R4DScommunity&quot;, &quot;ayir~
+## $ text                    &lt;chr&gt; &quot;No #TidyTuesday screencast from me this week,~
+## $ source                  &lt;chr&gt; &quot;Twitter for Android&quot;, &quot;Twitter Web App&quot;, &quot;Twi~
+## $ display_text_width      &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ reply_to_status_id      &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ reply_to_user_id        &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ reply_to_screen_name    &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ is_quote                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ is_retweet              &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE
+## $ favorite_count          &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0
+## $ retweet_count           &lt;int&gt; 8, 8, 8, 8, 8, 8, 8, 8
+## $ quote_count             &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ reply_count             &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ hashtags                &lt;list&gt; &quot;TidyTuesday&quot;, &quot;TidyTuesday&quot;, &quot;TidyTuesday&quot;, &quot;~
+## $ symbols                 &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ urls_url                &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ urls_t.co               &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ urls_expanded_url       &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ media_url               &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ media_t.co              &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ media_expanded_url      &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ media_type              &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ ext_media_url           &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ ext_media_t.co          &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ ext_media_expanded_url  &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ ext_media_type          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ mentions_user_id        &lt;list&gt; &quot;13074042&quot;, &quot;13074042&quot;, &quot;13074042&quot;, &quot;13074042&quot;~
+## $ mentions_screen_name    &lt;list&gt; &quot;juliasilge&quot;, &quot;juliasilge&quot;, &quot;juliasilge&quot;, &quot;jul~
+## $ lang                    &lt;chr&gt; &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;
+## $ quoted_status_id        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_text             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_created_at       &lt;dttm&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_source           &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_favorite_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_retweet_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_user_id          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_screen_name      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_name             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_followers_count  &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_friends_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_statuses_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_location         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_description      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ quoted_verified         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ retweet_status_id       &lt;chr&gt; &quot;1400550230920024065&quot;, &quot;1400550230920024065&quot;, ~
+## $ retweet_text            &lt;chr&gt; &quot;No #TidyTuesday screencast from me this week,~
+## $ retweet_created_at      &lt;dttm&gt; 2021-06-03 20:29:30, 2021-06-03 20:29:30, 2021~
+## $ retweet_source          &lt;chr&gt; &quot;Twitter Web App&quot;, &quot;Twitter Web App&quot;, &quot;Twitter~
+## $ retweet_favorite_count  &lt;int&gt; 60, 60, 60, 60, 60, 60, 60, 60
+## $ retweet_retweet_count   &lt;int&gt; 8, 8, 8, 8, 8, 8, 8, 8
+## $ retweet_user_id         &lt;chr&gt; &quot;13074042&quot;, &quot;13074042&quot;, &quot;13074042&quot;, &quot;13074042&quot;~
+## $ retweet_screen_name     &lt;chr&gt; &quot;juliasilge&quot;, &quot;juliasilge&quot;, &quot;juliasilge&quot;, &quot;jul~
+## $ retweet_name            &lt;chr&gt; &quot;Julia Silge&quot;, &quot;Julia Silge&quot;, &quot;Julia Silge&quot;, ~
+## $ retweet_followers_count &lt;int&gt; 39534, 39534, 39534, 39534, 39534, 39534, 395~
+## $ retweet_friends_count   &lt;int&gt; 711, 711, 711, 711, 711, 711, 711, 711
+## $ retweet_statuses_count  &lt;int&gt; 22555, 22555, 22555, 22555, 22555, 22555, 225~
+## $ retweet_location        &lt;chr&gt; &quot;Salt Lake City, UT&quot;, &quot;Salt Lake City, UT&quot;, &quot;~
+## $ retweet_description     &lt;chr&gt; &quot;Data science and modeling at @rstudio, #rsta~
+## $ retweet_verified        &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FAL~
+## $ place_url               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ place_name              &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ place_full_name         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ place_type              &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ country                 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ country_code            &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ geo_coords              &lt;list&gt; &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, ~
+## $ coords_coords           &lt;list&gt; &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, ~
+## $ bbox_coords             &lt;list&gt; &lt;NA, NA, NA, NA, NA, NA, NA, NA&gt;, &lt;NA, NA, NA~
+## $ status_url              &lt;chr&gt; &quot;https://twitter.com/rashamadj/status/1402191~
+## $ name                    &lt;chr&gt; &quot;almohandis&quot;, &quot;Sebastián Pizarro&quot;, &quot;R4DS onli~
+## $ location                &lt;chr&gt; &quot;Mombasa, Zanzibar&quot;, &quot;SCL&quot;, &quot;&quot;, &quot;San Francisc~
+## $ description             &lt;chr&gt; &quot;Reckless and Restless.&quot;, &quot;Adventurer, nutriti~
+## $ url                     &lt;chr&gt; NA, &quot;http://t.co/KfqOOgTQvG&quot;, &quot;https://t.co/Y~
+## $ protected               &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FAL~
+## $ followers_count         &lt;int&gt; 303, 477, 15939, 2860, 3, 166, 24, 1207
+## $ friends_count           &lt;int&gt; 4989, 3385, 1630, 4998, 53, 365, 362, 2
+## $ listed_count            &lt;int&gt; 7, 15, 299, 1233, 0, 1, 0, 7
+## $ statuses_count          &lt;int&gt; 21570, 20051, 13941, 279676, 334, 281, 132, 15~
+## $ favourites_count        &lt;int&gt; 20122, 3027, 13566, 252717, 953, 926, 318, 295
+## $ account_created_at      &lt;dttm&gt; 2019-10-02 17:26:32, 2013-09-21 22:41:05, 2018~
+## $ verified                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ profile_url             &lt;chr&gt; NA, &quot;http://t.co/KfqOOgTQvG&quot;, &quot;https://t.co/Y~
+## $ profile_expanded_url    &lt;chr&gt; NA, &quot;http://about.me/sebastianpizarrocortes&quot;, ~
+## $ account_lang            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA
+## $ profile_banner_url      &lt;chr&gt; &quot;https://pbs.twimg.com/profile_banners/1179447~
+## $ profile_background_url  &lt;chr&gt; NA, &quot;http://abs.twimg.com/images/themes/theme1~
+## $ profile_image_url       &lt;chr&gt; &quot;http://pbs.twimg.com/profile_images/133745525~</code></pre>
+</div>
+<div id="stream_tweets" class="section level3">
+<h3>stream_tweets()</h3>
+<p>Cette fonction permet de collecter les tweets en direct sans limites de quantité ou de temps. Si rien n’est spécifié, cette fonction collecte alors 1% des tweets au monde aléatoirement pendant 30 secondes. Il est possible de spécifier des termes de recherche, la langue, une zone géographique ou le temps de collecte (en seconde). Dans notre exemple, nous collectons 1% des tweets au monde pendant 5 secondes:</p>
+<pre class="r"><code>twitter_7 &lt;- stream_tweets(timeout = 5)
+?stream_tweets</code></pre>
+<pre class="r"><code>dplyr::glimpse(twitter_7)</code></pre>
+<pre><code>## Rows: 206
+## Columns: 90
+## $ user_id                 &lt;chr&gt; &quot;988948602671288323&quot;, &quot;633916791&quot;, &quot;9327386248~
+## $ status_id               &lt;chr&gt; &quot;1406682865341960193&quot;, &quot;1406682865371430913&quot;, ~
+## $ created_at              &lt;dttm&gt; 2021-06-20 18:38:24, 2021-06-20 18:38:24, 202~
+## $ screen_name             &lt;chr&gt; &quot;jewelle_royal&quot;, &quot;raissagk&quot;, &quot;ilikeziggy1&quot;, &quot;D~
+## $ text                    &lt;chr&gt; &quot;Here comes the think pieces...&quot;, &quot;cansada de ~
+## $ source                  &lt;chr&gt; &quot;Twitter for Android&quot;, &quot;Twitter for iPhone&quot;, &quot;~
+## $ display_text_width      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, 6, NA, 10, NA, NA,~
+## $ reply_to_status_id      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, &quot;14066822761430261~
+## $ reply_to_user_id        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, &quot;11383380532720680~
+## $ reply_to_screen_name    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, &quot;lwah_maMzi&quot;, NA, ~
+## $ is_quote                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ is_retweet              &lt;lgl&gt; FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, F~
+## $ favorite_count          &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ retweet_count           &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ quote_count             &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ reply_count             &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ hashtags                &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ symbols                 &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ urls_url                &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ urls_t.co               &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ urls_expanded_url       &lt;list&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ media_url               &lt;list&gt; NA, NA, NA, NA, NA, NA, &quot;http://pbs.twimg.com~
+## $ media_t.co              &lt;list&gt; NA, NA, NA, NA, NA, NA, &quot;https://t.co/Tb7PnO6~
+## $ media_expanded_url      &lt;list&gt; NA, NA, NA, NA, NA, NA, &quot;https://twitter.com/~
+## $ media_type              &lt;list&gt; NA, NA, NA, NA, NA, NA, &quot;photo&quot;, NA, NA, NA, ~
+## $ ext_media_url           &lt;list&gt; NA, NA, NA, NA, NA, NA, &quot;http://pbs.twimg.com~
+## $ ext_media_t.co          &lt;list&gt; NA, NA, NA, NA, NA, NA, &quot;https://t.co/Tb7PnO6~
+## $ ext_media_expanded_url  &lt;list&gt; NA, NA, NA, NA, NA, NA, &quot;https://twitter.com/~
+## $ ext_media_type          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ mentions_user_id        &lt;list&gt; NA, NA, &quot;119363202&quot;, &quot;1265658280271122433&quot;, &lt;~
+## $ mentions_screen_name    &lt;list&gt; NA, NA, &quot;ISOKO_MOCHIZUKI&quot;, &quot;DolffR&quot;, &lt;&quot;KirenR~
+## $ lang                    &lt;chr&gt; &quot;en&quot;, &quot;pt&quot;, &quot;ja&quot;, &quot;pt&quot;, &quot;hi&quot;, &quot;pt&quot;, &quot;und&quot;, &quot;un~
+## $ quoted_status_id        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_text             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_created_at       &lt;dttm&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N~
+## $ quoted_source           &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_favorite_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_retweet_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_user_id          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_screen_name      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_name             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_followers_count  &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_friends_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_statuses_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_location         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_description      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ quoted_verified         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ retweet_status_id       &lt;chr&gt; NA, NA, &quot;1406515824035196936&quot;, &quot;14066826895712~
+## $ retweet_text            &lt;chr&gt; NA, NA, &quot;&lt;U+30E9&gt;&lt;U+30B0&gt;&lt;U+30D3&gt;&lt;U+30FC&gt;&lt;U+5354&gt;&lt;U+4F1A&gt;&lt;U+65B0&gt;&lt;U+6E96&gt;&lt;U+5099&gt;&lt;U+5BA4&gt;&lt;U+9577&gt;&lt;U+3092&gt;&lt;U+89E3&gt;&lt;U+4EFB&gt;&lt;U+3055&gt;&lt;U+308C&gt;&lt;U+305F&gt;&lt;U+8C37&gt;~
+## $ retweet_created_at      &lt;dttm&gt; NA, NA, 2021-06-20 07:34:38, 2021-06-20 18:37~
+## $ retweet_source          &lt;chr&gt; NA, NA, &quot;Twitter for iPhone&quot;, &quot;Twitter for And~
+## $ retweet_favorite_count  &lt;int&gt; NA, NA, 3417, 1, 100, NA, 3198, NA, 11, NA, NA~
+## $ retweet_retweet_count   &lt;int&gt; NA, NA, 1383, 2, 25, NA, 137, NA, 5, NA, NA, 1~
+## $ retweet_user_id         &lt;chr&gt; NA, NA, &quot;119363202&quot;, &quot;1265658280271122433&quot;, &quot;3~
+## $ retweet_screen_name     &lt;chr&gt; NA, NA, &quot;ISOKO_MOCHIZUKI&quot;, &quot;DolffR&quot;, &quot;KirenRij~
+## $ retweet_name            &lt;chr&gt; NA, NA, &quot;&lt;U+671B&gt;&lt;U+6708&gt;&lt;U+8863&gt;&lt;U+5851&gt;&lt;U+5B50&gt;&quot;, &quot;Pinscher do Rodolffo Ma~
+## $ retweet_followers_count &lt;int&gt; NA, NA, 237800, 1316, 1007484, NA, 19264, NA, ~
+## $ retweet_friends_count   &lt;int&gt; NA, NA, 1420, 734, 437, NA, 9, NA, 822, NA, NA~
+## $ retweet_statuses_count  &lt;int&gt; NA, NA, 54533, 4057, 21918, NA, 24, NA, 28801,~
+## $ retweet_location        &lt;chr&gt; NA, NA, NA, NA, &quot;New Delhi, India&quot;, NA, &quot;Campi~
+## $ retweet_description     &lt;chr&gt; NA, NA, &quot;&lt;U+65B0&gt;&lt;U+805E&gt;&lt;U+8A18&gt;&lt;U+8005&gt;&lt;U+3002&gt;&lt;U+5343&gt;&lt;U+8449&gt;&lt;U+3001&gt;&lt;U+57FC&gt;&lt;U+7389&gt;&lt;U+306A&gt;&lt;U+3069&gt;&lt;U+5404&gt;&lt;U+770C&gt;&lt;U+8B66&gt;&lt;U+3001&gt;&lt;U+6771&gt;&lt;U+4EAC&gt;~
+## $ retweet_verified        &lt;lgl&gt; NA, NA, FALSE, FALSE, TRUE, NA, FALSE, NA, FAL~
+## $ place_url               &lt;chr&gt; NA, &quot;https://api.twitter.com/1.1/geo/id/5b8fdf~
+## $ place_name              &lt;chr&gt; NA, &quot;Toledo&quot;, NA, NA, NA, NA, NA, &quot;Umlazi&quot;, NA~
+## $ place_full_name         &lt;chr&gt; NA, &quot;Toledo, Brasil&quot;, NA, NA, NA, NA, NA, &quot;Uml~
+## $ place_type              &lt;chr&gt; NA, &quot;city&quot;, NA, NA, NA, NA, NA, &quot;city&quot;, NA, NA~
+## $ country                 &lt;chr&gt; NA, &quot;Brasil&quot;, NA, NA, NA, NA, NA, &quot;South Afric~
+## $ country_code            &lt;chr&gt; NA, &quot;BR&quot;, NA, NA, NA, NA, NA, &quot;ZA&quot;, NA, NA, NA~
+## $ geo_coords              &lt;list&gt; &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, ~
+## $ coords_coords           &lt;list&gt; &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, NA&gt;, &lt;NA, ~
+## $ bbox_coords             &lt;list&gt; &lt;NA, NA, NA, NA, NA, NA, NA, NA&gt;, &lt;-54.04585,~
+## $ status_url              &lt;chr&gt; &quot;https://twitter.com/jewelle_royal/status/1406~
+## $ name                    &lt;chr&gt; &quot;Exhausted Listener&quot;, &quot;rairai&quot;, &quot;ilikeziggy&quot;, ~
+## $ location                &lt;chr&gt; &quot;Jamaica&quot;, &quot;Toledo, Brasil&quot;, NA, NA, &quot;&lt;U+0001F332&gt;Garden~
+## $ description             &lt;chr&gt; &quot;Island Girl &lt;U+0001F334&gt;. Virgo &lt;U+264D&gt;. UWI &lt;U+0001F4D2&gt;.\nManchester~
+## $ url                     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, &quot;https://www.insta~
+## $ protected               &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ followers_count         &lt;int&gt; 6680, 2302, 401, 855, 379, 1968, 3, 35692, 205~
+## $ friends_count           &lt;int&gt; 3842, 1127, 1057, 1054, 613, 1853, 238, 8859, ~
+## $ listed_count            &lt;int&gt; 1, 1, 4, 0, 0, 1, 0, 4, 6, 62, 0, 87, 10, 0, 0~
+## $ statuses_count          &lt;int&gt; 43200, 89034, 61099, 9956, 8001, 94182, 61, 31~
+## $ favourites_count        &lt;int&gt; 212397, 54588, 58835, 9911, 17499, 35117, 33, ~
+## $ account_created_at      &lt;dttm&gt; 2018-04-25 01:11:35, 2012-07-12 15:55:34, 201~
+## $ verified                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALS~
+## $ profile_url             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ profile_expanded_url    &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ account_lang            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+## $ profile_banner_url      &lt;chr&gt; &quot;https://pbs.twimg.com/profile_banners/9889486~
+## $ profile_background_url  &lt;chr&gt; &quot;&quot;, &quot;http://abs.twimg.com/images/themes/theme1~
+## $ profile_image_url       &lt;chr&gt; &quot;http://pbs.twimg.com/profile_images/124117422~</code></pre>
+</div>
+<div id="ts_plot" class="section level3">
+<h3>ts_plot()</h3>
+<p>Cette fonction permet de transformer un tableau de données en graph temporelle facilement utilisable. Ici nous affichons le nombre de tweets par heure du tableau de données twitter_1:</p>
+<pre class="r"><code>ts_plot(twitter_1, by = &quot;hours&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="network_graph" class="section level3">
+<h3>network_graph()</h3>
+<p>Cette fonction permet de générer un graphique en réseau d’un tableau de données twitter. Il est possible de spécifier si on s’intéresse aux mentions, au retweets, aux réponses, aux citations ou à plusieurs de ces éléments à la fois:</p>
+<pre class="r"><code>network_graph(twitter_2) %&gt;% 
+  plot()</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><strong>Note: Il est possible de transformer le tableau de données twitter en tableau de données utile pour l’analyse de réseaux en utilisant cette fois-ci la fonction <em>network_data()</em>.</strong></p>
+</div>
+</div>

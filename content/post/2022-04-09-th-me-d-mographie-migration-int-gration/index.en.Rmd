@@ -1,0 +1,78 @@
+---
+title: 'Thème: Démographie / Migration / Intégration'
+author: Vestin Cyuzuzo Hategekimana
+date: '2022-04-09'
+slug: th-me-d-mographie-migration-int-gration
+categories:
+  - Travaux
+tags:
+  - intégration
+  - migration
+  - socioéconomie
+  - recherche
+subtitle: ''
+summary: "Dans ce poste, nous trouverez tous les travaux d'université que j'ai réalisé dans les thèmes de la démographie, de la migration et de l'intégration"
+authors: []
+lastmod: '2022-04-09T20:08:34+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+## Démographie
+
+### Une population en déclin ? : La démographie de la Lettonie (2002 – 2019)
+
+**Résumé:** Dans le cadre du séminaire du cours _Enjeux démographiques dans les pays industrialisés_, j'ai réalisé un rapport démographique sur un pays industrialisé de mon choix. Dans ce rapport de démographie, le cas de la Lettonie du 21ème siècle est étudié pour comprendre la spécificité démographique des pays affichant à la fois un solde naturel et migratoire négatif comme d'autres pays de l'Europe de l'est.
+
+[Télécharger](/uploads/travaux/demographie/Rapport_démographie_Hategekimana_Vestin.pdf) mon travail
+
+*Faculté des Sciences de la société (SDS)*, 
+*Master en Socioéconomie*, 
+*Année académique 2021-2022*, 
+*Cours : Enjeux démographiques dans les pays industrialisés*, 
+*Professeur : Pr. Philippe Wanner, Aurélie Pont, Melinda Dinh*
+
+## Migration
+
+### Twitter : collecte de données géolocalisées pour des prédictions migratoires
+
+**Résumé:** Dans le cadre du cours _Sources de données en Sciences Sociales_, j'ai réalisé un travail sur une source de données de mon choix. J'ai décidé de travailler sur Twitter et l'utilisation des données géolocalisé pour la prédiction migratoire. Dans ce travail, je présente les concepts, les méthodes et les enjeux de cette source de données. 
+
+[Télécharger](/uploads/travaux/demographie/HATEGEKIMANA_Source de donnée en science sociale_Twitter.pdf) mon travail
+
+*Faculté des Sciences de la société (SDS)*, 
+*Master en Socioéconomie*, 
+*Année académique 2020-2021*, 
+*Cours : Sources de Données en Sciences Sociales*, 
+*Professeur : Pr. Philippe Wanner*
+
+### Revue de la presse Européenne sur la migration entre 2015 et 2020
+
+**Résumé:** Dans le cadre du cours _Atelier de socioéconomie_, j'ai réalisé un travail sur une thématique de mon choix en rapport avec mon sujet de rêve. J'ai décidé de le consacré à un sujet qui m'intéresse: la représentation de la population migrante dans la presse et les médias. Dans ce travail, je fais une petite revue de la littérature sur le sujet.
+
+[Télécharger](/uploads/travaux/demographie/Revue_de_la_presse_Européenne_sur_la_migration_entre_2015_et_2020.pdf) mon travail
+
+*Faculté des Sciences de la société (SDS)*, 
+*Master en Socioéconomie*, 
+*Année académique 2020-2021*, 
+*Cours : Atelier de socioéconomie*, 
+*Professeur : Pr. Michel Oris, Dr Aris Martinelli*
+
+## Intégration
+
+### La transition du secondaire I au secondaire II des migrants de deuxième génération
+
+**Résumé:** Dans le cadre du cours _Bien-être et durabilité: questions actuelles pour la démographie_, j'ai réalisé un travail sur la transition entre le secondaire I et le secondaire II pour les migrants de deuxième génération. Je présente les enjeux et l'importance qu'ils ont sur le bien-être.
+
+[Télécharger](/uploads/travaux/demographie/Hategekimana_Migrant_de_deuxième_génération) mon travail
+
+*Faculté des Sciences de la société (SDS)*, 
+*Master en Socioéconomie*, 
+*Année académique 2020-2021*, 
+*Cours : Bien-être et durabilité*, 
+*Professeur : Pr. Rossier*
+

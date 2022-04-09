@@ -1,0 +1,236 @@
+---
+title: '[tubeR] Collecter des données sur Youtube'
+author: Vestin Cyuzuzo Hategekimana
+date: '2022-04-09'
+slug: package-tuber-pour-collecter-des-donn-es-sur-youtube
+categories:
+  - R
+tags:
+  - r
+  - web_scraping
+subtitle: ''
+summary: 'Dans ce tutoriel, nous utilisons le package tubeR pour collecter des données sur Youtube.'
+authors: []
+lastmod: '2022-04-08T16:49:37+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="références" class="section level2">
+<h2>Références</h2>
+<p>CRAN: <a href="https://cran.r-project.org/web/packages/tuber/index.html" class="uri">https://cran.r-project.org/web/packages/tuber/index.html</a></p>
+<p>Tuto API tuber: <a href="https://www.storybench.org/how-to-download-youtube-data-in-r-using-tuber-and-purrr/" class="uri">https://www.storybench.org/how-to-download-youtube-data-in-r-using-tuber-and-purrr/</a></p>
+<p>Tuto tuber: <a href="https://cran.r-project.org/web/packages/tuber/vignettes/tuber-ex.html" class="uri">https://cran.r-project.org/web/packages/tuber/vignettes/tuber-ex.html</a></p>
+<p>Limits: <a href="https://www.freakyjolly.com/youtube-data-api-v3-1m-units-limits-explained/" class="uri">https://www.freakyjolly.com/youtube-data-api-v3-1m-units-limits-explained/</a></p>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>La librairie TubeR permet de collecter les données de Youtube, mais demande au préalable d’avoir un compte sur google et d’activer l’API. Pour plus d’information, regardez le lien sur l’API.</p>
+</div>
+<div id="librairie" class="section level2">
+<h2>Librairie</h2>
+<pre class="r"><code>library(tuber)</code></pre>
+<p>La librairie possède 39 fonctions, mais nous allons nous concentrer sur les 6 suivantes:</p>
+<table>
+<colgroup>
+<col width="27%" />
+<col width="72%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonction</th>
+<th>Utilité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>yt_oauth()</td>
+<td>Connecter R au compte youtube</td>
+</tr>
+<tr class="even">
+<td>yt_search()</td>
+<td>Outil principal de recherche de vidéos, chaînes et playlists</td>
+</tr>
+<tr class="odd">
+<td>list_channel_videos()</td>
+<td>Liste les vidéos d’une chaîne</td>
+</tr>
+<tr class="even">
+<td>get_channel_stats()</td>
+<td>Liste des statistiques d’une chaîne</td>
+</tr>
+<tr class="odd">
+<td>get_stats()</td>
+<td>Stats d’une vidéo</td>
+</tr>
+<tr class="even">
+<td>get_all_comments()</td>
+<td>Obtenir les commentaires d’une vidéo</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ls(&quot;package:tuber&quot;)</code></pre>
+<pre><code>##  [1] &quot;delete_captions&quot;             &quot;delete_channel_sections&quot;    
+##  [3] &quot;delete_comments&quot;             &quot;delete_playlist_items&quot;      
+##  [5] &quot;delete_playlists&quot;            &quot;delete_videos&quot;              
+##  [7] &quot;get_all_channel_video_stats&quot; &quot;get_all_comments&quot;           
+##  [9] &quot;get_captions&quot;                &quot;get_channel_stats&quot;          
+## [11] &quot;get_comment_threads&quot;         &quot;get_comments&quot;               
+## [13] &quot;get_playlist_items&quot;          &quot;get_playlists&quot;              
+## [15] &quot;get_related_videos&quot;          &quot;get_stats&quot;                  
+## [17] &quot;get_subscriptions&quot;           &quot;get_video_details&quot;          
+## [19] &quot;list_abuse_report_reasons&quot;   &quot;list_caption_tracks&quot;        
+## [21] &quot;list_channel_activities&quot;     &quot;list_channel_resources&quot;     
+## [23] &quot;list_channel_sections&quot;       &quot;list_channel_videos&quot;        
+## [25] &quot;list_guidecats&quot;              &quot;list_langs&quot;                 
+## [27] &quot;list_my_channel&quot;             &quot;list_my_videos&quot;             
+## [29] &quot;list_regions&quot;                &quot;list_videocats&quot;             
+## [31] &quot;list_videos&quot;                 &quot;read_sbv&quot;                   
+## [33] &quot;upload_caption&quot;              &quot;upload_video&quot;               
+## [35] &quot;yt_authorized&quot;               &quot;yt_oauth&quot;                   
+## [37] &quot;yt_search&quot;                   &quot;yt_token&quot;                   
+## [39] &quot;yt_topic_search&quot;</code></pre>
+</div>
+<div id="se-connecter" class="section level2">
+<h2>Se connecter</h2>
+<p>Pour se connecter depuis R sur votre application youtube, vous devez utiliser l’id client de votre API et le code secret créés préalablement avec l’application faites sur l’API. [Pour plus d’informations, regarder le tuto sur l’API]:</p>
+<p><strong>Note: Ces informations doivent rester confidentielles, voilà pourquoi l’exemple est censuré.</strong></p>
+<pre class="r"><code>client_id &lt;- &quot;XXXXXXXXX&quot;
+client_secret &lt;- &quot;XXXXXXXXX&quot;</code></pre>
+<p>Ensuite, nous pouvons lancer la connexion:</p>
+<pre class="r"><code>yt_oauth(app_id = client_id,
+         app_secret = client_secret,
+         token = &#39;&#39;)</code></pre>
+<p>Il faut suivre manuellement les étapes qui s’affichent à l’écran et aller jusqu’au bout. Il est possible que des messages demandant si vous êtes sûre de poursuivre la connexion apparaissent et c’est complètement normal. C’est parce que l’application vous permet de gérer votre compte aussi (donc faire des actions avec), donc youtube souhaites être sûre que vous savez que votre compte sera contrôlé depuis l’extérieur (par vous uniquement). [Pour plus d’informations, regarder le tuto sur l’API]</p>
+</div>
+<div id="note-sur-les-comptes-et-les-vidéos" class="section level2">
+<h2>Note sur les comptes et les vidéos</h2>
+<p>Les principales informations que nous allons utiliser pour rechercher des données se trouvent dans les urls. Voici l’exemple du lien d’un compte:</p>
+<p><a href="https://www.youtube.com/channel/UCINb0wqPz-A0dV9nARjJlOQ" class="uri">https://www.youtube.com/channel/UCINb0wqPz-A0dV9nARjJlOQ</a></p>
+<p>L’id d’une chaîne se trouve après le dernier “/”, dans notre cas l’id de la chaîne est “UCINb0wqPz-A0dV9nARjJlOQ”.</p>
+<p>Le lien d’une playlist:</p>
+<p><a href="https://www.youtube.com/playlist?list=PLLoPYaJqlcK5xkoTBELtXQzNX94JuWAmJ" class="uri">https://www.youtube.com/playlist?list=PLLoPYaJqlcK5xkoTBELtXQzNX94JuWAmJ</a></p>
+<p>L’id de la playlist se trouve après se trouve après le signe “=”, donc l’id de notre playlist est “PLLoPYaJqlcK5xkoTBELtXQzNX94JuWAmJ”</p>
+<p>Et le lien d’une vidéo:</p>
+<p><a href="https://www.youtube.com/watch?v=DggHeuhpFvg" class="uri">https://www.youtube.com/watch?v=DggHeuhpFvg</a></p>
+<p>Ici, l’id des vidéos se trouve après le signe “=”, donc l’id de cette vidéo est “DggHeuhpFvg”.</p>
+</div>
+<div id="les-fonctions" class="section level2">
+<h2>Les fonctions</h2>
+<div id="yt_search" class="section level3">
+<h3>yt_search()</h3>
+<p>Permet de chercher des informations sur youtube de manière efficace. Elle permet de chercher cherche des vidéos, des chaînes ou des playlistes et de préciser les termes recherchés, le nombre de résultat, une chaîne particulière, de préciser si on cherche un show, l’évènement (complet, en live ou à venir), la localisation (en longitude et latitude ainsi que le périmètre), la date de publication, la qualité de la vidéo, si la vidéo possède des sous-titres, etc. Pour plus d’information, il faut utiliser la fonction <em>help()</em> ou le “?” avec le nom de la fonction. Nous allons par exemple chercher toutes les vidéos avec le mots “beaver” depuis le mois de juin 2021:</p>
+<p><strong>Note 1: Dans notre cas, il n’est pas nécessaire de préciser “vidéo” dans le type, parce que la fonction recherche automatiquement les vidéos si aucune information n’est donnée dans type. Le type peut être remplacé par “channel” ou “playlist”.</strong></p>
+<p><strong>Note 2: Le nombre d’éléments collectés est limité à 50 de base. Mais nous pouvons changer ce nombre en changeant le paramètre “max-results”. Par exemple “max-results = 50”.</strong></p>
+<pre class="r"><code>youtube_1 &lt;- yt_search(term = &quot;beaver&quot;,
+                       type = &quot;video&quot;,
+                       published_after = &quot;2021-06-01T00:00:00Z&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(youtube_1)</code></pre>
+<pre><code>## Rows: 529
+## Columns: 17
+## $ video_id                  &lt;chr&gt; &quot;y5tgr9-_vo4&quot;, &quot;IYYUNxH6Yg8&quot;, &quot;ieClBuOf8g4&quot;,~
+## $ publishedAt               &lt;chr&gt; &quot;2021-06-16T22:53:22Z&quot;, &quot;2021-06-15T22:45:00~
+## $ channelId                 &lt;chr&gt; &quot;UCP-iaFrmWcOG0o461wMicdg&quot;, &quot;UCP-iaFrmWcOG0o~
+## $ title                     &lt;chr&gt; &quot;*SPOILERS* IS THIS WHAT HAPPENS TO REXY?!?!~
+## $ description               &lt;chr&gt; &quot;Some news has broken concerning the latest ~
+## $ thumbnails.default.url    &lt;chr&gt; &quot;https://i.ytimg.com/vi/y5tgr9-_vo4/default.~
+## $ thumbnails.default.width  &lt;chr&gt; &quot;120&quot;, &quot;120&quot;, &quot;120&quot;, &quot;120&quot;, &quot;120&quot;, &quot;120&quot;, &quot;1~
+## $ thumbnails.default.height &lt;chr&gt; &quot;90&quot;, &quot;90&quot;, &quot;90&quot;, &quot;90&quot;, &quot;90&quot;, &quot;90&quot;, &quot;90&quot;, &quot;9~
+## $ thumbnails.medium.url     &lt;chr&gt; &quot;https://i.ytimg.com/vi/y5tgr9-_vo4/mqdefaul~
+## $ thumbnails.medium.width   &lt;chr&gt; &quot;320&quot;, &quot;320&quot;, &quot;320&quot;, &quot;320&quot;, &quot;320&quot;, &quot;320&quot;, &quot;3~
+## $ thumbnails.medium.height  &lt;chr&gt; &quot;180&quot;, &quot;180&quot;, &quot;180&quot;, &quot;180&quot;, &quot;180&quot;, &quot;180&quot;, &quot;1~
+## $ thumbnails.high.url       &lt;chr&gt; &quot;https://i.ytimg.com/vi/y5tgr9-_vo4/hqdefaul~
+## $ thumbnails.high.width     &lt;chr&gt; &quot;480&quot;, &quot;480&quot;, &quot;480&quot;, &quot;480&quot;, &quot;480&quot;, &quot;480&quot;, &quot;4~
+## $ thumbnails.high.height    &lt;chr&gt; &quot;360&quot;, &quot;360&quot;, &quot;360&quot;, &quot;360&quot;, &quot;360&quot;, &quot;360&quot;, &quot;3~
+## $ channelTitle              &lt;chr&gt; &quot;TheGamingBeaver&quot;, &quot;TheGamingBeaver&quot;, &quot;TheGa~
+## $ liveBroadcastContent      &lt;chr&gt; &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;non~
+## $ publishTime               &lt;chr&gt; &quot;2021-06-16T22:53:22Z&quot;, &quot;2021-06-15T22:45:00~</code></pre>
+<p>Lorsqu’on précise un terme, il est recherché à la fois dans le titre de la chaîne, le titre de la vidéo et le titre de la description. Il est préférable de chercher des vidéos (pas forcément besoin de préciser le type) pour avoir plus d’informations.</p>
+<p>Cette fonction est utile pour commencer une recherche, même s’il est possible de rechercher manuellement des liens.</p>
+<p>Une recherche similaire peut être menée en utilisant la fonction <em>yt_topic_search()</em> qui permet en plus d’ajouter une thématique avec le paramètre “topic”.</p>
+</div>
+<div id="get_channel_stats" class="section level3">
+<h3>get_channel_stats()</h3>
+<p>Pour obtenir les statistiques d’une chaîne (titre de la chaîne, nombre de vue, nombre d’abonnés et nombre de vidéos) sous forme d’une liste il suffit d’utiliser la fonction <em>get_channel_stats()</em>:</p>
+<pre class="r"><code>youtube_2 &lt;- get_channel_stats(channel_id = &quot;UCINb0wqPz-A0dV9nARjJlOQ&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(youtube_2)</code></pre>
+<pre><code>## List of 5
+##  $ kind      : chr &quot;youtube#channel&quot;
+##  $ etag      : chr &quot;SOuvyWXlGv2IG_seFhesbGmLUXo&quot;
+##  $ id        : chr &quot;UCBV194XNr6CIQCCuw1v2rMQ&quot;
+##  $ snippet   :List of 7
+##   ..$ title      : chr &quot;dataslice&quot;
+##   ..$ description: chr &quot;High quality tutorials related to all things data&quot;
+##   ..$ customUrl  : chr &quot;dataslice&quot;
+##   ..$ publishedAt: chr &quot;2020-05-05T05:07:53.938698Z&quot;
+##   ..$ thumbnails :List of 3
+##   .. ..$ default:List of 3
+##   .. ..$ medium :List of 3
+##   .. ..$ high   :List of 3
+##   ..$ localized  :List of 2
+##   .. ..$ title      : chr &quot;dataslice&quot;
+##   .. ..$ description: chr &quot;High quality tutorials related to all things data&quot;
+##   ..$ country    : chr &quot;US&quot;
+##  $ statistics:List of 4
+##   ..$ viewCount            : chr &quot;165729&quot;
+##   ..$ subscriberCount      : chr &quot;4100&quot;
+##   ..$ hiddenSubscriberCount: logi FALSE
+##   ..$ videoCount           : chr &quot;20&quot;</code></pre>
+</div>
+<div id="list_channel_videos" class="section level3">
+<h3>list_channel_videos()</h3>
+<p>Permet d’afficher la liste des vidéos d’une chaîne:</p>
+<pre class="r"><code>youtube_3 &lt;- list_channel_videos(channel_id = &quot;UCc8Virf32yXPVNO68bU6AuA&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(youtube_3)</code></pre>
+<pre><code>## Rows: 19
+## Columns: 5
+## $ kind                            &lt;chr&gt; &quot;youtube#playlistItem&quot;, &quot;youtube#playl~
+## $ etag                            &lt;chr&gt; &quot;cavdEpSxgdy-TnjMajW_wMwc-wA&quot;, &quot;0YCtPs~
+## $ id                              &lt;chr&gt; &quot;VVVjOFZpcmYzMnlYUFZOTzY4YlU2QXVBLkRfU~
+## $ contentDetails.videoId          &lt;chr&gt; &quot;D_P5OcF0xp0&quot;, &quot;krV_S5hMqVk&quot;, &quot;4kLHdzq~
+## $ contentDetails.videoPublishedAt &lt;chr&gt; &quot;2020-03-26T03:29:06Z&quot;, &quot;2019-09-16T14~</code></pre>
+</div>
+<div id="get_stats" class="section level3">
+<h3>get_stats()</h3>
+<p>Permet d’obtenir les statistiques d’une vidéo (titre, nombre de like, nombre de dislike, nombre de vue, nombre de commentaires):</p>
+<pre class="r"><code>youtube_4 &lt;- get_stats(video_id = &quot;Q5yVoTqD06M&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(youtube_4)</code></pre>
+<pre><code>## List of 6
+##  $ id           : chr &quot;Q5yVoTqD06M&quot;
+##  $ viewCount    : chr &quot;31170&quot;
+##  $ likeCount    : chr &quot;747&quot;
+##  $ dislikeCount : chr &quot;13&quot;
+##  $ favoriteCount: chr &quot;0&quot;
+##  $ commentCount : chr &quot;96&quot;</code></pre>
+</div>
+<div id="get_all_comments" class="section level3">
+<h3>get_all_comments()</h3>
+<p>Permet d’obtenir tous les commentaires d’une vidéo:</p>
+<pre class="r"><code>youtube_5 &lt;- get_all_comments(video_id = &quot;Q5yVoTqD06M&quot;)</code></pre>
+<pre class="r"><code>dplyr::glimpse(youtube_5)</code></pre>
+<pre><code>## Rows: 93
+## Columns: 15
+## $ videoId               &lt;chr&gt; &quot;Q5yVoTqD06M&quot;, &quot;Q5yVoTqD06M&quot;, &quot;Q5yVoTqD06M&quot;, &quot;Q5~
+## $ textDisplay           &lt;chr&gt; &quot;Watch Part 2 here! &lt;a href=\&quot;https://youtu.be/4~
+## $ textOriginal          &lt;chr&gt; &quot;Watch Part 2 here! https://youtu.be/4A12xqQPJXU~
+## $ authorDisplayName     &lt;chr&gt; &quot;dataslice&quot;, &quot;Eloise Hitalia&quot;, &quot;Leonardo Souza C~
+## $ authorProfileImageUrl &lt;chr&gt; &quot;https://yt3.ggpht.com/ytc/AAUvwnh4JuQbg2uUKHcYv~
+## $ authorChannelUrl      &lt;chr&gt; &quot;http://www.youtube.com/channel/UCBV194XNr6CIQCC~
+## $ authorChannelId.value &lt;chr&gt; &quot;UCBV194XNr6CIQCCuw1v2rMQ&quot;, &quot;UCD0yZnbyl04QlbpAW2~
+## $ canRate               &lt;chr&gt; &quot;TRUE&quot;, &quot;TRUE&quot;, &quot;TRUE&quot;, &quot;TRUE&quot;, &quot;TRUE&quot;, &quot;TRUE&quot;, ~
+## $ viewerRating          &lt;chr&gt; &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, &quot;none&quot;, ~
+## $ likeCount             &lt;chr&gt; &quot;3&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;~
+## $ publishedAt           &lt;chr&gt; &quot;2021-01-16T16:40:50Z&quot;, &quot;2021-06-16T20:21:26Z&quot;, ~
+## $ updatedAt             &lt;chr&gt; &quot;2021-01-16T16:40:50Z&quot;, &quot;2021-06-16T20:21:26Z&quot;, ~
+## $ id                    &lt;chr&gt; &quot;UgzSOC39vxd9TE69q994AaABAg&quot;, &quot;UgxowQrhecdQ1Iv9E~
+## $ parentId              &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ~
+## $ moderationStatus      &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ~</code></pre>
+</div>
+</div>

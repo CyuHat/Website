@@ -1,0 +1,120 @@
+---
+title: '[RedditExtractoR] Collecter des données sur reddit'
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-06-17'
+slug: package-redditextractor
+categories:
+  - R
+tags:
+  - r
+  - web_scraping
+subtitle: 'Terminé'
+summary: 'Tutoriels sur le package RedditExtractoR'
+authors: []
+lastmod: '2022-04-08T13:57:14+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message="FALSE", warning="FALSE")
+```
+
+*Dernière mise à jour: 2022-04-08*
+
+## Ressources
+
+CRAN: https://cran.r-project.org/web/packages/RedditExtractoR/index.html
+
+Tuto: https://www.rpubs.com/mswofford/redditAPI
+
+R documentation: https://www.rdocumentation.org/packages/RedditExtractoR/versions/2.1.5
+
+Github: https://github.com/ivan-rivera/RedditExtractoR
+
+
+## Introduction
+
+Reddit est un réseau social où il est possible de collecter des données via une API. Cette API ne demande pas d'avoir un compte.
+
+## Librarie
+
+Librairie pour reddit
+
+```{r}
+library(RedditExtractoR)
+```
+
+## Fonctions
+
+La librairie possède une série de fonctions assez utiles pour collecter des données.
+
+### Liste des fonctions
+
+Dans cette librairie, il y a 4 fonctions que nous allons présenter.
+
+```{r}
+# Permet de voir toutes les fonctions d'un package
+ls("package:RedditExtractoR")
+```
+
+### find_thread_urls()
+
+Cette première fonction permet d'obtenir les liens de tous les fils qui ont parlé d'un terme spécifique. Par exemple nous pouvons récupérer les liens de discussions qui mentionnent le terme "text mining" dans la semaine:
+
+```{r}
+# Mise à jour en date du 08.04.2022
+# Réccupéraion des liens
+links_text_minging <- 
+  find_thread_urls(keywords = "text_mining",
+                   period = "week")
+
+# Visualisation des liens
+links_text_minging
+```
+
+Utiliser cette fonction est généralement un bon point de départ pour chercher des informations.
+
+**Note: Pour plus d'informations sur cette fonction, il faut utiliser la fonction _help()_ ou le "?" avant le terme (dans les deux cas la fonction doit être écrite sans les parenthèses). Par exemple, pour avoir plus d'informations sur la fonction précédente, il faut écrire "?links_text_minging" ou "help(links_text_minging)". Et ça marche avec toutes les fonctions ou tableaux de donnés présent dans R ou dans un package de R**
+
+### find_subreddits()
+
+Permet de rechercher des subreddits avec un mot clé. Il n'est pas possible de préciser les modalités de la recherche avec cette fonction. Le résultat de cette recherche est un tableau avec des informations sur le subreddits (par exemple le nom et le nombre d'abonnés).
+
+```{r}
+subreddit_text_mining <- find_subreddits("text mining")
+
+subreddit_text_mining
+```
+
+
+### get_thread_content()
+
+Permet d'obtenir tous les commentaires d'un fil de discussion à condition de donner le lien de ce fil. Le lien peut être issue d'une liste de liens obtenue avec la fonction _get_thread_content()_ ou un lien écrit manuellement:
+
+```{r}
+# Récupère tous les commentaires du premier lien
+reddit_content <- get_thread_content(links_text_minging$url[1])
+
+reddit_content
+```
+
+**Note: Ici nous obtenons un tableau de données propre.**
+
+### get_user_content()
+
+Permet de cherche des informations sur les utilisateurs reddits. Il suffit de donner le nom d'utilisateur pour obtenir des informations (postes).
+
+```{r}
+reddit_users <- get_user_content("juliasilge")
+
+reddit_users
+```
+
+## Conclusion
+
+C'est à peu près tout pour ce package. Si vous souhaitez des exemples d'analyse avec ce package, n'hésitez pas à me le signaler.
