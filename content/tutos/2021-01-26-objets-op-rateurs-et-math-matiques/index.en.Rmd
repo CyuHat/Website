@@ -2,20 +2,20 @@
 title: "Base 1: Objets, opérateurs et mathématiques"
 author: Vestin Cyuzuzo Hategekimana
 date: '2021-01-26'
-slug: objets-op-rateurs-et-math-matiques
-categories:
+slug: objets op-retour-et-math-matrices
+catégories:
   - R
 tags:
   - r
   - statistiques
-subtitle: ''
+subtiles: ''
 summary: 'Dans ce tutoriel nous voyons des éléments de base dans R.'
 authors: []
 lastmod: '2022-04-08T22:31:17+02:00'
 featured: no
 image:
   caption: ''
-  focal_point: ''
+  focal _point: ''
   preview_only: no
 projects: []
 ---
@@ -24,7 +24,7 @@ projects: []
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-/!\ N'oubliez pas de nettoyer votre "Global Environnment" avec les fonctions rm() rm(list=ls()), pour éviter d'être encombré de variable. N'hésitez surtout pas à les supprimer si ce sont des exemples donnés dans des tutos, vous pouvez les recréer facilement. R-Studio n'est pas une cave, un peu d'ordre ça aide en statistique. Nous vous recommandons de tester vous-même les codes en les recopiant dans la console, mais vous pouvez simplement les lancer depuis la fenêtre de script. 
+N'oubliez pas de nettoyer votre "Global Environnment" avec la fonction `rm(list=ls())`, pour éviter d'être encombré de variable. N'hésitez surtout pas à les supprimer si ce sont des exemples donnés dans des tutos, vous pouvez les recréer facilement. R-Studio n'est pas une cave, un peu d'ordre, ça aide en statistique. Nous vous recommandons de tester vous-même les codes en les recopiant dans la console, mais vous pouvez simplement les lancer depuis la fenêtre de script. 
 
 **Type de données/objets**
 
@@ -43,7 +43,7 @@ Vous pouvez également écrire des commentaires en utilisant le signe # devant l
 # Ceci est un commentaire
 ```
 
-On utilise ça dans les scripts pour expliquer les lignes de codes, mais pas vraiment dans des lignes de commande dans la console. Vous pouvez aussi créer des mots ou chaines de caractères en les inscrivant entre guillemets: 
+On utilise ça dans les scripts pour expliquer les lignes de codes, mais pas vraiment dans des lignes de commande dans la console. Vous pouvez aussi créer des mots ou chaînes de caractères en les inscrivant entre guillemets: 
 
 ```{r}
 "chocolat"
@@ -51,11 +51,11 @@ On utilise ça dans les scripts pour expliquer les lignes de codes, mais pas vra
 "Purée de pomme de terre" 
 ```
 
-Comme vous pouvez le voir, il est possible d'avoir des accents, des majuscules ou des espaces (caractères spéciaux). Généralement on évitera un maximum d'utiliser des caractères spéciaux. Remarquez les différences de coloration du code.
+Comme vous pouvez le voir, il est possible d'avoir des accents, des majuscules ou des espaces (caractères spéciaux). Généralement, on évitera un maximum d'utiliser des caractères spéciaux. Remarquez les différences de coloration du code.
 
 **Les variables**
 
-Naturellement, R est un semi-langage de programmation, il peut donc gérer des variables. Pour stocker une valeur dans une variable, il suffit juste d’indiquer le nom de la variable ainsi que la valeur que l'on souhaite lui attribuée et de mettre entre les deux (=), (<-) ou (->):
+Naturellement, R est un semi-langage de programmation, il peut donc gérer des variables. Pour stocker une valeur dans une variable, il suffit d’indiquer le nom de la variable ainsi que la valeur que l'on souhaite lui attribuer et de mettre entre les deux (=) (<-) ou (->):
 
 ```{r}
 a<-12 
@@ -71,14 +71,14 @@ b
 c 
 ```
 
-On peut également faire des calcules avec les variables ou tout autre sorte de manipulation :
+On peut également faire des calcules avec les variables ou toute autre sorte de manipulation :
 
 ```{r}
 a-c 
 d=c/a 
 ```
 
-Remarque: pour utiliser plusieurs commandes sur la même ligne il suffit d'utiliser le signe (;):
+Remarque: pour utiliser plusieurs commandes sur la même ligne, il suffit d'utiliser le signe (;):
 
 ```{r}
 a
@@ -93,7 +93,7 @@ Naturellement, il n'est pas possible de faire des calcules avec les chaînes de 
 # b+c
 ```
 
-Ces variables sont des objets et apparaissent dans le cadran en haut à droite de R-studio (référence au tuto 1), vous pouvez en voir le contenu. Lorsqu'on attribue une nouvelle valeur à une variable, la précédente valeur est effacée. C'est pour cette raison qu'il faut faire attention à la gestion des variables.
+Ces variables sont des objets et apparaissent dans le cadran en haut à droite de Rstudio (référence au tuto 1), vous pouvez en voir le contenu. Lorsqu'on attribue une nouvelle valeur à une variable, la précédente valeur est effacée. C'est pour cette raison qu'il faut faire attention à la gestion des variables.
 
 ```{r}
 a
@@ -103,7 +103,7 @@ a
 
 **Les vecteurs**
 
-Le prochain type d'objet abordé est le vecteur. Le vecteur est une série de valeur contenu dans le même objet. Pour le créer il faut utiliser la fonction d concaténation abrégée c() en séparant chaque valeur par une virgule dans R:
+Le prochain type d'objet abordé est le vecteur. Le vecteur est une série de valeur contenue dans le même objet. Pour le créer il faut utiliser la fonction de concaténation abrégée c() en séparant chaque valeur par une virgule dans R:
 
 ```{r}
 v0<-c(1,2,3,4,5)
@@ -113,7 +113,7 @@ v3<-c("ananas",72,1,"nairobi",3)
 v0;v1;v2;v3
 ```
 
-Ainsi, nous avons créé des vecteurs numériques (v1) et à chaine de caractères (v2 et v3). En effet, l'objet devient automatiquement une chaîne de caractères si au moins l'un de ses éléments est un caractère. Pour tester cela, nous pouvons utiliser la fonction class():
+Ainsi, nous avons créé des vecteurs numériques (v1) et à chaîne de caractères (v2 et v3). En effet, l'objet devient automatiquement une chaîne de caractères si au moins l'un de ses éléments est un caractère. Pour tester cela, nous pouvons utiliser la fonction class():
 
 ```{r}
 class(v0)
@@ -122,7 +122,7 @@ class(v2)
 class(v3)
 ```
 
-Ici, "numeric" signifie que c'est un objet numérique et "character" une chaîne de caractère...(Et là vous dites: "merci Einstein!", même s'il n'était pas traducteur). Vous pouvez testez cette fonction sur les autres objets créés (a,b,c et d).
+Ici, "numeric" signifie que c'est un objet numérique et "character" une chaîne de caractère...(Et là, vous dites: "merci Einstein!", même s'il n'était pas traducteur). Vous pouvez tester cette fonction sur les autres objets créés (a,b,c et d).
 
 ```{r}
 class(a)
@@ -152,14 +152,14 @@ v4-v1
 v4/v1
 ```
 
-Mais ça ne fonctionne pas lorsqu'il n'y a pas de diviseurs communs:
+Mais ça ne fonctionne pas lorsqu'il n'y a pas de diviseur commun:
 
 ```{r}
 v5+v0
 v5-v1
 ```
 
-Pour contrôler la longueur d'un vecteur, il y a deux moyens: Le plus simple, c'est de regarder la fenêtre en haut à droite les informations de la variable. Ou d'utiliser la fonction lenght():
+Pour contrôler la longueur d'un vecteur, il y a deux moyens: le plus simple, c'est de regarder la fenêtre en haut à droite les informations de la variable. Ou d'utiliser la fonction lenght():
 
 ```{r}
 length(v5)
@@ -181,7 +181,7 @@ sum(5)
 
 **Gestion des objets**
 
-Pour gérer les objets vous pouvez utiliser ces 2 fonctions importantes: ls() et remove() ou rm() en abrégé. ls(), affiche tous les objets créés (laisser tel quel). remove() ou rm() supprime les objets sélectionnés. Exemple (Attention avant de lancer l’exemple assurer vous d’avoir enregistré tous les objets importants, puisque la dernière fonction les supprime tous):
+Pour gérer les objets vous pouvez utiliser ces 2 fonctions importantes: ls() et remove() ou rm() en abrégé. ls(), affichent tous les objets créés (laisser tel quel). remove() ou rm() supprime les objets sélectionnés. Exemple (Attention avant de lancer l’exemple assurer vous d’avoir enregistré tous les objets importants, puisque la dernière fonction les supprime tous):
 
 ```{r}
 # Faire disparaitre le vecteur v0
@@ -217,7 +217,7 @@ v4<-c(3,v2,-2:5,0)
 v0;v1;v2;v3;v4
 ```
 
-Remarquez que nous pouvons le faire dans les deux sens (ascendant/descendant). Pour réaliser des séries plus personnalisées vous pouvez utiliser la fonction seq() en indiquant dans un premier temps le nombre de départ, puis le nombre d’arrivé, finalement indiquez la taille du saut après avoir écrit "by=":
+Remarquez que nous pouvons le faire dans les deux sens (ascendant/descendant). Pour réaliser des séries plus personnalisées vous pouvez utiliser la fonction seq() en indiquant dans un premier temps le nombre de départ, puis le nombre d’arrivée, finalement indiquez la taille du saut après avoir écrit "by=":
 
 ```{r}
 seq(3,11,by=4)
@@ -226,13 +226,13 @@ v0<-seq(8,13,by=0.5)
 v0
 ```
 
-Remarques: Premièrement, si les sauts que vous souhaitez faire ne correspondent pas exactement à l'écart entre les deux nombres, R va arrêter le compte juste avant de dépasser la valeur limite. Deuxièmement, si vous souhaitez faire une série descendante il faut indiquer un nombre négatif. Finalement, la fonction utilisée ici est un abrégé, si nous voulions faire du zèle nous devrions utiliser la fonction complète:
+Remarques: Premièrement, si les sauts que vous souhaitez faire ne correspondent pas exactement à l'écart entre les deux nombres, R va arrêter le compte juste avant de dépasser la valeur limite. Deuxièmement, si vous souhaitez faire une série descendante, il faut indiquer un nombre négatif. Finalement, la fonction utilisée ici est un abrégé, si nous voulions faire du zèle, nous devrions utiliser la fonction complète:
 
 ```{r}
 seq(from=1,to=10,by=1)
 ```
 
-Nous expliquerons dans un autre tuto pourquoi il existe plusieurs versions et dans quel cas il est possible d'utiliser la version raccourcie. Dans ce qui suit nous n'imputerons pas forcément les valeurs à des variables pour les exemples, mais sachez que c'est possible de le faire pour tous les cas qui vont suivre. Nous pouvons également répéter un nombre ou une série de nombre pour créer nos vecteurs:
+Nous expliquerons dans un autre tuto pourquoi il existe plusieurs versions et dans quel cas il est possible d'utiliser la version raccourcie. Dans ce qui suit, nous n'imputerons pas forcément les valeurs à des variables pour les exemples, mais sachez que c'est possible de le faire pour tous les cas qui vont suivre. Nous pouvons également répéter un nombre ou une série de nombres pour créer nos vecteurs:
 
 ```{r}
 v0<-0:1
@@ -264,7 +264,7 @@ v0[2]+v1[3]
 v0[3:9]*v1[1:7]
 ```
 
-Gardez en mémoire le fait que cela sera très utile pour la manipulation de matrices et de structures de données, mais qu'il existe un packages qui gère mieux ce genre de situation (dyplr de tidyverse)
+Gardez en mémoire le fait que cela sera très utile pour la manipulation de matrices et de structures de données, mais qu'il existe un package qui gère mieux ce genre de situation (dyplr de tidyverse)
 
 **Opérateurs**
 Avant d'entamer les opérateurs, nous allons commencer par un petit exemple. Nous allons voir ce qu'il se passe lorsque nous utilisons les signes < et >:
@@ -274,7 +274,7 @@ Avant d'entamer les opérateurs, nous allons commencer par un petit exemple. Nou
 1<100
 ```
 
-Suivant le code inscrit, R nous renvoi soit TRUE (Vrai) soit FALSE (Faux). En guise d'explication simple, il nous indique si l'expression ou la condition que nous lui avons proposé est vraie ou fausse. Dans notre exemple 2 n'est pas plus grand que 3 (donc faux) et 1 est bien inférieur à 100 (donc vrai). Cela marche aussi pour les vecteurs:
+Suivant le code inscrit, R nous renvoie soit TRUE (vrai) soit FALSE (Faux). En guise d'explication simple, il nous indique si l'expression ou la condition que nous lui avons proposée est vraie ou fausse. Dans notre exemple 2 n'est pas plus grand que 3 (donc faux) et 1 est bien inférieurs à 100 (donc vrai). Cela marche aussi pour les vecteurs:
 
 ```{r}
 v0<-1:10
@@ -317,7 +317,7 @@ Et (simple)| &&
 Ou (par élément)| "|" 
 Ou (simple)| "||"
 
-*Remarque: Les signes "|" (ou par élément) et "||" (ou simple) n'aparraissent pas dans le tableau à cause de leur particularité, mais ce sont bient ces signes.*
+*Remarque: Les signes "|" (ou par élément) et "||" (ou simple) n'apparaissent pas dans le tableau à cause de leur particularité, mais ce sont bien ces signes.*
 
 Pour la dernière série d'opérateurs, voici quelques exemples d'utilisation:
 
@@ -334,7 +334,7 @@ Pour la dernière série d'opérateurs, voici quelques exemples d'utilisation:
 
 Ce tuto est terminé! 
 
-Gardez en mémoire le fait que cela sera très utile pour la manipulation de matrices et de structures de données, mais qu'il existe un packages qui gère mieux ce genre de situation (dyplr de tidyverse)
+Gardez en mémoire le fait que cela sera très utile pour la manipulation de matrices et de structures de données, mais qu'il existe un package qui gère mieux ce genre de situation (dyplr de tidyverse)
 
 ## Opérateurs
 
@@ -345,7 +345,7 @@ Avant d'entamer les opérateurs, nous allons commencer par un petit exemple. Nou
 1<100
 ```
 
-Suivant le code inscrit, R nous renvoi soit TRUE (Vrai) soit FALSE (Faux). En guise d'explication simple, il nous indique si l'expression ou la condition que nous lui avons proposé est vraie ou fausse. Dans notre exemple 2 n'est pas plus grand que 3 (donc faux) et 1 est bien inférieur à 100 (donc vrai). Cela marche aussi pour les vecteurs:
+Suivant le code inscrit, R nous renvoie soit TRUE (vrai) soit FALSE (Faux). En guise d'explication simple, il nous indique si l'expression ou la condition que nous lui avons proposée est vraie ou fausse. Dans notre exemple 2 n'est pas plus grand que 3 (donc faux) et 1 est bien inférieurs à 100 (donc vrai). Cela marche aussi pour les vecteurs:
 
 ```{r}
 v0 <- 1:10
@@ -357,14 +357,14 @@ Remarque: Jusqu'au cinquième nombre qui correspond à 5 toutes les valeurs renv
 
 ## Booléens
 
-Les booléens sont un type d'objet qui prennent que deux types de valeurs vrai "TRUE" ou faux "FALSE". Et le tout s'écrit en majuscule:
+Les booléens sont un type d'objet qui ne prend que deux types de valeurs vrai "TRUE" ou faux "FALSE". Et le tout s'écrit en majuscule:
 
 ```{r}
 TRUE
 FALSE
 ```
 
-Les deux valeurs peuvent être considéré comme des chiffres, là où TRUE vaut 1 et FALSE vaut 0.
+Les deux valeurs peuvent être considérées comme des chiffres, là où TRUE vaut 1 et FALSE vaut 0.
 
 ```{r}
 # Fonction pour transformer un élément en nombre
@@ -377,7 +377,7 @@ TRUE + TRUE
 FALSE - 10
 ```
 
-Les booléens à eux seuls ne servent pas à grand chose, mais utilisés dans des conditions logiques (pas traîté dans ce tutoriel) ou dans des sélections, ils sont d'une grande efficacité. Voilà un exemple qui est loin de démontrer leur efficacité, mais simplement pour comprendre comment ils fonctionnent dans la sélection:
+Les booléens à eux seuls ne servent pas à grand-chose, mais utilisés dans des conditions logiques (pas traité dans ce tutoriel) ou dans des sélections, ils sont d'une grande efficacité. Voilà un exemple qui est loin de démontrer leur efficacité, mais simplement pour comprendre comment ils fonctionnent dans la sélection:
 
 ```{r}
 v2 <- c(1,2)
@@ -423,7 +423,7 @@ Et (simple)| &&
 Ou (par élément)| "|" 
 Ou (simple)| "||"
 
-*Remarque: Les signes "|" (ou par élément) et "||" (ou simple) n'aparraissent pas dans le tableau à cause de leur particularité, mais ce sont bient ces signes.*
+*Remarque: Les signes "|" (ou par élément) et "||" (ou simple) n'apparaissent pas dans le tableau à cause de leur particularité, mais ce sont bien ces signes.*
 
 Pour la dernière série d'opérateurs, voici quelques exemples d'utilisation:
 
@@ -461,7 +461,7 @@ v4[v3>=5]
 v4[v3>=5 | v4=="b"]
 ```
 
-Ici nous présentons deux éléments utiles pour la sélection/modification. Premièrement nous présentons la fonction _%in%_ qui permet de contrôler si un élément est présent dans un ensemble d'éléments présentés. Il permet de demandé "Est-ce que tel élément est égal à l'un des éléments de la liste suivante". Voici une démonstration:
+Ici nous présentons deux éléments utiles pour la sélection/modification. Premièrement nous présentons la fonction _%in%_ qui permet de contrôler si un élément est présent dans un ensemble d'éléments présentés. Il permet de demander "Est-ce que tel élément est égal à l'un des éléments de la liste suivante". Voici une démonstration:
 
 ```{r}
 v4 <- 1:4
@@ -473,7 +473,7 @@ v4
 v3 %in% v4
 ```
 
-Deuxièmement, les vecteurs de booléens peuvent servir à modifier d'autres vecteurs et particulièrement grâce à la fonction _ifelse()_ qui permet de modifier un vecteur différemment en fonction de si un élément logique est respecte. Le premier paramètre de la fonction c'est l'opération logique, le deuxième, c'est le résultat à retourné si c'est vrai et le troisième c'est le résultat à retourné si c'est faux.
+Deuxièmement, les vecteurs de booléens peuvent servir à modifier d'autres vecteurs et particulièrement grâce à la fonction _ifelse()_ qui permet de modifier un vecteur différemment en fonction de si un élément logique est respecte. Le premier paramètre de la fonction c'est l'opération logique, le deuxième, c'est le résultat à retourner si c'est vrai et le troisième c'est le résultat à retourner si c'est faux.
 
 ```{r}
 v3
@@ -488,15 +488,15 @@ Nous voyons que ça laisse beaucoup de possibilités.
 
 ## Listes
 
-Dans cette partie, nous allons parler des listes, qui ne sont pas la même choses que les vecteurs. Même si elles sont similaires dans le fait qu'elles peuvent contenir une série d'élément dans un ordre précis, elles diffèrent sur ces points:
+Dans cette partie, nous allons parler des listes, qui ne sont pas la même chose que les vecteurs. Même si elles sont similaires dans le fait qu'elles peuvent contenir une série d'éléments dans un ordre précis, elles diffèrent sur ces points:
 
-- Une liste peut contenir n'importe quelle types d'objets (chaîne de caractères, nombre, booléen, vecteurs, data frame, etc.) et peut en avoir différents types sans que ça ne pose un problème.
+- Une liste peut contenir n'importe quels types d'objets (chaîne de caractères, nombre, booléen, vecteurs, data frame, etc.) et peut en avoir différents types sans que ça pose un problème.
 
 - Une liste peut contenir d'autres listes et il est possible d'avoir un contenu en tiroirs.
 
 - Il est possible d'appeler un élément d'une liste par un nom qu'on lui a donné au préalable.
 
-- Les éléments d'une liste ne sont pas directement manipulables, ni directement accessible contrairement aux vecteurs. Il faut les extraire d'une manière spéciale.
+- Les éléments d'une liste ne sont pas directement manipulables, ni directement accessibles contrairement aux vecteurs. Il faut les extraire d'une manière spéciale.
 
 - Il n'est pas possible de faire directement des opérations sur une liste sans passer par une itération (boucle) ou du mapping (apply, map). 
 
@@ -521,7 +521,7 @@ class(l1[1])
 class(l1[[1]])
 ```
 
-Si nous nommons les éléments d'une liste, il est possible de les récupérer avec leur noms:
+Si nous nommons les éléments d'une liste, il est possible de les récupérer avec leurs noms:
 
 ```{r}
 l3 <- list(vecteur0 = v0, vecteur1 = v1)
@@ -529,7 +529,7 @@ l3$vecteur0
 l3$vecteur1
 ```
 
-Finalement, il est possible de récupérer des éléments imbriqué d'une liste dans une liste:
+Finalement, il est possible de récupérer des éléments imbriqués d'une liste dans une liste:
 
 ```{r}
 l0 <- list(vecteur1 = v1, animal = "oiseau")
