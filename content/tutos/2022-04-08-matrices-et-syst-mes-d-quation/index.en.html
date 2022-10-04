@@ -9,7 +9,7 @@ tags:
   - r
   - statistiques
 subtitle: ''
-summary: "Dans ce tutoriel, nous explorons les matrices et leurs utilisation dans la résolution de systèmes d'équations"
+summary: "Dans ce tutoriel, nous explorons les matrices et leurs utilisations dans la résolution de systèmes d'équations"
 authors: []
 lastmod: '2022-04-08T23:53:02+02:00'
 featured: no
@@ -23,47 +23,46 @@ output:
     toc: yes
 ---
 
-<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
 
 
-<p>/! N’oubliez pas de nettoyer votre “Global Environnment” avec les fonctions rm() rm(list=ls()), pour éviter d’être encombré de variable. N’hésitez surtout pas à les supprimer si ce sont des exemples donnés dans les tutos, vous pouvez les recréer facilement. R-Studio n’est pas une cave, un peu d’ordre ça aide en statistique.</p>
+<p>N’oubliez pas de nettoyer votre “Global Environnment” avec la fonction <code>rm(list=ls())</code>, pour éviter d’être encombré de variable. N’hésitez surtout pas à les supprimer si ce sont des exemples donnés dans les tutos, vous pouvez les recréer facilement. R-Studio n’est pas une cave, un peu d’ordre, ça aide en statistique.</p>
 <div id="les-fonctions" class="section level2">
 <h2>Les fonctions</h2>
 <p>Dans un premier temps nous allons observer plus en profondeur les fonctions et leur fonctionnement avant de nous lancer dans les matrices.</p>
-<p>Prenons la fonction rnorm() que nous allons analyser avec la fonction help() qui nous explique comment fonctionnent les fonctions:</p>
+<p>Prenons la fonction <code>rnorm()</code> que nous allons analyser avec la fonction <code>help()</code> qui nous explique comment fonctionnent les fonctions:</p>
 <pre class="r"><code>help(rnorm) </code></pre>
 <pre><code>## starting httpd help server ... done</code></pre>
 <pre class="r"><code># ou ?rnorm</code></pre>
-<p>Dans la fenêtre en bas à droite apparait sous l’onglet “Help” apparait un texte. Tout est écrit en anglais dans cette fenêtre. à chaque fois que vous utiliserez help(), vous aurez la même structure. Premièrement nous avons la description qui explique sommairement à quoi sert la fonction. Puis sous “Usage”, nous avons des exemples génériques montrant la structure interne de la fonction (peut être longue). Sous “Arguments”, il y a une explication détailler de ce que sont les éléments de la structure interne. Sous “Détails”, “Value” et “Note” il y a plus de détails sur la fonction. “Référence” indique la source du code et “See Also” montre d’autres fonctions proches. Finalement, sous “Examples” nous avons des exemples intéressants d’utilisation de la fonction. Lorsque vous utiliser la fonction help() vous lirez principalement “Description”, “Usage”, “Arguments” et “Examples”. Ce qui arrive aussi assez souvent, c’est de chercher des informations sur la fonction sur internet.</p>
-<p>Dans notre exemple, nous voyons que rnorm permet de générer des nombres aléatoires suivant une distribution normale (plus d’information sur le tuto sur les probabilités). Sous “Usage” nous pouvons voir que la structure interne de la fonction ressemble à ça:</p>
+<p>Dans la fenêtre en bas à droite apparait sous l’onglet “Help” apparait un texte. Tout est écrit en anglais dans cette fenêtre. À chaque fois que vous utiliserez help(), vous aurez la même structure. Premièrement nous avons la description qui explique sommairement à quoi sert la fonction. Puis sous “Usage”, nous avons des exemples génériques montrant la structure interne de la fonction (peut être longue). Sous “Arguments”, il y a une explication détaillée de ce que sont les éléments de la structure interne. Sous “Détails”, “Value” et “Note”, il y a plus de détails sur la fonction. “Référence” indique la source du code et “See Also” montre d’autres fonctions proches. Finalement, sous “Examples” nous avons des exemples intéressants d’utilisation de la fonction. Lorsque vous utilisez la fonction <code>help()</code>, vous lirez principalement “Description”, “Usage”, “Arguments” et “Examples”. Ce qui arrive aussi assez souvent, c’est de chercher des informations sur la fonction sur internet.</p>
+<p>Dans notre exemple, nous voyons que le rnorm permet de générer des nombres aléatoires suivant une distribution normale (plus d’information sur le tuto sur les probabilités). Sous “Usage”, nous pouvons voir que la structure interne de la fonction ressemble à ça:</p>
 <pre class="r"><code>rnorm(n, mean = 0, sd = 1)</code></pre>
-<p>Si nous regardons sous “Arguments”, nous pouvons voir que “n” représente le nombre d’observations, “mean” représente la moyenne de la distribution normale et que “sd” signifie l’écart type de la distribution normale. Avec ça nous comprenons que si nous donnons un nombre d’observations désiré, une moyenne et un écart-type la fonction rnorm() va nous générer aléatoirement n nombres provenant d’une distribution normale de moyenne “mean” et d’écart-type “sd”.</p>
+<p>Si nous regardons sous “Arguments”, nous pouvons voir que “n” représente le nombre d’observations, “mean” représente la moyenne de la distribution normale et que “sd” signifie l’écart type de la distribution normale. Avec ça nous comprenons que si nous donnons un nombre d’observations désiré, une moyenne et un écart-type la fonction <code>rnorm()</code> va nous générer aléatoirement n nombres provenant d’une distribution normale de moyenne “mean” et d’écart-type “sd”.</p>
 <p>Imaginons que nous souhaitons 5 observations provenant d’une distribution normale de moyenne 10 et d’écart type 0.1. De manière générale, lorsque l’on souhaite utiliser une fonction, il faut spécifier chaque terme se trouvant sous l’onglet “Usage”:</p>
 <pre class="r"><code>rnorm(5,mean=10,sd=0.1) </code></pre>
-<pre><code>## [1] 10.024462 10.095518  9.965077 10.056701 10.054736</code></pre>
-<p>Remarque: les espaces n’ont pas vraiment d’importance, vous pouvez ne pas en mettre comme vous pouvez en mettre 10’000 sans que ça ne perturbe R. Pour les sauts de paragraphe avec la touche “Enter” c’est pareil.</p>
-<p>Mais il n’est pas nécessaire d’inscrire tous les éléments en entier, tant qu’on respecte l’ordre. utiliser les paramètres interne de la fonction permet de les mettre dans l’ordre qu’on souhaite ou d’en éviter. Par exemple, tout ce qui suit abouti au même résultat:</p>
+<pre><code>## [1] 10.046623 10.040109 10.005267  9.942323  9.959191</code></pre>
+<p>Remarque: les espaces n’ont pas vraiment d’importance, vous pouvez ne pas en mettre comme vous pouvez en mettre 10’000 sans que ça perturbe R. Pour les sauts de paragraphe avec la touche “Enter”, c’est pareil.</p>
+<p>Mais il n’est pas nécessaire d’inscrire tous les éléments en entier, tant qu’on respecte l’ordre. Utiliser les paramètres internes de la fonction permet de les mettre dans l’ordre qu’on souhaite ou d’en éviter. Par exemple, tout ce qui suit aboutit au même résultat:</p>
 <pre class="r"><code># Donnent tous le même résultat
 rnorm(5,mean=10,sd=0.1)</code></pre>
-<pre><code>## [1]  9.955004  9.835835 10.036481  9.900972 10.133738</code></pre>
+<pre><code>## [1]  9.987930  9.958015  9.975942 10.051433  9.878823</code></pre>
 <pre class="r"><code>rnorm(5,10,0.1)</code></pre>
-<pre><code>## [1]  9.995200  9.920532 10.074241  9.980014  9.934832</code></pre>
+<pre><code>## [1] 10.164426  9.973921 10.099416  9.963950 10.063805</code></pre>
 <pre class="r"><code>rnorm(5,sd=0.1,mean=10) </code></pre>
-<pre><code>## [1]  9.937988 10.149387 10.000912 10.059636 10.177106</code></pre>
+<pre><code>## [1]  9.928897 10.051488  9.840205  9.985300  9.939622</code></pre>
 <p>Remarque: Les résultats ne seront pas exactement les mémés puisque les nombres sont générés aléatoirement. Ce qui est important de constater pour confirmer que ces expressions donnent bien le même résultat, c’est d’avoir le même nombre de valeurs générées et que ces valeurs tournent autour de 10.</p>
-<p>Les valeurs d’une fonction sont aussi fixées à l’avance parfois. Si nous revenons sur la structure dans “Usage” nous pouvons voir qu’à l’exception de de n, tous les paramètres ont une valeur fixée:</p>
+<p>Les valeurs d’une fonction sont aussi fixées à l’avance parfois. Si nous revenons sur la structure dans “Usage”, nous pouvons voir qu’à l’exception de n, tous les paramètres ont une valeur fixée:</p>
 <pre class="r"><code>rnorm(n, mean = 0, sd = 1)</code></pre>
-<p>Cela signifie que lorsqu’on lance la fonction tel quel en spécifiant le nombre d’observations souhaitées nous le faisons à partir d’une distribution normale de moyenne 0 et d’écart-type 1. étant donné le fait que l’écart type est assez élevé nous n’aurons pas énormément de valeurs centrées autour de 0. Nous allons donc en générer une grande quantité (1000) dans une variable (a), en faire la moyenne et l’écart-type pour la comparer à celle de notre variable test (b) servant de comparaison avec la formule complète:</p>
+<p>Cela signifie que lorsqu’on lance la fonction telle quelle en spécifiant le nombre d’observations souhaitées nous le faisons à partir d’une distribution normale de moyenne 0 et d’écart-type 1. étant donné le fait que l’écart type est assez élevé nous n’aurons pas énormément de valeurs centrées autour de 0. Nous allons donc en générer une grande quantité (1000) dans une variable (a), en faire la moyenne et l’écart-type pour la comparer à celle de notre variable test (b) servant de comparaison avec la formule complète:</p>
 <pre class="r"><code>a &lt;- rnorm(1000)
 b &lt;- rnorm(1000,mean=0,sd=1)
 mean(a)</code></pre>
-<pre><code>## [1] 0.03111125</code></pre>
+<pre><code>## [1] 0.02141132</code></pre>
 <pre class="r"><code>mean(b)</code></pre>
-<pre><code>## [1] -0.03465778</code></pre>
+<pre><code>## [1] -0.02850229</code></pre>
 <pre class="r"><code>sd(a)</code></pre>
-<pre><code>## [1] 0.9761283</code></pre>
+<pre><code>## [1] 1.025916</code></pre>
 <pre class="r"><code>sd(b) </code></pre>
-<pre><code>## [1] 1.002867</code></pre>
+<pre><code>## [1] 1.008726</code></pre>
 <p>Si tout se passe bien, nous aurons une moyenne proche de 0 et un écart-type proche de 1 pour les 2 variables. Donc les valeurs fixées correspondent bien.</p>
 <p>Maintenant, vous êtes prêt à explorer les fonctions vous-même.</p>
 </div>
@@ -71,7 +70,7 @@ mean(a)</code></pre>
 <h2>Les matrices</h2>
 <div id="création" class="section level3">
 <h3>Création</h3>
-<p>Nous allons maintenant voir comment créer des matrices. Les matrices peuvent être considérées comme des tableaux d’éléments permettant de réaliser des calculs linéaires de manière simplifiée. Elles peuvent être créées entièrement à partir d’un vecteur ou être la combinaison de plusieurs vecteurs. Nous pouvons utiliser la fonction matrix() pour le premier cas et les fonctions cbind() et rbind() pour le second cas:</p>
+<p>Nous allons maintenant voir comment créer des matrices. Les matrices peuvent être considérées comme des tableaux d’éléments permettant de réaliser des calculs linéaires de manière simplifiée. Elles peuvent être créées entièrement à partir d’un vecteur ou être la combinaison de plusieurs vecteurs. Nous pouvons utiliser la fonction <code>matrix()</code> pour le premier cas et les fonctions <code>cbind()</code> et <code>rbind()</code> pour le second cas:</p>
 <pre class="r"><code># Nous créons trois vecteurs, de longueur 4 (a), 6 (b) et 9 (c)
 a &lt;- c(4,2,8,1)
 b &lt;- rep(1, time=6)
@@ -118,12 +117,12 @@ matrix(b,2,3)</code></pre>
 ## [1,]    1    1
 ## [2,]    1    1
 ## [3,]    1    1</code></pre>
-<p>Bref vous avez compris. En utilisant rbind() vous alignez les vecteurs par ligne et en utilisant cbind() vous les alignez par colonne: Nous créons 3 vecteurs a,b et c contenant 1,2 et 3 dans leur série b=c=a&lt;-1:3 Nous les alignons par ligne: rbind(a,b,c) Nous les alignons par colonne: cbind(a,b,c)</p>
-<p>Remarques: pour rbind() et cbind() il faut avoir des vecteurs de même longueur pour que ça fonctionne. Remarquez que les lignes ou les colonnes des matrices prennent le nom des variables dépendamment de la fonction utilisée.</p>
+<p>Bref vous avez compris. En utilisant <code>rbind()</code> vous alignez les vecteurs par ligne et en utilisant <code>cbind()</code> vous les alignez par colonne: Nous créons 3 vecteurs a,b et ce contenant 1,2 et 3 dans leur série b=c=a&lt;-1:3 nous les alignons par ligne: rbind(a,b,c) nous les alignons par colonne: cbind(a,b,c).</p>
+<p>Remarques: pour <code>rbind()</code> et <code>cbind()</code> il faut avoir des vecteurs de même longueur pour que ça fonctionne. Remarquez que les lignes ou les colonnes des matrices prennent le nom des variables dépendamment de la fonction utilisée.</p>
 </div>
 <div id="calcul" class="section level3">
 <h3>Calcul</h3>
-<p>Naturellement, vous pouvez utiliser plusieurs opérateurs mathématiques comme pour les vecteurs. Sans oublier que pour les additions, soustractions, divisions et multiplications entre matrices elles doivent avoir les mêmes dimensions. Lorsque vous tentez ce genre de calcule, les opérations se passent élément par élément:</p>
+<p>Naturellement, vous pouvez utiliser plusieurs opérateurs mathématiques comme pour les vecteurs. Sans oublier que pour les additions, soustractions, divisions et multiplications entre matrices, elles doivent avoir les mêmes dimensions. Lorsque vous tentez, ce genre de calcule, les opérations se passent élément par élément:</p>
 <pre class="r"><code># Création de matrices
 m0 &lt;- matrix(rep(1,time=9),3,3)
 m1 &lt;- m0*2
@@ -159,7 +158,7 @@ m1+m0</code></pre>
 ## [1,] 1.414214 1.414214 1.414214
 ## [2,] 1.414214 1.414214 1.414214
 ## [3,] 1.414214 1.414214 1.414214</code></pre>
-<p>Pour réaliser un produit matriciel, il faut utiliser l’opérateur %*% et respecter la règle de multiplication, c’est-é-dire, il faut que le nombre de colonne de la matrice à gauche soit égal au nombre de ligne de la matrice à droite:</p>
+<p>Pour réaliser un produit matriciel, il faut utiliser l’opérateur %*% et respecter la règle de multiplication, c’est-à-dire, il faut que le nombre de colonnes de la matrice à gauche soit égal au nombre de ligne de la matrice à droite:</p>
 <pre class="r"><code># Création de matrices
 a &lt;- c(4,2,8,1)
 b &lt;- rep(1, time=6)
@@ -313,7 +312,7 @@ aperm(m0)</code></pre>
 </div>
 <div id="systèmea-déquations" class="section level2">
 <h2>Systèmea d’équations</h2>
-<p>Pour la résolution de systèmes d’équations linéaires, nous utiliserons la fonction solve(). Pour résoudre un système d’équation linéaire simple, il faut autant d’inconnus (x,y,z, etc.) que d’équation. Si nous relevons que la partie gauche de l’équation contenant toutes nos inconnus, nous obtenons une matrice carrée A de dimension AxA. Cette matrice est multipliée par la matrice X représentant toutes les inconnus de dimension Ax1. Puis en prenant les constantes du côté droit de l’équation, nous obtenons une matrice B de dimension Ax1, en voici un exemple:</p>
+<p>Pour la résolution de systèmes d’équations linéaires, nous utiliserons la fonction <code>solve()</code>. Pour résoudre un système d’équation linéaire simple, il faut autant d’inconnus (x,y,z, etc.) que d’équation. Si nous relevons que la partie gauche de l’équation contenant toutes nos inconnues, nous obtenons une matrice carrée A de dimension AxA. Cette matrice est multipliée par la matrice X représentant toutes les inconnues de dimension Ax1. Puis en prenant les constantes du côté droit de l’équation, nous obtenons une matrice B de dimension Ax1, en voici un exemple:</p>
 <p><span class="math inline">\(2x + 3y - z = 10\)</span></p>
 <p><span class="math inline">\(-x + 5y + z = 0\)</span></p>
 <p><span class="math inline">\(3x + -y + z = 2\)</span></p>
@@ -338,20 +337,20 @@ B=
 2
 \end{array}\right)
 \]</span></p>
-<p>Nous obtenons donc l’équation des matrices AX=B. Pour résoudre cette équation, il suffit de diviser les deux côtés de l’équation par A et obtenir ainsi X. Mais puisque qu’il n’existe en principe pas de division dans les matrices, nous multiplions par l’inverse, c’est à dire A’ ici. Attention, l’ordre à une importance (multiplication par la gauche):</p>
+<p>Nous obtenons donc l’équation des matrices AX=B. Pour résoudre cette équation, il suffit de diviser les deux côtés de l’équation par A et obtenir ainsi X. Mais puisque qu’il n’existe en principe pas de division dans les matrices, nous multiplions par l’inverse, c’est-à-dire A’ ici. Attention, l’ordre à une importance (multiplication par la gauche):</p>
 <p><span class="math inline">\(A * X = B A&#39;A * X = A&#39;B\)</span></p>
 <p><span class="math inline">\(X = A&#39;B\)</span></p>
-<p>Pour trouver la réponse à notre système d’équation nous devons simplement multiplier l’inverse de la matrice A (Matrice des coefficients) par la matrice B (matrice des résultats ou des constantes). Nous allons réaliser ce calcule.</p>
+<p>Pour trouver la réponse à notre système d’équations, nous devons simplement multiplier l’inverse de la matrice A (Matrice des coefficients) par la matrice B (matrice des résultats ou des constantes). Nous allons réaliser ce calcule.</p>
 <p>Nous allons dans un premier temps créer nos matrices:</p>
 <pre class="r"><code>A &lt;- matrix(c(2,-1,3,3,5,-1,-1,1,1),3,3)
 B &lt;- matrix(c(10,0,2),3,1)</code></pre>
-<p>Puis nous allons utiliser la fonction sovle() pour faire l’inverse de la matrice A et multiplier le tout par B (avec le produit matriciel):</p>
+<p>Puis nous allons utiliser la fonction <code>sovle()</code> pour faire l’inverse de la matrice A et multiplier le tout par B (avec le produit matriciel):</p>
 <pre class="r"><code>solve(A)%*%B </code></pre>
 <pre><code>##      [,1]
 ## [1,]    2
 ## [2,]    1
 ## [3,]   -3</code></pre>
-<p>Nous obtenons 2, 1 et -3 (pour x, y et z respectivement) et nous pouvons voir que les réponses sont correctes car en remplaçant chaque élément par sa valeur dans le système d’équation suivant:</p>
+<p>Nous obtenons 2, 1 et -3 (pour x, y et z respectivement) et nous pouvons voir que les réponses sont correctes car en remplaçant chaque élément par sa valeur dans le système d’équations suivant:</p>
 <p><span class="math inline">\(2x + 3y - z = 10\)</span></p>
 <p><span class="math inline">\(-x + 5y + z = 0\)</span></p>
 <p><span class="math inline">\(3x + -y + z = 2\)</span></p>
@@ -362,6 +361,6 @@ B &lt;- matrix(c(10,0,2),3,1)</code></pre>
 <span class="math inline">\(-2 + 5 - 3 = 0\)</span></p>
 <p><span class="math inline">\(3(2) + -(1) + (-3) =\)</span>
 <span class="math inline">\(6 - 1 - 3 = 2\)</span></p>
-<p>Ce qui correspond bien aux résultats attendus. Dans ce tuto nous nous arrêtons aux simples systèmes d’équations, mais dans un tuto avenir nous nous intéresserons à l’optimisation et aux différents packages pouvant nous aider à cette fin (nous verrons prochainement ce qu’est une “packages” et une “library”).</p>
+<p>Ce qui correspond bien aux résultats attendus. Dans ce tuto nous nous arrêtons aux simples systèmes d’équations, mais dans un tuto avenir nous nous intéresserons à l’optimisation et aux différents packages pouvant nous aider à cette fin (nous verrons prochainement ce qu’est un “package” et une “library”).</p>
 <p>Ce tuto est terminé.</p>
 </div>

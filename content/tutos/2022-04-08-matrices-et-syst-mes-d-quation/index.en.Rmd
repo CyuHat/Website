@@ -9,7 +9,7 @@ tags:
   - r
   - statistiques
 subtitle: ''
-summary: "Dans ce tutoriel, nous explorons les matrices et leurs utilisation dans la résolution de systèmes d'équations"
+summary: "Dans ce tutoriel, nous explorons les matrices et leurs utilisations dans la résolution de systèmes d'équations"
 authors: []
 lastmod: '2022-04-08T23:53:02+02:00'
 featured: no
@@ -27,28 +27,28 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-/!\ N'oubliez pas de nettoyer votre "Global Environnment" avec les fonctions rm() rm(list=ls()), pour éviter d'être encombré de variable. N'hésitez surtout pas à les supprimer si ce sont des exemples donnés dans les tutos, vous pouvez les recréer facilement. R-Studio n'est pas une cave, un peu d'ordre ça aide en statistique.
+N'oubliez pas de nettoyer votre "Global Environnment" avec la fonction  `rm(list=ls())`, pour éviter d'être encombré de variable. N'hésitez surtout pas à les supprimer si ce sont des exemples donnés dans les tutos, vous pouvez les recréer facilement. R-Studio n'est pas une cave, un peu d'ordre, ça aide en statistique.
 
 ## Les fonctions
 
 Dans un premier temps nous allons observer plus en profondeur les fonctions et leur fonctionnement avant de nous lancer dans les matrices.
 
-Prenons la fonction rnorm() que nous allons analyser avec la fonction help() qui nous explique comment fonctionnent les fonctions:
+Prenons la fonction `rnorm()` que nous allons analyser avec la fonction `help()` qui nous explique comment fonctionnent les fonctions:
 
 ```{r}
 help(rnorm) 
 # ou ?rnorm
 ```
 
-Dans la fenêtre en bas à droite apparait sous l'onglet "Help" apparait un texte. Tout est écrit en anglais dans cette fenêtre. à chaque fois que vous utiliserez help(), vous aurez la même structure. Premièrement nous avons la description qui explique sommairement à quoi sert la fonction. Puis sous "Usage", nous avons des exemples génériques montrant la structure interne de la fonction (peut être longue). Sous "Arguments", il y a une explication détailler de ce que sont les éléments de la structure interne. Sous "Détails", "Value" et "Note" il y a plus de détails sur la fonction. "Référence" indique la source du code et "See Also" montre d'autres fonctions proches. Finalement, sous "Examples" nous avons des exemples intéressants d'utilisation de la fonction. Lorsque vous utiliser la fonction help() vous lirez principalement "Description", "Usage", "Arguments" et "Examples". Ce qui arrive aussi assez souvent, c'est de chercher des informations sur la fonction sur internet.
+Dans la fenêtre en bas à droite apparait sous l'onglet "Help" apparait un texte. Tout est écrit en anglais dans cette fenêtre. À chaque fois que vous utiliserez help(), vous aurez la même structure. Premièrement nous avons la description qui explique sommairement à quoi sert la fonction. Puis sous "Usage", nous avons des exemples génériques montrant la structure interne de la fonction (peut être longue). Sous "Arguments", il y a une explication détaillée de ce que sont les éléments de la structure interne. Sous "Détails", "Value" et "Note", il y a plus de détails sur la fonction. "Référence" indique la source du code et "See Also" montre d'autres fonctions proches. Finalement, sous "Examples" nous avons des exemples intéressants d'utilisation de la fonction. Lorsque vous utilisez la fonction `help()`, vous lirez principalement "Description", "Usage", "Arguments" et "Examples". Ce qui arrive aussi assez souvent, c'est de chercher des informations sur la fonction sur internet.
 
-Dans notre exemple, nous voyons que rnorm permet de générer des nombres aléatoires suivant une distribution normale (plus d'information sur le tuto sur les probabilités). Sous "Usage" nous pouvons voir que la structure interne de la fonction ressemble à ça:
+Dans notre exemple, nous voyons que le rnorm permet de générer des nombres aléatoires suivant une distribution normale (plus d'information sur le tuto sur les probabilités). Sous "Usage", nous pouvons voir que la structure interne de la fonction ressemble à ça:
 
 ```{r eval=FALSE}
 rnorm(n, mean = 0, sd = 1)
 ```
  
-Si nous regardons sous "Arguments", nous pouvons voir que "n" représente le nombre d'observations, "mean" représente la moyenne de la distribution normale et que "sd" signifie l’écart type de la distribution normale. Avec ça nous comprenons que si nous donnons un nombre d'observations désiré, une moyenne et un écart-type la fonction rnorm() va nous générer aléatoirement n nombres provenant d'une distribution normale de moyenne "mean" et d'écart-type "sd".
+Si nous regardons sous "Arguments", nous pouvons voir que "n" représente le nombre d'observations, "mean" représente la moyenne de la distribution normale et que "sd" signifie l’écart type de la distribution normale. Avec ça nous comprenons que si nous donnons un nombre d'observations désiré, une moyenne et un écart-type la fonction `rnorm()` va nous générer aléatoirement n nombres provenant d'une distribution normale de moyenne "mean" et d'écart-type "sd".
 
 Imaginons que nous souhaitons 5 observations provenant d'une distribution normale de moyenne 10 et d'écart type 0.1. De manière générale, lorsque l'on souhaite utiliser une fonction, il faut spécifier chaque terme se trouvant sous l'onglet "Usage":
 
@@ -56,9 +56,9 @@ Imaginons que nous souhaitons 5 observations provenant d'une distribution normal
 rnorm(5,mean=10,sd=0.1) 
 ```
 
-Remarque: les espaces n'ont pas vraiment d'importance, vous pouvez ne pas en mettre comme vous pouvez en mettre 10'000 sans que ça ne perturbe R. Pour les sauts de paragraphe avec la touche "Enter" c'est pareil.
+Remarque: les espaces n'ont pas vraiment d'importance, vous pouvez ne pas en mettre comme vous pouvez en mettre 10'000 sans que ça perturbe R. Pour les sauts de paragraphe avec la touche "Enter", c'est pareil.
 
-Mais il n'est pas nécessaire d'inscrire tous les éléments en entier, tant qu'on respecte l'ordre. utiliser les paramètres interne de la fonction permet de les mettre dans l'ordre qu'on souhaite ou d'en éviter. Par exemple, tout ce qui suit abouti au même résultat: 
+Mais il n'est pas nécessaire d'inscrire tous les éléments en entier, tant qu'on respecte l'ordre. Utiliser les paramètres internes de la fonction permet de les mettre dans l'ordre qu'on souhaite ou d'en éviter. Par exemple, tout ce qui suit aboutit au même résultat: 
 
 ```{r}
 # Donnent tous le même résultat
@@ -69,13 +69,13 @@ rnorm(5,sd=0.1,mean=10)
 
 Remarque: Les résultats ne seront pas exactement les mémés puisque les nombres sont générés aléatoirement. Ce qui est important de constater pour confirmer que ces expressions donnent bien le même résultat, c'est d'avoir le même nombre de valeurs générées et que ces valeurs tournent autour de 10.
 
-Les valeurs d'une fonction sont aussi fixées à l'avance parfois. Si nous revenons sur la structure dans "Usage" nous pouvons voir qu'à l'exception de de n, tous les paramètres ont une valeur fixée: 
+Les valeurs d'une fonction sont aussi fixées à l'avance parfois. Si nous revenons sur la structure dans "Usage", nous pouvons voir qu'à l'exception de n, tous les paramètres ont une valeur fixée: 
 
 ```{r eval=FALSE}
 rnorm(n, mean = 0, sd = 1)
 ```
 
-Cela signifie que lorsqu'on lance la fonction tel quel en spécifiant le nombre d'observations souhaitées nous le faisons à partir d'une distribution normale de moyenne 0 et d'écart-type 1. étant donné le fait que l'écart type est assez élevé nous n'aurons pas énormément de valeurs centrées autour de 0. Nous allons donc en générer une grande quantité (1000) dans une variable (a), en faire la moyenne et l'écart-type pour la comparer à celle de notre variable test (b) servant de comparaison avec la formule complète:
+Cela signifie que lorsqu'on lance la fonction telle quelle en spécifiant le nombre d'observations souhaitées nous le faisons à partir d'une distribution normale de moyenne 0 et d'écart-type 1. étant donné le fait que l'écart type est assez élevé nous n'aurons pas énormément de valeurs centrées autour de 0. Nous allons donc en générer une grande quantité (1000) dans une variable (a), en faire la moyenne et l'écart-type pour la comparer à celle de notre variable test (b) servant de comparaison avec la formule complète:
 
 ```{r}
 a <- rnorm(1000)
@@ -93,7 +93,7 @@ Maintenant, vous êtes prêt à explorer les fonctions vous-même.
 ## Les matrices
 
 ### Création
-Nous allons maintenant voir comment créer des matrices. Les matrices peuvent être considérées comme des tableaux d'éléments permettant de réaliser des calculs linéaires de manière simplifiée. Elles peuvent être créées entièrement à partir d'un vecteur ou être la combinaison de plusieurs vecteurs. Nous pouvons utiliser la fonction matrix() pour le premier cas et les fonctions cbind() et rbind() pour le second cas:
+Nous allons maintenant voir comment créer des matrices. Les matrices peuvent être considérées comme des tableaux d'éléments permettant de réaliser des calculs linéaires de manière simplifiée. Elles peuvent être créées entièrement à partir d'un vecteur ou être la combinaison de plusieurs vecteurs. Nous pouvons utiliser la fonction `matrix()` pour le premier cas et les fonctions `cbind()` et `rbind()` pour le second cas:
 
 ```{r}
 # Nous créons trois vecteurs, de longueur 4 (a), 6 (b) et 9 (c)
@@ -122,13 +122,13 @@ matrix(b,2,3)
 matrix(b,3,2)
 ```
 
-Bref vous avez compris. En utilisant rbind() vous alignez les vecteurs par ligne et en utilisant cbind() vous les alignez par colonne: Nous créons 3 vecteurs a,b et c contenant 1,2 et 3 dans leur série b=c=a<-1:3 Nous les alignons par ligne: rbind(a,b,c) Nous les alignons par colonne: cbind(a,b,c)
+Bref vous avez compris. En utilisant `rbind()` vous alignez les vecteurs par ligne et en utilisant `cbind()` vous les alignez par colonne: Nous créons 3 vecteurs a,b et ce contenant 1,2 et 3 dans leur série b=c=a<-1:3 nous les alignons par ligne: rbind(a,b,c) nous les alignons par colonne: cbind(a,b,c).
 
-Remarques: pour rbind() et cbind() il faut avoir des vecteurs de même longueur pour que ça fonctionne. Remarquez que les lignes ou les colonnes des matrices prennent le nom des variables dépendamment de la fonction utilisée.
+Remarques: pour `rbind()` et `cbind()` il faut avoir des vecteurs de même longueur pour que ça fonctionne. Remarquez que les lignes ou les colonnes des matrices prennent le nom des variables dépendamment de la fonction utilisée.
 
 ### Calcul
 
-Naturellement, vous pouvez utiliser plusieurs opérateurs mathématiques comme pour les vecteurs. Sans oublier que pour les additions, soustractions, divisions et multiplications entre matrices elles doivent avoir les mêmes dimensions. Lorsque vous tentez ce genre de calcule, les opérations se passent élément par élément:
+Naturellement, vous pouvez utiliser plusieurs opérateurs mathématiques comme pour les vecteurs. Sans oublier que pour les additions, soustractions, divisions et multiplications entre matrices, elles doivent avoir les mêmes dimensions. Lorsque vous tentez, ce genre de calcule, les opérations se passent élément par élément:
 
 ```{r}
 # Création de matrices
@@ -144,7 +144,7 @@ m1^2
 sqrt(m1) 
 ```
 
-Pour réaliser un produit matriciel, il faut utiliser l'opérateur %*% et respecter la règle de multiplication, c'est-é-dire, il faut que le nombre de colonne de la matrice à gauche soit égal au nombre de ligne de la matrice à droite:
+Pour réaliser un produit matriciel, il faut utiliser l'opérateur %*% et respecter la règle de multiplication, c'est-à-dire, il faut que le nombre de colonnes de la matrice à gauche soit égal au nombre de ligne de la matrice à droite:
 
 ```{r}
 # Création de matrices
@@ -262,7 +262,7 @@ aperm(m0)
  
 ## Systèmea d'équations
 
-Pour la résolution de systèmes d'équations linéaires, nous utiliserons la fonction solve(). Pour résoudre un système d'équation linéaire simple, il faut autant d'inconnus (x,y,z, etc.) que d'équation. Si nous relevons que la partie gauche de l'équation contenant toutes nos inconnus, nous obtenons une matrice carrée A de dimension AxA. Cette matrice est multipliée par la matrice X représentant toutes les inconnus de dimension Ax1. Puis en prenant les constantes du côté droit de l'équation, nous obtenons une matrice B de dimension Ax1, en voici un exemple: 
+Pour la résolution de systèmes d'équations linéaires, nous utiliserons la fonction `solve()`. Pour résoudre un système d'équation linéaire simple, il faut autant d'inconnus (x,y,z, etc.) que d'équation. Si nous relevons que la partie gauche de l'équation contenant toutes nos inconnues, nous obtenons une matrice carrée A de dimension AxA. Cette matrice est multipliée par la matrice X représentant toutes les inconnues de dimension Ax1. Puis en prenant les constantes du côté droit de l'équation, nous obtenons une matrice B de dimension Ax1, en voici un exemple: 
 
 $2x + 3y - z = 10$
 
@@ -293,13 +293,13 @@ B=
 \end{array}\right)
 $$ 
 
-Nous obtenons donc l'équation des matrices AX=B. Pour résoudre cette équation, il suffit de diviser les deux côtés de l'équation par A et obtenir ainsi X. Mais puisque qu'il n'existe en principe pas de division dans les matrices, nous multiplions par l'inverse, c'est à dire A' ici. Attention, l'ordre à une importance (multiplication par la gauche):
+Nous obtenons donc l'équation des matrices AX=B. Pour résoudre cette équation, il suffit de diviser les deux côtés de l'équation par A et obtenir ainsi X. Mais puisque qu'il n'existe en principe pas de division dans les matrices, nous multiplions par l'inverse, c'est-à-dire A' ici. Attention, l'ordre à une importance (multiplication par la gauche):
 
 $A * X = B A'A * X = A'B$
 
 $X = A'B$ 
 
-Pour trouver la réponse à notre système d'équation nous devons simplement multiplier l'inverse de la matrice A (Matrice des coefficients) par la matrice B (matrice des résultats ou des constantes). Nous allons réaliser ce calcule.
+Pour trouver la réponse à notre système d'équations, nous devons simplement multiplier l'inverse de la matrice A (Matrice des coefficients) par la matrice B (matrice des résultats ou des constantes). Nous allons réaliser ce calcule.
 
 Nous allons dans un premier temps créer nos matrices:
 
@@ -308,13 +308,13 @@ A <- matrix(c(2,-1,3,3,5,-1,-1,1,1),3,3)
 B <- matrix(c(10,0,2),3,1)
 ```
 
-Puis nous allons utiliser la fonction sovle() pour faire l'inverse de la matrice A et multiplier le tout par B (avec le produit matriciel): 
+Puis nous allons utiliser la fonction `sovle()` pour faire l'inverse de la matrice A et multiplier le tout par B (avec le produit matriciel): 
 
 ```{r}
 solve(A)%*%B 
 ```
 
-Nous obtenons 2, 1 et -3 (pour x, y et z respectivement) et nous pouvons voir que les réponses sont correctes car en remplaçant chaque élément par sa valeur dans le système d'équation suivant:
+Nous obtenons 2, 1 et -3 (pour x, y et z respectivement) et nous pouvons voir que les réponses sont correctes car en remplaçant chaque élément par sa valeur dans le système d'équations suivant:
 
 $2x + 3y - z = 10$
 
@@ -333,6 +333,6 @@ $-2 + 5 - 3 = 0$
 $3(2) + -(1) + (-3) =$ 
 $6 - 1 - 3 = 2$
 
-Ce qui correspond bien aux résultats attendus. Dans ce tuto nous nous arrêtons aux simples systèmes d'équations, mais dans un tuto avenir nous nous intéresserons à l'optimisation et aux différents packages pouvant nous aider à cette fin (nous verrons prochainement ce qu'est une "packages" et une "library").
+Ce qui correspond bien aux résultats attendus. Dans ce tuto nous nous arrêtons aux simples systèmes d'équations, mais dans un tuto avenir nous nous intéresserons à l'optimisation et aux différents packages pouvant nous aider à cette fin (nous verrons prochainement ce qu'est un "package" et une "library").
 
 Ce tuto est terminé. 

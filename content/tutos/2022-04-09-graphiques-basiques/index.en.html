@@ -20,7 +20,6 @@ image:
 projects: []
 ---
 
-<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
 
 
 <p>Dans ce tutoriel, nous allons nous intéresser aux fonctions de bases pour obtenir nos premières visualisations graphiques de nos données. En effet, il est important d’avoir des représentations graphiques pour illustrer nos statistiques descriptives, car une image vaut mille mots. Permettez-nous d’ajouter quelques mots tout de même.</p>
@@ -90,7 +89,7 @@ ecole$niveau&lt;-ordered(ecole$niveau,levels=c(1,2,3),labels=c(&quot;Moyen&quot;
 ##                 
 ## </code></pre>
 <p><strong>Histogramme</strong></p>
-<p>La première représentation graphique que nous allons utiliser est l’histogramme. Cela permet de voir la distribution de la variable sur toutes ses valeurs. Elle ne s’applique que sur les variables métrique (numériques). Observons par exemple les histoires générales: hist(histoire) Nous avons une jolie représentation qui ressemble é une distribution normale (voir sur internet pour plus d’information. Vous pouvez agrandir l’image. Pour voir à quel point l’image colle avec les données, vous pouvez faire un summary():</p>
+<p>La première représentation graphique que nous allons utiliser est l’histogramme. Cela permet de voir la distribution de la variable sur toutes ses valeurs. Elle ne s’applique que sur les variables métrique (numériques). Observons par exemple les histoires générales: hist(histoire) Nous avons une jolie représentation qui ressemble é une distribution normale (voir sur internet pour plus d’information. Vous pouvez agrandir l’image. Pour voir à quel point l’image colle avec les données, vous pouvez faire un <code>summary()</code>:</p>
 <pre class="r"><code>summary(histoire)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   0.000   5.000   6.000   5.936   7.000  10.000</code></pre>
@@ -172,31 +171,31 @@ hist(histoire[ecole$sexe==&quot;Homme&quot;])
 hist(histoire[ecole$age==16])
 hist(histoire[ecole$classe==&quot;B&quot;])</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p><em>Remarque: vous avez compris, le premier paramètre de mfrow représente le nombre de ligne, le second paramètre représente le nombre de colonne. Lorsque vous utilisez la fonction par(), l’onglet plot se divise comme vous l’avez décidé et le reste. Lorsque vous ajoutez de nouveaux graphiques, ils remplacent les plus anciens. Pour revenir à la normal vous pouvez utiliser ce code:</em></p>
+<p><em>Remarque: vous avez compris, le premier paramètre de mfrow représente le nombre de ligne, le second paramètre représente le nombre de colonne. Lorsque vous utilisez la fonction <code>par()</code>, l’onglet plot se divise comme vous l’avez décidé et le reste. Lorsque vous ajoutez de nouveaux graphiques, ils remplacent les plus anciens. Pour revenir à la normal vous pouvez utiliser ce code:</em></p>
 <pre class="r"><code>par(mfrow=c(1,1))</code></pre>
 <p><strong>Densité</strong></p>
 <p>À part l’histogramme, il existe un autre moyen de représenter la distribution des données: La densité. Ce type de représentation a l’avantage d’être plus lisse et de reconnaître plus facilement une distribution normale.</p>
-<p>Nous pouvons créer une distribution de densité en utilisant les fonctions density() et plot():</p>
+<p>Nous pouvons créer une distribution de densité en utilisant les fonctions <code>density()</code> et <code>plot()</code>:</p>
 <pre class="r"><code>plot(density(histoire))</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p>Pour les prochaines fonctions, nous vous recommandons de vous entraîner avec la fonction help() ou le signe (?) pour chercher des renseignements sur les différents paramètres de la fonction.</p>
+<p>Pour les prochaines fonctions, nous vous recommandons de vous entraîner avec la fonction <code>help()</code> ou le signe (?) pour chercher des renseignements sur les différents paramètres de la fonction.</p>
 <p><strong>Nuage de points</strong></p>
-<p>Nous pouvons tracer un nuage de points pour voir la relation entre 2 variables métriques. Cette méthode peut être assez pratique pour déceler des relations linaire ou non-linéaires:</p>
+<p>Nous pouvons tracer un nuage de points pour voir la relation entre 2 variables métriques. Cette méthode peut être assez pratique pour déceler des relations linéaires ou non linéaires:</p>
 <pre class="r"><code>plot(info,histoire)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p><em>Remarque: Puisque les différentes valeurs des variables info et histoire sont strictement limités entre 0 et 10, et qu’il y a un nombre strict et régulier de valeurs entre les deux extrémités, nous avons une impression de points sont ordonnés. En réalité derrière un point peut s’en cacher d’autres, mais ils sont parfaitement supperprosés.</em></p>
+<p><em>Remarque: Puisque les différentes valeurs des variables info et histoire sont strictement limitées entre 0 et 10, et qu’il y a un nombre strict et régulier de valeurs entre les deux extrémités, nous avons une impression de points qui sont ordonnés. En réalité, derrière un point peuvent s’en cacher d’autres, mais ils sont parfaitement superposés.</em></p>
 <p>Il est possible d’y ajouter une droite de régression linéaire (en bleu)</p>
 <pre class="r"><code># Réécrir plot n&#39;est pas nécessaire mais nous le faisons pour le markdown
 plot(info,histoire)
 abline(lm(histoire~info), col=&quot;blue&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<p><em>Remarque: Nous pouvons voir que la ligne est pratiquement horizontale et qu’il n’y a donc pas de corrélation entre les deux variables. Mais on peut le voir aussi à l’espacement entre (dispersions) entre les points qui ne semble pas suivre le chemin d’une droite</em></p>
+<p><em>Remarque: Nous pouvons voir que la ligne est pratiquement horizontale et qu’il n’y a donc pas de corrélation entre les deux variables. Mais on peut le voir aussi à l’espacement entre (dispersions) entre les points qui ne semble pas suivre le chemin d’une droite.</em></p>
 <p>On peut aussi ajouter une droite de lowess (en rouge) qui fonctionne comme la droite linéaire, mais n’est pas obligé de suivre la courbe d’une droite linéaire affine:</p>
 <pre class="r"><code># Réécrir plot n&#39;est pas nécessaire mais nous le faisons pour le markdown
 plot(info,histoire)
 lines(lowess(info,histoire), col=&quot;red&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Nous pounvons utiliser un exemple avec des variables qui ont un lien entre elles telles que moyenne et art pour montrer la différence:</p>
+<p>Nous pouvons utiliser un exemple avec des variables qui ont un lien entre elles telles que moyenne et art pour montrer la différence:</p>
 <p>Droite de régression linéaire:</p>
 <pre class="r"><code>plot(moyenne~art)
 abline(lm(moyenne~art), col=&quot;blue&quot;)</code></pre>
@@ -206,16 +205,16 @@ abline(lm(moyenne~art), col=&quot;blue&quot;)</code></pre>
 lines(lowess(moyenne,art), col=&quot;red&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p><strong>Matrice de nuage de point</strong></p>
-<p>Vous pouvez faire apparaître une matrice de nuages de points de plusieurs variables. L’avantage de cette méthode c’est qu’elle permet en un coup d’oeil de rassembler plusieurs graphiques de nuages de points, évitant ainsi le besoin de le faire pour chaque pair de variable:</p>
+<p>Vous pouvez faire apparaître une matrice de nuages de points de plusieurs variables. L’avantage de cette méthode c’est qu’elle permet en un coup d’œil de rassembler plusieurs graphiques de nuages de points, évitant ainsi le besoin de le faire pour chaque pair de variable:</p>
 <pre class="r"><code>pairs(~age+anglais+info+art+histoire+histoire)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p><em>Remarque: Nous n’observons de tendance nulle part</em></p>
-<p>Pour rendre ce graphique intéressant, nous pouvons utiliser la variable “moyenne”. La variable moyenne a la particularité d’être la combinaison linéaire des variables anglais, info, art et histoire. Donc nous devrions observer des tendances entre les variables citées et la variable moyenne dans le graph:</p>
+<p>Pour rendre ce graphique intéressant, nous pouvons utiliser la variable “moyenne”. La variable moyenne a la particularité d’être la combinaison linéaire des variables anglais, info, art et histoire. Donc nous devrions observer des tendances entre les variables citées et la variable moyenne dans le graphe:</p>
 <pre class="r"><code>pairs(~moyenne+anglais+info+art+histoire)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p><em>Remarque: À part pour la variable anglais, nous pouvons effectivement voir une tendance linéaire entre la moyenne et le reste des variables</em></p>
-<p><strong>Graphique en barre</strong></p>
-<p>Vous pouvez utiliser des graphiques en bar en utilisant les tableaux. C’est assez pratique pour se représenter visuellement des grandeurs, particulièrement les taille d’effectif entre des groupes (variables catégorielles/ordinales):</p>
+<p><strong>Graphique en barres</strong></p>
+<p>Vous pouvez utiliser des graphiques en bar en utilisant les tableaux. C’est assez pratique pour se représenter visuellement des grandeurs, particulièrement les tailles d’effectif entre des groupes (variables catégorielles/ordinales):</p>
 <pre class="r"><code>barplot(table(classe))</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <pre class="r"><code># La même chose horizontalement
@@ -224,19 +223,19 @@ barplot(table(classe), horiz=TRUE)</code></pre>
 <p>Il est aussi possible de subdiviser des variables catégorielles. Par exemple la classe et le sexe:</p>
 <pre class="r"><code>barplot(table(sexe,classe))</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
-<p>C’est pas mal, mais ce n’est pas très joli ni très compréhensible. Contrairement aux autres exemples de graphiques que nous avons vu plus haut qui se suffisent à eux-mêmes, il existe des graphiques où il faut gérer les éléments entièrement. Nous pouvons voir que les légendes pour la variable sexe sont absentes dans ce cas-ci par exemple. Nous pouvons les ajouter manuellement avec d’autres éléments. Les éléments que nous allons voir sont aussi applicable à d’autres type de graphique, même aux plus complets vu précédemment. Pour obtenir des informations sur les options d’une fonction nous pouvons utiliser soit le point d’interrogation suivit du nom de la fonction, soit utiliser la fonction help avec la fonction recherchée entre parenthèse et entre guillemets:</p>
+<p>C’est pas mal, mais ce n’est pas très joli ni très compréhensible. Contrairement aux autres exemples de graphiques que nous avons vus plus haut qui se suffisent à eux-mêmes, il existe des graphiques où il faut gérer les éléments entièrement. Nous pouvons voir que les légendes pour la variable sexe sont absentes dans ce cas-ci par exemple. Nous pouvons les ajouter manuellement avec d’autres éléments. Les éléments que nous allons voir sont aussi applicables à d’autres types de graphique, même aux plus complets vu précédemment. Pour obtenir des informations sur les options d’une fonction nous pouvons utiliser soit le point d’interrogation suivi du nom de la fonction, soit utiliser la fonction help avec la fonction recherchée entre parenthèse et entre guillemets:</p>
 <pre class="r"><code>?barplot</code></pre>
 <pre><code>## starting httpd help server ... done</code></pre>
 <pre class="r"><code>help(&quot;barplot&quot;)</code></pre>
-<p>Pour ajouter un titre nous allons utiliser l’option main=, pour un sous-titre l’option “sub=” et pour ajouter des légendes l’option legend.text= avec la valeur TRUE:</p>
+<p>Pour ajouter un titre nous allons utiliser l’option “main=” pour un sous-titre l’option “sub=” et pour ajouter des légendes l’option legend.text= avec la valeur TRUE:</p>
 <pre class="r"><code># En couleur
 barplot(table(sexe,classe),main=&quot;Répartition des sexes par classe&quot;,sub=&quot;Ceci est un sous titre&quot;,legend.text=TRUE)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
-<p><em>Remarque: les options peuvent être mis dans n’importe quel ordre, ça ne changera pas le résultat.</em></p>
-<p>C’est plutôt pas mal, mais on peut rendre le graphique plus agréable en rajoutant des couleurs. Il en faut une par catégorie et les noms doivent être écrit en anglais:</p>
+<p><em>Remarque: les options peuvent être mises dans n’importe quel ordre, ça ne changera pas le résultat.</em></p>
+<p>C’est plutôt pas mal, mais on peut rendre le graphique plus agréable en rajoutant des couleurs. Il en faut une par catégorie et les noms doivent être écrits en anglais:</p>
 <pre class="r"><code>barplot(table(sexe,classe),main=&quot;Répartition des sexes par classe&quot;,sub=&quot;Ceci est un sous titre&quot;,legend.text=TRUE,col=c(&quot;green&quot;,&quot;orange&quot;))</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
-<p>C’est beau. Mais on se rend vite compte que le code devient très long et peut même devenir illisible à force. Heureusement que la page html réarrange la longueur en fonction de la forme de la page pour le tuto. Mais lorsqu’on code sur R sans utiliser de Markdonw on est confronté au problème. Il existe deux méthodes efficaces pour réduire la longueur de la ligne de code. Premièrement, nous pouvons créer des variables de passage juste avant la ligne de code pour extraire les parties les plus longues des options:</p>
+<p>C’est beau. Mais on se rend vite compte que le code devient très long et peut même devenir illisible à force. Heureusement que la page HTML réarrange la longueur en fonction de la forme de la page pour le tuto. Mais lorsqu’on code sur R sans utiliser de Markdonw, on est confronté au problème. Il existe deux méthodes efficaces pour réduire la longueur de la ligne de code. Premièrement, nous pouvons créer des variables de passage juste avant la ligne de code pour extraire les parties les plus longues des options:</p>
 <pre class="r"><code>titre&lt;-&quot;Répartition des sexes par classe&quot;
 sous_titre&lt;-&quot;Ceci est un sous titre&quot;
 couleur&lt;-c(&quot;green&quot;,&quot;orange&quot;)
@@ -254,14 +253,14 @@ barplot(table(sexe,classe),
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <p>Voilà, nous avons un code plus propre. Naturellement, vous pouvez utiliser cette astuce avec n’importe quelle autre fonction (pas seulement avec les fonctions graphiques).</p>
 <p><strong>Camembert</strong></p>
-<p>Vous pouvez faire apparaitre des graphiques en camemberts pour représenter les proportions des groupes d’une variables catégorielle:</p>
+<p>Vous pouvez faire apparaitre des graphiques en camemberts pour représenter les proportions des groupes d’une variable catégorielle:</p>
 <pre class="r"><code>pie(table(niveau))</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
-<p>Comme pour les graphiques en barre, nous pouvons ajouter des couleurs que nous décidons à la place des couleurs standard de R. Mais si nous ne souhaitons pas faire un choix de ces couleurs pour des raisons pratique (par exemple il y a beaucoup de catégorie et qu’on ne souhaite pas passez de l’énergie dessus), nous pouvons utiliser la fonction rainbow:</p>
+<p>Comme pour les graphiques en barres, nous pouvons ajouter des couleurs que nous décidons à la place des couleurs standard de R. Mais si nous ne souhaitons pas faire un choix de ces couleurs pour des raisons pratiques (par exemple il y a beaucoup de catégories et qu’on ne souhaite pas passez de l’énergie dessus), nous pouvons utiliser la fonction rainbow:</p>
 <pre class="r"><code>couleur&lt;-rainbow(3)
 pie(table(niveau), col=couleur)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
-<p><em>Remarque: Nous avons indiqué ici le nombre de couleur que nous souhaitons en indiquant de 3.</em></p>
+<p><em>Remarque: Nous avons indiqué ici le nombre de couleurs que nous souhaitons en indiquant de 3.</em></p>
 <p>Nous pouvons utiliser cette fonction avec n’importe quel graphique naturellement. Nous pouvons aussi décider de l’opacité (transparence) des couleurs avec l’option alpha:</p>
 <pre class="r"><code>couleur&lt;-rainbow(3, alpha=0.4)
 pie(table(niveau), col=couleur)</code></pre>
@@ -269,7 +268,7 @@ pie(table(niveau), col=couleur)</code></pre>
 <p><strong>Boîte à moustache</strong></p>
 <p>Nous pouvons aussi créer des boîtes à moustaches. Elles sont pratiques parce qu’elles permettent en un coup d’œil d’observer une distribution. Vous pouvez avoir plus d’explications ici:</p>
 <p><a href="https://www.stat4decision.com/fr/le-box-plot-ou-la-fameuse-boite-a-moustache/" class="uri">https://www.stat4decision.com/fr/le-box-plot-ou-la-fameuse-boite-a-moustache/</a></p>
-<p>Ce qu’il faut retenir d’important, c’est que le trait central indique la médiane donc que 50% des valeurs se trouvent en dessous et que 50% des valeurs se trouvent au-dessus et que le grand rectangle indique aussi les 50% des valeurs se trouvant entre le 1er et le 3ème quartile. Puisque les bornes ne représentent pas les valeurs maximum et minimum de nos données, il peut arriver que des valeurs soient en dehors. Lorsque c’est le cas, ils sont représentés par des points, ils peuvent être des valeurs aberrantes s’ils sont trop éloignés du graphique, sinon ils ne le sont pas forcément, mais mérite une attention particulière pour savoir pourquoi elles sont en dehors du graphique.</p>
+<p>Ce qu’il faut retenir d’important, c’est que le trait central indique la médiane donc que 50% des valeurs se trouvent en dessous et que 50% des valeurs se trouvent au-dessus et que le grand rectangle indique aussi les 50% des valeurs se trouvant entre le 1er et le 3ème quartile. Puisque les bornes ne représentent pas les valeurs maximum et minimum de nos données, il peut arriver que des valeurs soient en dehors. Lorsque c’est le cas, ils sont représentés par des points, ils peuvent être des valeurs aberrantes s’ils sont trop éloignés du graphique, sinon ils ne le sont pas forcément, mais méritent une attention particulière pour savoir pourquoi elles sont en dehors du graphique.</p>
 <p>Nous pouvons le faire pour une variable métrique telle que la moyenne:</p>
 <pre class="r"><code>boxplot(moyenne)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
