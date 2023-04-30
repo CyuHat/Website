@@ -11,7 +11,7 @@ social:
   link: https://twitter.com/PEcodemo
 - icon: youtube
   icon_pack: fab
-  link: https://www.youtube.com/channel/UCGktdbvbc_H-JEkYYTvwRVw
+  link: https://www.youtube.com/@wedata_unige
 - icon: linkedin
   icon_pack: fab
   link: www.linkedin.com/in/vestin-hategekimana
@@ -23,6 +23,6 @@ superuser: true
 title: Vestin Cyuzuzo Hategekimana
 ---
 
-Actuellement étudiant au Master en Socioéconomie et au Certificat en Méthodes Quantitatives pour Sciences Sociales, j'ai récemment effectué un stage dans la faculté d'économie et management dans la réalisation d'une étude quantitative sur la représentation des travailleur.euse.s étranger.ère.s dans le secteur public suisse.
+Actuellement doctorant en démographie dans l'institut de Démographie et de Socioéconomie de l'Université de Genève travaillant sur la mobilité Suisse en temps de crise, notamment la pandémie de Covid-19. 
 
 {{< icon name="download" pack="fas" >}} {{< staticref "uploads/HATEGEKIMANA_CV.pdf" "newtab" >}}Téléchargez{{< /staticref >}} mon CV au format PDF.

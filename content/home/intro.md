@@ -18,11 +18,13 @@ author: admin
 #  css_class: fullscreen
 ---
 
-Intérêts: 
+## Doctorant en démographie
+
+**Intérêts:**
 
 Migration / Intégration / Marché du travail
 
-Méthodes: 
+**Méthodes:**
 
 Statistiques / Text Mining / Web Scraping / Analyse des Réseaux Sociaux
 

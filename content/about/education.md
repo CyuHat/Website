@@ -6,7 +6,17 @@ experience:
 - company: Université de Genève - Faculté des Sciences de la Société
   company_logo: unige
   company_url: "https://www.unige.ch/sciences-societe/"
-  date_end: "2022-06-20"
+  date_end: "2025-09-20"
+  date_start: "2022-09-20"
+  description: |2-
+      * Thèse: Mobilité en temps de crise en Suisse.
+  location: Genève
+  title: Doctorat en Démographie
+  
+- company: Université de Genève - Faculté des Sciences de la Société
+  company_logo: unige
+  company_url: "https://www.unige.ch/sciences-societe/"
+  date_end: "2022-09-20"
   date_start: "2020-09-20"
   description: |2-
       * Mémoire: L'effet des restrictions légales pour la population étrangère sur le marché du travail suisse.
