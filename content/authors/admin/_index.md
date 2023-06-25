@@ -12,9 +12,9 @@ social:
 - icon: youtube
   icon_pack: fab
   link: https://www.youtube.com/@wedata_unige
-- icon: blog
+- icon: chart-pie
   icon_pack: fas
-  link: https://www.youtube.com/@wedata_unige
+  link: https://cyuhat.quarto.pub/data-as-an-art-form/
 - icon: twitter
   icon_pack: fab
   link: https://twitter.com/PEcodemo
