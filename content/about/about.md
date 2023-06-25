@@ -2,7 +2,7 @@
 active: true
 author: admin
 headless: true
-title: Présentation
+title: Presentation
 weight: 10
 widget: about
 ---

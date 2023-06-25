@@ -10,8 +10,8 @@ headless: true
 # Order that this section appears on the page.
 weight: 20
 
-title: 'Mes projets'
-subtitle: 'Vidéos Youtube et Recherches personnelles'
+title: 'My YouTube Videos (French)'
+subtitle: 'Presented on the WeData channel'
 
 content:
   # Page type to display. E.g. project.

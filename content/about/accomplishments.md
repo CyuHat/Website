@@ -10,15 +10,15 @@ item:
   description: ""
   organization: ASFC
   organization_url:
-  title: Certificat Leadership
+  title: Leadership Certificat
   url: ""
   description: |-2
-    * Conduite d’une équipe au niveau du groupe/de l’équipe
-    * Gestion de conflits au niveau du groupe/de l’équipe
-    * Gestion personnelle au niveau du groupe/de l’équipe
-    * Communication orale au niveau du groupe/de l’équipe
-    * Communication écrite au niveau du groupe/de l’équipe
-    * Présentation au niveau du groupe/de l’équipe
+    * Team leadership at group/team level
+    * Conflict management at group/team level
+    * Personal management at group/team level
+    * Oral communication at group/team level
+    * Written communication at group/team level
+    * Group/team presentation
 
 subtitle: null
 title: Certificats

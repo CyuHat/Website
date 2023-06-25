@@ -3,48 +3,48 @@ date_format: Jan 2006
 design:
   columns: "1"
 experience:
-- company: Université de Genève - Faculté des Sciences de la Société
+- company: University of Geneva - Faculty of Social Sciences
   company_logo: unige
   company_url: "https://www.unige.ch/sciences-societe/"
   date_end: "2025-09-20"
   date_start: "2022-09-20"
   description: |2-
-      * Thèse: Mobilité en temps de crise en Suisse.
-  location: Genève
-  title: Doctorat en Démographie
+      * Thesis: Mobility in times of crisis in Switzerland
+  location: Geneva
+  title: PhD Candidate in Demography
   
-- company: Université de Genève - Faculté des Sciences de la Société
+- company: University of Geneva - Faculty of Social Sciences
   company_logo: unige
   company_url: "https://www.unige.ch/sciences-societe/"
   date_end: "2022-09-20"
   date_start: "2020-09-20"
   description: |2-
-      * Mémoire: L'effet des restrictions légales pour la population étrangère sur le marché du travail suisse.
-      * Rapport de stage: La représentation de la population étrangère dans le secteur public suisse.
-      * Président de l'association du master
-      * Fondateur de WeData
-  location: Genève
-  title: Master en Socioéconomie
+      * Dissertation: The effect of legal restrictions on the foreign population in the Swiss labor market
+      * Internship report: The representation of the foreign population in the Swiss public sector
+      * President of the Master's Association
+      * Founder of WeData
+  location: Geneva
+  title: Master in Socioeconomics
   
-- company: Université de Genève - Faculté des Sciences de la Société
+- company: University of Geneva - Faculty of Social Sciences
   company_logo: unige
   company_url: "https://www.unige.ch/sciences-societe/"
   date_end: "2022-06-20"
   date_start: "2021-09-20"
   description:
-  location: Genève
-  title: Cértificats en Méthodes Quantitatives pour Sciences Sociales
+  location: Geneva
+  title: Certificates in Quantitative Methods for Social Sciences
 
-- company: Université de Genève - Faculté des Sciences de la Société
+- company: University of Geneva - Faculty of Social Sciences
   company_logo: unige
   company_url: "https://www.unige.ch/sciences-societe/"
   date_end: "2020-06-20"
   date_start: "2017-09-20"
   description: |2-
-      * Projet de recherche: Le rôle du réseau social dans l'intégration structurelle de la population de réfugiers à Genève.
-      * Président de l'association du Bachelor
+      * Research project: The role of the social network in the structural integration of the refugee population in Geneva.
+      * President of the Bachelor's Association
   location: Genève
-  title: Bachelor en Histoire-Économie-Société
+  title: Bachelor in History-Economics-Society
 
 headless: true
 subtitle: null

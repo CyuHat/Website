@@ -18,16 +18,16 @@ author: admin
 #  css_class: fullscreen
 ---
 
-## Doctorant en démographie
+## PhD Candidate in Demography
 
-**Intérêts:**
+**Research field**
 
-Migration / Intégration / Marché du travail
+Migration / Mobility / Computational Social Science
 
-**Méthodes:**
+**Methods:**
 
-Statistiques / Text Mining / Web Scraping / Analyse des Réseaux Sociaux
+Statistic / Text Mining / Web Scraping / Network analysis
 
 {style="font-size: 1.2rem; background: #FFB76B; background: linear-gradient(to right, #FFB76B 0%, #FFA73D 30%, #FF7C00 60%, #FF7F04 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"}
 
-Mon parcours en quelques points: [Présentation](/about/) 
+My background in brief: [Presentation](/about/) 
