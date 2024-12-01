@@ -1,7 +1,7 @@
 ---
-title: 'Thème: Démographie / Migration / Intégration'
+title: "Thème: Démographie / Migration / Intégration"
 author: Vestin Cyuzuzo Hategekimana
-date: '2022-04-09'
+date: "2022-04-09"
 slug: th-me-d-mographie-migration-int-gration
 categories:
   - Travaux
@@ -63,6 +63,12 @@ projects: []
 *Professeur : Pr. Michel Oris, Dr Aris Martinelli*
 
 ## Intégration
+
+### Le rôle du réseau social dans l’intégration de la population migrante en Suisse
+
+**Résumé:** Dans le cadre du cours _Enjeux des migrations internationales_, j'ai réalisé un travail sur le rôle du soutien et des réseau sur les difficultés rencontrée à l'arrivée en Suisse et au niveau d'intégration. Je montre que le réseau a un rôle important.
+
+[Télécharger](/uploads/travaux/demographie/HATEGEKIMANA_Enjeux_des_migrations_internationales.pdf) mon travail
 
 ### La transition du secondaire I au secondaire II des migrants de deuxième génération
 
